@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Storing multiple values per key</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_storing_multiple_values_per_key">Storing multiple values per key</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the last chapter, we build a B+Tree and earlier in the book we implemented an Extendible Hash Table. When I built them, I stated that they are going to store a single <code>uint64_t</code>
+value.
+In other words, if we compare them to in memory containers,  B+Tree is a <code>sorted_map&lt;span_t key, { uint64_t value, uint8_t flags }&gt;</code> and the hash table is a
+<code>map&lt;uint64_t key, { uint64_t value, uint8_t flags }&gt;</code>. That works great as long as we have a single value to store, but what happens if we want to have multiple values for
+the same key?</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s consider a usage scenario for the B+Tree, we want to store a mapping between an IP address and the time of access. I other words, we want to use a B+Tree to implement the
+following function: <code>result_t record_ip_access(state_t* state, char* ip_address, time_t access_time)</code>. For the purpose of discussion, we&#8217;ll ignore the different possible encodings
+of IP addresses and just focus on the code in <a href="#record_ips">Recording IP addresses</a>.</p>
+</div>
+<div id="record_ips" class="listingblock">
+<div class="title">Recording IP addresses</div>
+<div class="content">
+<pre class="highlight"><code>time_t now = 1600000000; // Sep 13, 2020
+
+ensure(record_ip_access(state, "127.0.0.1", now - 60));
+ensure(record_ip_access(state, "127.0.0.1", now));
+ensure(record_ip_access(state, "127.0.0.1", now + 60));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see in <a href="#record_ips">Recording IP addresses</a>, we have a problem. We need to record <em>multiple</em> values for the same key. Right now, the B+Tree code cannot handle this scenario at all. Each key
+has a single value, that is all. So how can we store multiple entries for the same key?</p>
+</div>
+<div class="paragraph">
+<p>The answer, for B+Trees, is actually quite simple: We aren&#8217;t going to. Yet we still want to allow the code in <a href="#record_ips">Recording IP addresses</a> to work, so what should we do?</p>
+</div>
+<div class="paragraph">
+<p>A key observation here is that we don&#8217;t <em>need</em> to store all the values in a single key. To be rather more exact, the key provided to us by the caller doesn&#8217;t have to be the key we
+use for the B+Tree. This is exposed by the API shown in <a href="#btree_multi_api"><code>gavran/db.h</code> &amp; <code>btree.multi.c</code> - API for working with multiple values per key in a B+Tree</a>.</p>
+</div>
+<div id="btree_multi_api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> &amp; <code>btree.multi.c</code> - API for working with multiple values per key in a B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>// from gavran/db.h
+result_t btree_multi_append(txn_t *tx, btree_val_t *set);
+result_t btree_multi_del(txn_t *tx, btree_val_t *del);
+result_t btree_multi_cursor_search(btree_cursor_t *cursor);
+result_t btree_multi_get_next(btree_cursor_t *cursor);
+
+// from btree.multi.c
+typedef struct multi_search_args {
+  span_t buf;
+  uint64_t nested_id;
+  uint64_t val;
+  bool has_val;
+  uint8_t padding[7];
+} multi_search_args_t;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see that the API in <a href="#btree_multi_api"><code>gavran/db.h</code> &amp; <code>btree.multi.c</code> - API for working with multiple values per key in a B+Tree</a> doesn&#8217;t have a <code>set</code> function but an <code>append</code> one. We also don&#8217;t have a way to <code>get</code> an item from a multi value, but we have to
+iterate to get all the values. The API surface is quite different, even if the underlying implementation isn&#8217;t that different.</p>
+</div>
+<div class="paragraph">
+<p>Conceptually, what we are going to do is to change the key that the user provided us. So the three calls we have in <a href="#record_ips">Recording IP addresses</a> would result in the following entries</p>
+</div>
+<div class="paragraph">
+<p>The idea is that instead of writing the key as the user supplied it, we&#8217;ll extend it with a unique value. Here are the actual B+Tree entries after inserting three records:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>127.0.0.1,1599999940</code> &#8594; 1599999940</p>
+</li>
+<li>
+<p><code>127.0.0.1,1600000000</code> &#8594; 1600000000</p>
+</li>
+<li>
+<p><code>127.0.0.1,1600000060</code> &#8594; 1600000060</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Because we have the <code>,1599999940</code> postfix to the key, we are able to store multiple values on the same "key". I&#8217;m actually using the value
+of the key that the user specified as part of the actual key that is written to the B+Tree. The idea behind that is that this gives us a
+simple way to create a set.</p>
+</div>
+<div class="sect2">
+<h3 id="_building_a_btree_to_hold_multiple_values_per_key">Building a B+Tree to hold multiple values per key</h3>
+<div class="paragraph">
+<p>The key <code>127.0.0.1,1599999940</code> is how we <em>think</em> about the multiple values, but that isn&#8217;t how we actually store them. The key is actually
+built using the following manner: <code>key + byteswap(val)</code>. Let&#8217;s see what we are actually doing here. We extend the key by 8 bytes and append
+the value in big endian format. The reason we use big endian is to allow us to get natural sort order using <code>memcmp()</code> for the keys.</p>
+</div>
+<div class="paragraph">
+<p>I didn&#8217;t use <code>varint</code> encoding here for a reason. If all the keys are extended by exactly 8 bytes, we can compare the actual size of the key
+to the expected size of the key and ensure that we aren&#8217;t confused a longer key with identical prefix. Because I&#8217;m using big endian format
+for the values, we ensure that the final key that is written to the B+Tree is sorted.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">The conceptual data format for multi values in B+Tree</div>
+<div class="paragraph">
+<p>The usual B+Tree can be thought of as a <code>sorted_map&lt;span_t key, { uint64_t val, uint8_t flags } &gt;</code>. A B+Tree for multiple values, on
+the other hand, is more similar to <code>sorted_map&lt;span_t key, sorted_set&lt;uint64_t&gt;&gt;</code>. The idea is that we are going to allow multiple values
+for the same key, and we are able to iterate over them in sorted order.</p>
+</div>
+<div class="paragraph">
+<p>Note that we don&#8217;t have a <code>flags</code> value here, because we are using the <code>flags</code> value in order to <em>implement</em> multi values.</p>
+</div>
+<div class="paragraph">
+<p>We are storing and retrieving the values in a sorted order mostly because this is a nice side affect of the implementation decision. It ends
+up a good decision, because there are <em>many</em> scenarios where getting the values in sorted order can be very helpful.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at <a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a> and see how thing work. I&#8217;m starting with this function because it allows me to showcase all the
+ways that we handle multiple values in a single tree.</p>
+</div>
+<div id="btree_multi_append" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_multi_append(txn_t *tx, btree_val_t *set) {
+  multi_search_args_t args = {.has_val = false};
+  // <b class="conum">(1)</b>
+  ensure(btree_multi_search_entry(tx, set, &amp;args));
+  // <b class="conum">(2)</b>
+  if (args.nested_id) {  // nested tree
+    uint8_t key_buf[10];
+    varint_encode(set-&gt;val, key_buf);
+    btree_val_t nested = {.tree_id = args.nested_id,
+        .key                       = {
+            .address = key_buf, .size = varint_get_length(set-&gt;val)}};
+    ensure(btree_set(tx, &amp;nested, 0));
+    return success();
+  }
+  // <b class="conum">(3)</b>
+  uint64_t rev = bswap_64(set-&gt;val);
+  memcpy(args.buf.address + args.buf.size - sizeof(uint64_t), &amp;rev,
+      sizeof(uint64_t));
+  btree_val_t nested = {.flags = btree_multi_flags_uniquifier,
+      .tree_id                 = set-&gt;tree_id,
+      .key                     = args.buf,
+      .val                     = set-&gt;val};
+  ensure(btree_set(tx, &amp;nested, 0));
+  // <b class="conum">(4)</b>
+  ensure(btree_convert_to_nested_if_needed(tx, set, &amp;args.buf));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Check the key and find what type of values are currently stored in the B+Tree.</p>
+</li>
+<li>
+<p>If we are using nested values, set the value in the nested tree.</p>
+</li>
+<li>
+<p>Add the value with uniquifier to the B+Tree.</p>
+</li>
+<li>
+<p>Move to nested mode if there are enough entries with the same key.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>At the <code>btree_multi_search_entry()</code> at the start of <a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a> we allocate a buffer that is capable of holding the key size plus
+eight bytes. This buffer is stored in the <code>args.buf</code> field and the key is copied to the start of the buffer. We search the B+Tree for other keys
+with this prefix to figure out how we are supposed to write to the tree, more on that later.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m going to skip this now to look at the third point in <a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a>, we reverse the value and append it to the key and then set the
+key in the B+Tree. Note that we mark the entry as <code>btree_multi_flags_uniquifier</code>, because the value of the entry is used to create a unique key for the
+value.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Range scans in B+Tree</div>
+<div class="paragraph">
+<p>B+Trees are sorted. That is a very important aspect of how they work, but so far we haven&#8217;t actually <em>done</em> much with them. Here, we are going to start
+using this property a lot.</p>
+</div>
+<div class="paragraph">
+<p>Because all the multi values for a particular key share the same prefix, we are able to search for them easily. First, do a lookup for the key that we
+want to find, then find all the values that has the appropriate size and the same prefix. This is very cheap to do and the building block of many operations
+on B+Trees.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The downside of the uniquifier approach is that it duplicates a lot of information. The key <code>127.0.0.1</code> is 9 characters in size, and if we add the 8 bytes of
+the value, we end up with 17 bytes for a key. Let&#8217;s assume that we have to track a <em>lot</em> of accesses for a given IP, what would be the overhead of multi values?</p>
+</div>
+<div class="paragraph">
+<p>Well, at 17 bytes per entry (excluding the cost of the value), we are going to take over 16MB (!) of space just for the keys when we need to store a million entries
+for a particular IP. The situation is worse with IPv6, where we&#8217;ve values such as: <code>2001:0dc5:72a3:0000:0000:802e:3370:73E4</code>. In this case, we&#8217;ll use about 45MB of
+disk space just to hold the keys with million records. I believe the official term for this kind of behavior is: "this sucks!".</p>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a> is a lot more complex than simply appending the value to the key and storing that in the tree. That is meant to handle this exact
+scenario. At a certain point, the overhead of duplicating the key grow high enough that we have to take another approach. This is actually the second point in
+<a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a>.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>btree_multi_search_entry()</code> indicates that we are using a nested tree, we are going to take the value and store that as a <em>key</em> (using <code>varint</code>) in the nested
+tree. That can be confusing, so let&#8217;s dig into what is going on here. At a certain point in time, we&#8217;ll convert the keys + values that are stored as a flat list in the
+root tree into a nested tree.</p>
+</div>
+<div class="paragraph">
+<p>That nested tree is used solely for holding the values of a particular key. In other words, we&#8217;ll have a <code>127.0.0.1</code> key in the root tree, whose value would be a <code>tree_id</code>
+that would be used to hold the values for that key. And because we need to store just the values, we can simply encode them using <code>varint</code> and store them in the <em>keys</em> of
+the nested tree. That will allow us to do scans and ordered iterations on the values associated with a key very cheaply. You can see the different formats in <a href="#multi_formats">Comparing the different formats of multiple values per key</a>.</p>
+</div>
+<table id="multi_formats" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Comparing the different formats of multiple values per key</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key + value, flat list</th>
+<th class="tableblock halign-left valign-top">Key &#8594; <code>tree_id</code>, nested tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p><code>127.0.0.1,1599999940</code> &#8594; 1599999940</p>
+</li>
+<li>
+<p><code>127.0.0.1,1600000000</code> &#8594; 1600000000</p>
+</li>
+<li>
+<p><code>127.0.0.1,1600000060</code> &#8594; 1600000060</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>127.0.0.1</code> &#8594; <code>tree_id</code>  (see table below)</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1599999940</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1600000000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1600000060</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>One of the more important parts in <code>btree_multi_append()</code> is the call to <code>btree_multi_search_entry()</code>. This is where we find how we store the values for a particular key. Let&#8217;s
+look at how this is done in <a href="#btree_multi_search_entry"><code>btree.multi.c</code> - Finding the appropriate entry in multiple entries</a>.</p>
+</div>
+<div id="btree_multi_search_entry" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Finding the appropriate entry in multiple entries</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_multi_search_entry(
+    txn_t *tx, btree_val_t *get, multi_search_args_t *args) {
+  args-&gt;buf.size = get-&gt;key.size + sizeof(uint64_t);
+  ensure(txn_alloc_temp(tx, args-&gt;buf.size, &amp;args-&gt;buf.address));
+  btree_cursor_t it = {
+      .tx = tx, .tree_id = get-&gt;tree_id, .key = args-&gt;buf};
+  memcpy(args-&gt;buf.address, get-&gt;key.address, get-&gt;key.size);
+  memset(args-&gt;buf.address + args-&gt;buf.size - sizeof(uint64_t), 0,
+      sizeof(uint64_t));  // key + 00000, the first possible key
+  ensure(btree_cursor_search(&amp;it));  // this searches eq or gt key
+  defer(btree_free_cursor, it);
+  ensure(btree_get_next(&amp;it));
+  if (it.has_val == false || it.key.size != args-&gt;buf.size ||
+      memcmp(get-&gt;key.address, it.key.address, get-&gt;key.size)) {
+    args-&gt;has_val = false;
+  } else if (it.flags == btree_multi_flags_nested) {
+    args-&gt;nested_id = it.val;
+    args-&gt;has_val   = true;
+  } else if (it.flags == btree_multi_flags_uniquifier &amp;&amp;
+             it.key.size == args-&gt;buf.size) {
+    args-&gt;val     = it.val;
+    args-&gt;has_val = true;
+  } else {
+    args-&gt;has_val = false;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first step in <code>btree_multi_search_entry()</code> is to call to <code>txn_alloc_temp()</code>. To avoid the need to continuously
+allocate and free small buffers, we have the <code>tx-&gt;state-&gt;tmp.buffer</code> field. Just like the <code>tx-&gt;state-&gt;tmp.stack</code> field, the idea is that we allocate this once for the lifetime
+of the transaction and avoid having to call <code>malloc()</code> and <code>free()</code> all the time. You can see the implementation of this in <a href="#txn_alloc_tmp">[txn_alloc_tmp]</a>. The temp buffer is freed when the transaction
+is closed. Note that this is a transaction shared buffer. In other words, it is likely that it will be used by multiple parties and we can only assume that it isn&#8217;t modified while
+it is our control. We cannot assume that it will retain its value between calls to the public API of Gavran.</p>
+</div>
+<div class="paragraph">
+<p>We copy the key that we are searching for to the temporary buffer and zero the remaining size (8 bytes). If the key that we are looking for is <code>127.0.0.1</code> (9 bytes) and the final key
+we&#8217;ll get is <code>127.0.0.1\0\0\0\0\0\0\0\0</code>. The last 8 bytes are zeroed. We try to match the first key that match this key or are higher. We use the cursor API we use for this will find
+us <em>a</em> key that is equal or greater to this key. It isn&#8217;t necessarily a <em>useful</em> key, though. For example, it may find us a key whose value is <code>127.0.0.2</code>, since that is greater than
+<code>127.0.0.1\0\0\0\0\0\0\0\0</code>.</p>
+</div>
+<div class="paragraph">
+<p>For that reason, we check that the key we find is valid. It has the right size and the prefix match to the key we are searching for. The next step is to check the <code>flags</code> of the entry.
+A multi value entry should have either <code>btree_multi_flags_nested</code> or <code>btree_multi_flags_uniquifier</code> as it <code>flags</code> value. The <code>btree_multi_flags_nested</code> flag means that the <code>val</code> of
+the entry is the <code>tree_id</code> of a nested tree. And the <code>btree_multi_flags_uniquifier</code> flag means that we have added a the value as a uniquifier to the key.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Dealing with shared prefixes</div>
+<div class="paragraph">
+<p>One of the things that we have to worry about is what to do with shared prefixes in a multi value B+Tree. If one key is <code>127.0.0.1</code> and another key is <code>127.0.0.1\0</code>, for example.
+That is a <em>valid</em> key, after all.</p>
+</div>
+<div class="paragraph">
+<p>We handle this appending a fixed size to all such keys and comparing the expected key size to the key that is actually in the tree. We also validate that the flags value of the
+tree is set to one of the expected values before accepting it as a multi value key.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="txn_alloc_temp" class="listingblock">
+<div class="title"><code>txn.c</code> - Allocating temporary buffer at the transaction scope</div>
+<div class="content">
+<pre class="highlight"><code>implementation_detail result_t txn_alloc_temp(
+    txn_t *tx, size_t min_size, void **buffer) {
+  if (tx-&gt;state-&gt;tmp.buffer.size &lt; min_size) {
+    tx-&gt;state-&gt;tmp.buffer.size = next_power_of_two(min_size);
+    ensure(mem_realloc(
+        &amp;tx-&gt;state-&gt;tmp.buffer.address, tx-&gt;state-&gt;tmp.buffer.size));
+  }
+  *buffer = tx-&gt;state-&gt;tmp.buffer.address;
+  return success();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_nested_tree_to_optimize_key_duplication_for_multiple_values">Using a nested tree to optimize key duplication for multiple values</h3>
+<div class="paragraph">
+<p>Going back to <a href="#btree_multi_append"><code>btree.multi.c</code> - Appending a multi value to a B+Tree</a>, we talked about the first three points. Checking an entry, adding an item to the nested tree and adding an entry with a uniquifier. The last
+action in <code>btree_multi_append()</code> is checking if we have too many uniquifiers with <code>btree_convert_to_nested_if_needed</code>, shown on <a href="#btree_convert_to_nested_if_needed"><code>btree.multi.c</code> - Checking if we have enough uniquifiers entries that it is worth to convert to a nested tree</a>.</p>
+</div>
+<div id="btree_convert_to_nested_if_needed" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Checking if we have enough uniquifiers entries that it is worth to convert to a nested tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_convert_to_nested_if_needed(
+    txn_t *tx, btree_val_t *set, span_t *buf) {
+  size_t count = 0;
+  memset(buf-&gt;address + buf-&gt;size - sizeof(uint64_t), 0,
+      sizeof(uint64_t));
+  btree_cursor_t it = {
+      .tree_id = set-&gt;tree_id, .key = *buf, .tx = tx};
+  defer(btree_free_cursor, it);
+  ensure(btree_cursor_search(&amp;it));
+  while (true) {
+    ensure(btree_get_next(&amp;it));
+    // check if we moved past the right key
+    if (it.has_val == false) break;
+    if (it.key.size != buf-&gt;size) break;
+    if (it.flags != btree_multi_flags_uniquifier) break;
+    if (memcmp(it.key.address, buf-&gt;address,
+            buf-&gt;size - sizeof(uint64_t)))
+      break;
+    count++;
+  }
+  if (count &gt;= 16) {  // enough items that we should move to nested
+    ensure(btree_convert_to_nested(tx, set-&gt;tree_id, buf));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_convert_to_nested_if_needed()</code> simply scans through the tree searching for uniquifiers entries and count all of them. If we have more than 16 such entries, we&#8217;ll
+convert the entries into a nested tree using the <code>btree_convert_to_nested()</code> function.</p>
+</div>
+<div class="paragraph">
+<p>Why do we have a limit of 16 uniquifiers entries before converting to a nested tree? A nested tree is going to take at least one page, so that would be 8KB. Using the IP example we
+have been using so far, 16 entries would have a cost of just 272 bytes. That is a big difference from 8KB, so why make the change so early?</p>
+</div>
+<div class="paragraph">
+<p>The cost of <code>btree_convert_to_nested_if_needed()</code> is linear to the number of uniquifiers items in the tree. The larger the number of uniquifiers entries we allow, the more expensive
+it is to add a new entry and then scan the tree to count the number of items that match the shared prefix. We could think of a few ways to avoid this issue, of course, but they are
+fairly complex.</p>
+</div>
+<div class="paragraph">
+<p>The deciding factor, however, is that common distribution patterns we have for multi value entries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>One</p>
+</li>
+<li>
+<p>Few</p>
+</li>
+<li>
+<p>Lots and lots and lots</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When we have to deal with multiple values for a single key, if there are more than a few (which I explicitly don&#8217;t define but is very small, in most cases) repetitions, we&#8217;ll have <em>lots</em>
+of repetitions. In that case, it is better to switch early to the more efficient manner of encoding multiple values.</p>
+</div>
+<div class="paragraph">
+<p>With a nested tree, millions values for <code>127.0.0.1</code> will not take 16MB, they will take a maximum of 8MB and usually a lot less. The same will hold true for
+<code>2001:0dc5:72a3:0000:0000:802e:3370:73E4</code>. With millions of entries, we&#8217;ll use exactly the same size as for <code>127.0.0.1</code>, since we only need to repeat the key once.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Integer encoding options</div>
+<div class="paragraph">
+<p>It is worth noting that the manner we encode the values in the nested tree isn&#8217;t ideal for the purpose. We need a mutable data structure to allow for efficient appends and removal
+from the set of values for a particular key. If we had better control over the access patterns, I might have chosen a different approach.</p>
+</div>
+<div class="paragraph">
+<p>Another way to handle this scenario is to use Roaring Bitmap, which allows to efficiently encoding sets. <a href="https://github.com/lemire/streamvbyte">StreamVByte</a> is an integer encoding
+scheme that allows to compress integers and decode them at a rate of 15GB/sec. The problem is that it expects to work in batch mode and isn&#8217;t helpful if you have a lot of mutations
+over the data set. There are other encoding formats such as <code>FastPFor</code>, which has better compression rate, but are slower to decode.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The actual conversion of the uniquifiers entries to a nested B+Tree is done in <code>btree_convert_to_nested()</code> and is shown on <a href="#btree_convert_to_nested"><code>btree.multi.c</code> - Converting the uniquifiers entries to a nested tree</a>.</p>
+</div>
+<div id="btree_convert_to_nested" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Converting the uniquifiers entries to a nested tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_convert_to_nested(
+    txn_t *tx, uint64_t tree_id, span_t *buf) {
+  uint64_t nested;
+  ensure(btree_create_nested(tx, tree_id, &amp;nested));
+  uint8_t key_buf[10];
+  btree_val_t set = {.key = {.address = key_buf}, .tree_id = nested};
+  btree_val_t del = {.tree_id = tree_id};
+  btree_cursor_t it = {.tree_id = tree_id, .tx = tx};
+  defer(btree_free_cursor, it);
+  while (true) {
+    it.key = *buf;  // search first match for key
+    ensure(btree_cursor_search(&amp;it));
+    ensure(btree_get_next(&amp;it));
+    if (it.has_val == false) break;
+    if (it.key.size != buf-&gt;size) break;
+    if (it.flags != btree_multi_flags_uniquifier) break;
+    if (memcmp(it.key.address, buf-&gt;address,
+            buf-&gt;size - sizeof(uint64_t)))
+      break;
+    uint8_t *end = varint_encode(it.val, key_buf);
+    set.key.size = (size_t)(end - key_buf);
+    ensure(btree_set(tx, &amp;set, 0));  // add to nested
+    del.key = it.key;
+    ensure(btree_del(tx, &amp;del));  // remove from root tree
+  }
+  btree_val_t set_root = {.tree_id = tree_id,
+      .key                         = *buf,
+      .val                         = nested,
+      .flags                       = btree_multi_flags_nested};
+  ensure(btree_set(tx, &amp;set_root, 0));  // now update root
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>btree_convert_to_nested()</code> we crete a nested tree (we&#8217;ll look exactly how that works in a bit) and iterate over the root tree. We take all the values that has the key prefix
+we are working on and write them to the nested tree. We write the <em>values</em> as keys using <code>varint</code> encoding, leaving the actual <code>val</code> and <code>flags</code> zeroed. That is because we need to
+track just the values associated with the key (the timestamps for the IP recorded, in our example). Using <code>varint</code> encoding gives us interesting advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We use less space than otherwise would be required.</p>
+</li>
+<li>
+<p>We keep the data in sorted order, which helps iteration.</p>
+</li>
+<li>
+<p>The keys are unique, which means that we have much easier time adding and removing items to the set.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll note that we are working in somewhat of a strange fashion in the <code>btree_convert_to_nested()</code> function. We have a <code>while</code> loop and we keep searching the root tree on each
+iteration. Why is that?</p>
+</div>
+<div class="paragraph">
+<p>We are calling <code>btree_del()</code> on the root tree, which will <em>invalidate</em> the iterator that we use. In order to get the next item, we have to search again to find the next entry that
+match the query. As usual, the <code>btree_cursor_search()</code> find the first key that is equals or greater than the key that we are searching. The key we are using in <code>btree_cursor_search()</code>
+is the key prefix plus 8 bytes of zeros, so we&#8217;ll scan to find all the uniquifiers for a particular key. When we find a value that isn&#8217;t a uniquifier or doesn&#8217;t have the right size
+and prefix, we&#8217;ll complete the process.</p>
+</div>
+<div class="paragraph">
+<p>The last action on <code>btree_cursor_search()</code> is to update the root tree with the <code>tree_id</code> of the nested tree with the <code>btree_multi_flags_nested</code> flag. Note that we use the `buf&#8217;s key
+value, which is the key prefix with 8 zero bytes appended.</p>
+</div>
+<div class="paragraph">
+<p>Creating a nested tree done in the <code>btree_create_nested()</code> function and is more involved than simply calling to the <code>btree_create()</code> function. Let&#8217;s look at <a href="#btree_create_nested"><code>btree.multi.c</code> - Creating a nested tree and wiring it for release when the root tree is released</a> to
+see what is going on here.</p>
+</div>
+<div id="btree_create_nested" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Creating a nested tree and wiring it for release when the root tree is released</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_create_nested(
+    txn_t *tx, uint64_t root_tree_id, uint64_t *nested_tree_id) {
+  ensure(btree_create(tx, nested_tree_id));
+  page_metadata_t *root, *nested;
+  ensure(txn_modify_metadata(tx, root_tree_id, &amp;root));
+  ensure(txn_modify_metadata(tx, *nested_tree_id, &amp;nested));
+  if (root-&gt;tree.nested.next) {
+    page_metadata_t *nested_next;
+    ensure(txn_modify_metadata(
+        tx, root-&gt;tree.nested.next, &amp;nested_next));
+    nested_next-&gt;tree.nested.prev = *nested_tree_id;
+  }
+  nested-&gt;tree.nested.next = root-&gt;tree.nested.next;
+  root-&gt;tree.nested.next   = *nested_tree_id;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Most of the work inside of <code>btree_create_nested()</code> is done to add the newly create tree to the list of nested tree on the root tree. Why do we need that? This is required to make it
+cheap to remove a tree using <code>btree_drop()</code> when it has nested trees. Otherwise, we would need to scan the whole tree and inspect all its data. By keeping a separate list of nested
+trees, we have a much easier time handling this scenario.
+Let&#8217;s look deeper into deleting items from a multi value tree.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_a_value_from_a_multi_value_btree">Deleting a value from a multi value B+Tree</h3>
+<div class="paragraph">
+<p>After looking into appending a value to a key, let&#8217;s look at the other side, removing a value from a key. This is done using the <code>btree_multi_del()</code> function, shown on <a href="#btree_multi_del"><code>btree.multi.c</code> - Removing a single value from a key (and doing cleanup if needed)</a>.
+Note that in this case, unlike the usual <code>btree_del()</code> call, the <code>val</code> field in the <code>btree_val_t</code> instance is important. This is the value that we&#8217;ll remove from the key.</p>
+</div>
+<div id="btree_multi_del" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Removing a single value from a key (and doing cleanup if needed)</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_multi_del(txn_t *tx, btree_val_t *del) {
+  multi_search_args_t args = {.has_val = false};
+  ensure(btree_multi_search_entry(tx, del, &amp;args));
+  if (args.has_val == false) return success();
+  if (args.nested_id) {
+    uint8_t key_buf[10];
+    varint_encode(del-&gt;val, key_buf);
+    btree_val_t nested = {.tree_id = args.nested_id,
+        .key                       = {
+            .address = key_buf, .size = varint_get_length(del-&gt;val)}};
+    ensure(btree_del(tx, &amp;nested));
+    page_metadata_t *metadata;
+    ensure(txn_get_metadata(tx, args.nested_id, &amp;metadata));
+    if (metadata-&gt;tree.floor) return success();
+    // empty tree, can drop nested tree and delete entry
+    ensure(btree_drop_nested(tx, args.nested_id));
+    memset(args.buf.address + args.buf.size - sizeof(uint64_t), 0,
+        sizeof(uint64_t));
+  } else {
+    uint64_t rev = bswap_64(del-&gt;val);
+    memcpy(args.buf.address + args.buf.size - sizeof(uint64_t), &amp;rev,
+        sizeof(uint64_t));
+  }
+  btree_val_t del_nested = {.tree_id = del-&gt;tree_id, .key = args.buf};
+  ensure(btree_del(tx, &amp;del_nested));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_multi_del()</code> starts by calling to <code>btree_multi_search_entry()</code>. If we couldn&#8217;t find a matching value, there is nothing to do and we can return immediately. If there
+<em>is</em> a value, we need to check if this is a nested tree or a uniquifier value. If we aren&#8217;t using a nested tree, we&#8217;ll set the key buffer to the uniquifier value and remove it from the
+tree.</p>
+</div>
+<div class="paragraph">
+<p>If we <em>are</em> using a nested tree, however, we have a more complex workflow. First, we remove the value from the nested tree keys, then we check if the nested tree is completely empty.
+If it has any values, we&#8217;ll leave it as is. In other words, if a multi value key has enough values to grow to a nested tree, it will not be downgraded to uniquifiers entries. It is
+only when the number of entries in the nested tree reaches zero that we&#8217;ll remove the nested tree. Dropping the nested tree, which is done on <a href="#btree_drop_nested"><code>btree.multi.c</code> - Removing a single nested B+Tree and unhooking it from the root tree&#8217;s list</a>.</p>
+</div>
+<div id="btree_drop_nested" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Removing a single nested B+Tree and unhooking it from the root tree&#8217;s list</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_drop_nested(
+    txn_t *tx, uint64_t nested_tree_id) {
+  page_metadata_t *nested;
+  ensure(txn_modify_metadata(tx, nested_tree_id, &amp;nested));
+  if (nested-&gt;tree.nested.next) {
+    page_metadata_t *nested_next;
+    ensure(txn_modify_metadata(
+        tx, nested-&gt;tree.nested.next, &amp;nested_next));
+    nested_next-&gt;tree.nested.prev = nested-&gt;tree.nested.prev;
+  }
+  if (nested-&gt;tree.nested.prev) {
+    page_metadata_t *nested_prev;
+    ensure(txn_modify_metadata(
+        tx, nested-&gt;tree.nested.prev, &amp;nested_prev));
+    nested_prev-&gt;tree.nested.next = nested-&gt;tree.nested.next;
+  }
+  nested-&gt;tree.nested.next = 0;
+  nested-&gt;tree.nested.prev = 0;
+  ensure(btree_drop(tx, nested_tree_id));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The process is pretty simple, we remove the nested tree that we are about the delete from the linked list of nested trees on the root page and then delete the nested tree directly.
+I also had to change the <code>btree_drop()</code> code, which is shown on <a href="#btree_drop_only"><code>btree.c</code> - When removing a B+Tree, also remove all its nested trees</a>.</p>
+</div>
+<div id="btree_drop_only" class="listingblock">
+<div class="title"><code>btree.c</code> - When removing a B+Tree, also remove all its nested trees</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_drop(txn_t* tx, uint64_t tree_id) {
+  page_metadata_t* metadata;
+  ensure(txn_get_metadata(tx, tree_id, &amp;metadata));
+  uint64_t nested = metadata-&gt;tree.nested.next;
+  while (nested) {
+    ensure(txn_get_metadata(tx, nested, &amp;metadata));
+    uint64_t old_nested = nested;
+    nested              = metadata-&gt;tree.nested.next;
+    ensure(btree_free_page_recursive(tx, old_nested));
+  }
+  return btree_free_page_recursive(tx, tree_id);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This completes the process of adding and removing  multiple values to the same B+Tree, but there is still quite a bit of functionality on the table.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iterating_over_multiple_values_per_key_using_btree">Iterating over multiple values per key using B+Tree</h3>
+<div class="paragraph">
+<p>We have appended multiple values to a key in the previous section of this chapter. What we haven&#8217;t done yet is read the data back. When using multi value trees, we don&#8217;t have a <code>get</code>
+or a <code>read</code> operations, we can only iterate over the values for a particular key. The iteration over the values of a key in our implementation has the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the value does not exists, you&#8217;ll get an empty iteration.</p>
+</li>
+<li>
+<p>The values are iterated in ascending value order.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This hold true whatever you are using uniquifiers entries or a nested tree and isn&#8217;t exposed to the outside world. We provide two API calls to allow iterating over the values of
+a key. Let&#8217;s start by looking into <code>btree_multi_cursor_search()</code>, shown on <a href="#btree_multi_cursor_search"><code>btree.multi.c</code> - Creating a cursor to iterate over the values of a particular key</a>.</p>
+</div>
+<div id="btree_multi_cursor_search" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Creating a cursor to iterate over the values of a particular key</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_multi_cursor_search(btree_cursor_t *cursor) {
+  ensure(btree_free_cursor(cursor));
+  btree_cursor_t it = {.tx = cursor-&gt;tx,
+      .key     = {.size = cursor-&gt;key.size + sizeof(uint64_t)},
+      .tree_id = cursor-&gt;tree_id};
+  ensure(txn_alloc_temp(cursor-&gt;tx, it.key.size, &amp;it.key.address));
+  memcpy(it.key.address, cursor-&gt;key.address, cursor-&gt;key.size);
+  memset(it.key.address + cursor-&gt;key.size, 0, sizeof(uint64_t));
+  ensure(btree_cursor_search(&amp;it));
+  defer(btree_free_cursor, it);
+  ensure(btree_get_next(&amp;it));
+  if (it.has_val == false ||
+      it.key.size != cursor-&gt;key.size + sizeof(uint64_t) ||
+      memcmp(cursor-&gt;key.address, it.key.address, cursor-&gt;key.size)) {
+    cursor-&gt;has_val = false;
+    return success();
+  }
+  if (it.flags == btree_multi_flags_nested) {
+    cursor-&gt;tree_id = it.val;
+    ensure(btree_free_cursor(&amp;it));  // avoid concurrent cursors
+    ensure(btree_cursor_at_start(cursor));
+    return success();
+  }
+  if (it.flags != btree_multi_flags_uniquifier) {
+    cursor-&gt;has_val = false;
+    return success();
+  }
+  cursor-&gt;has_val              = true;
+  cursor-&gt;is_uniquifier_search = true;
+  int16_t pos;
+  uint64_t page_num;
+  ensure(btree_stack_pop(&amp;it.stack, &amp;page_num, &amp;pos));
+  ensure(btree_stack_push(&amp;it.stack, page_num, pos - 1));
+  memcpy(&amp;cursor-&gt;stack, &amp;it.stack, sizeof(btree_stack_t));
+  memset(&amp;it.stack, 0, sizeof(btree_stack_t));  // change cursor owner
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We start by calling to <code>txn_alloc_temp()</code> to allocate a temporary buffer that we&#8217;ll use to setup the actual multi value key in. This is a transaction shared value which is used
+only for the duration of this function. We construct an internal cursor <code>it</code> that we use to search the root tree for the first entry that equals or is greater than our search key.
+We validate that it is a proper prefix for what we want to search on and then we check whatever we are looking at a nested tree or not.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a nested tree, the iteration is very simple. We free the <code>it</code> cursor and direct the <code>cursor</code> instance we got to go over all the nested tree. We tell the <code>cursor</code>
+to start the iteration at the beginning of the tree and the rest of the work would be simply iterating over a tree as usual. Note that we free the <code>it</code> cursor early (even though
+we have the free registered in a <code>defer</code> call) because we want to avoid two concurrent cursors. That would force us to allocate and we can avoid it.</p>
+</div>
+<div class="paragraph">
+<p>For uniquifiers entries, on the other hand, we can search in the root tree. We go back one step (to undo the existing <code>btree_get_next()</code> call and move the ownership of the cursor
+stack from the <code>it</code> internal cursor to the <code>cursor</code> instance that was provided by the caller.</p>
+</div>
+<div class="paragraph">
+<p>The <code>btree_multi_cursor_search()</code> merely setup the cursor, in order to actually iterate over it, you need to call to <code>btree_multi_get_next()</code>, shown on <a href="#btree_multi_get_next"><code>btree.multi.c</code> - Getting the next value from a</a>.</p>
+</div>
+<div id="btree_multi_get_next" class="listingblock">
+<div class="title"><code>btree.multi.c</code> - Getting the next value from a</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_multi_get_next(btree_cursor_t *cursor) {
+  if (cursor-&gt;has_val == false) return success();
+  span_t k = cursor-&gt;key;
+  ensure(btree_get_next(cursor));
+  if (cursor-&gt;has_val == false) return success();
+  if (cursor-&gt;is_uniquifier_search == false) {
+    varint_decode(cursor-&gt;key.address, &amp;cursor-&gt;val);
+  } else {
+    if (cursor-&gt;key.size != k.size + sizeof(uint64_t) ||
+        memcmp(cursor-&gt;key.address, k.address, k.size)) {
+      cursor-&gt;has_val = false;
+    }
+  }
+  cursor-&gt;key = k;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first thing we do in <code>btree_multi_get_next()</code> is to check if <code>has_val</code> is set to false. This can happen if there was no entry found for the key. It isn&#8217;t <em>strictly</em> necessary,
+but I find that it makes it easier to understand what is going on here.
+We copy the user provided key to the side. This is because we are going to be iterating over the cursor and that would change the value in <code>cursor-&gt;key</code>. We then step to the next
+entry in the cursor.</p>
+</div>
+<div class="paragraph">
+<p>If we are iterating over a nested tree, we start the iteration placed just before the beginning, which means that we can just iterate over all the entries in the nested tree. As a
+reminder, the <em>keys</em> in the nested tree represent the values that we stored for the key in the root tree, so we decode them to the <code>cursor-&gt;val</code> field and we are done.
+When we are running over uniquifiers entries, we scan through the root tree and check that we are still on the same prefix as we are search on. In this case, the value in the cursor
+is also one of the values on the key, so we can return that directly.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Remember to call <code>btree_free_cursor()</code> on the multi value key cursors</div>
+<div class="paragraph">
+<p>Just like when you are using <code>btree_cursor_search()</code> and <code>btree_get_next()</code>, the cursor that we use for <code>btree_multi_cursor_search()</code> and <code>btree_multi_get_next()</code> <em>has</em> to be freed
+after usage using <code>btree_free_cursor()</code>.
+This makes sense, since we <em>are</em> using <code>btree_cursor_search()</code> to implement <code>btree_multi_cursor_search()</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This concludes the work required to handle multiple values per key using B+Trees. We are going to extend the same API for handling multiple values for when we use our Extendible Hash
+Table.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_a_hash_that_will_hold_multiple_values_per_key">Building a hash that will hold multiple values per key</h3>
+<div class="paragraph">
+<p>I also want to allow us to store multiple values when using a hash. Conceptually, I want to build a <code>map&lt;uint64_t key, set&lt;uint64_t&gt; values&gt;</code> collection. Each key in the hash table
+may point to one or more values and we want to be able to append and remove to them at will. That turns out to be a somewhat tricker task. When adding multiple values to the B+Tree,
+I took advantage on the fact that I could <em>extend</em> the key to add uniquifiers to the actual key we store in the B+Tree. With the hash table, there is no good way to mimic this approach.
+For that reason, using a multi value hash table is going to take cooperation between two data structure that we already built: the hash table and the container.</p>
+</div>
+<div class="paragraph">
+<p>The idea is simple. When we store a multi value in the hash table, we are going to use the <code>flags</code> to distinguish the types of values we have. The following options are allowed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>hash_multi_single</code> - The usual mode, in which the <code>key</code> and the <code>val</code> are stored directly in the hash table.</p>
+</li>
+<li>
+<p><code>hash_multi_packed</code> - The <code>key</code> is stored in the hash, but the <code>val</code> points to an <code>item_id</code> which is a buffer that contain many values for that particular key.</p>
+</li>
+<li>
+<p><code>hash_multi_nested</code> - The <code>key</code> is store in the hash, and the <code>val</code> is a <code>hash_id</code> of a nested hash table. Entries in the nested hash table has their <code>val</code> set to zero
+and the <code>key</code> actually hold the multi values for the root key. This is similar to the nested B+Tree from the previous section.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The API that we expose the the users is shown in <a href="#hash_multi_api"><code>gavran/db.h</code> - API for working with multiple values per key in a hash table</a>. Unlike the B+Tree API, the multi hash API isn&#8217;t able to operate solely within the constraints of its root data
+structure and needs assistance from an associated container. We&#8217;ll see exactly why shortly.</p>
+</div>
+<div id="hash_multi_api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - API for working with multiple values per key in a hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_multi_append(
+    txn_t *tx, hash_val_t *set, uint64_t container_id);
+result_t hash_multi_del(
+    txn_t *tx, hash_val_t *del, uint64_t container_id);
+result_t hash_multi_get_next(txn_t *tx, pages_map_t **state,
+    hash_val_t *it, uint64_t container_id);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see that this is similar to the multi value API for B+Tree, with the same behaviors. You can append a value to a key, delete a value from a key or iterate over all the values
+of a key. It is interesting to note that multi hash is working in <em>conjunction</em> with the container, it doesn&#8217;t <em>own</em> the container. This is important, since it means that a single
+container can be used to handle several multi value hash tables, for example.
+We&#8217;ll start looking into the implementation of the multi value hash table in <a href="#hash_multi_append"><code>hash.multi.c</code> - Appending a value to a key in a multi value hash</a>.</p>
+</div>
+<div id="hash_multi_append" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Appending a value to a key in a multi value hash</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_multi_append(
+    txn_t *tx, hash_val_t *set, uint64_t container_id) {
+  hash_val_t existing = {.hash_id = set-&gt;hash_id, .key = set-&gt;key};
+  ensure(hash_get(tx, &amp;existing));
+  // <b class="conum">(1)</b>
+  if (existing.has_val == false) {  // new val
+    set-&gt;flags = hash_multi_single;
+    ensure(hash_set(tx, set, 0));
+    return success();
+  }
+  switch (existing.flags) {
+    case hash_multi_single:
+      // <b class="conum">(2)</b>
+      if (existing.val == set-&gt;val) return success();  // no change
+      ensure(hash_multi_set_single(tx, set, &amp;existing, container_id));
+      return success();
+    case hash_multi_packed:
+      // <b class="conum">(3)</b>
+      ensure(hash_multi_set_packed(tx, set, &amp;existing, container_id));
+      return success();
+    case hash_multi_nested:
+      // <b class="conum">(4)</b>
+      ensure(hash_multi_set_nested(tx, set, existing.val));
+      return success();
+    default:
+      failed(EINVAL, msg("Unknown flag type"));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>There are no entries for the provided <code>key</code>, so we can simple enter a value to the root hash table as usual, tagging it as <code>hash_multi_single</code>.</p>
+</li>
+<li>
+<p>There is a single value in the hash table, if it is the same as the existing value, we can do nothing. Otherwise, we&#8217;ll convert the value into a <code>hash_multi_packed</code> value using
+<code>hash_multi_set_single()</code>.</p>
+</li>
+<li>
+<p>Adding a value to an already <code>hash_multi_packed</code> value using <code>hash_multi_set_packed()</code>.</p>
+</li>
+<li>
+<p>Adding a value to a nested hash table using <code>hash_multi_set_nested()</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>There idea in <code>hash_multi_append()</code> is to decide what is the relevant scenario that we run into and call to the appropriate function to handle that. Let&#8217;s look at <code>hash_multi_set_single()</code>
+in <a href="#hash_multi_set_single"><code>hash.multi.c</code> - Move from storing a single value per key to holding two values for the value in a packed mode</a>, which will convert a single value into a pair of values.</p>
+</div>
+<div id="hash_multi_set_single" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Move from storing a single value per key to holding two values for the value in a packed mode</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_set_single(txn_t *tx, hash_val_t *set,
+    hash_val_t *existing, uint64_t container_id) {
+  uint8_t buf[20];  // convert to a packed instance
+  uint8_t *end =
+      varint_encode(set-&gt;val, varint_encode(existing-&gt;val, buf));
+  container_item_t item = {.container_id = container_id,
+      .data = {.address = buf, .size = (size_t)(end - buf)}};
+  ensure(container_item_put(tx, &amp;item));
+  existing-&gt;flags = hash_multi_packed;
+  existing-&gt;val   = item.item_id;
+  ensure(hash_set(tx, existing, 0));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>hash_multi_set_single()</code> is quite interesting. We create a buffer and write the existing and new values for the <code>key</code> to the buffer. We then create a <em>container item</em> to hold
+that buffer and store the <code>item_id</code> of that item in the hash table with a <code>hash_multi_packed</code> flag. The idea is that we can&#8217;t use the hash table to store multiple values, but we can use
+the container to store those values for us and store a reference to it.</p>
+</div>
+<div class="paragraph">
+<p>If we had additional writes to the same key, the <code>hash_multi_append()</code> function will direct them to the <code>hash_multi_set_packed()</code> function, shown on <a href="#hash_multi_set_packed"><code>hash.multi.c</code> - Append a value to a packed set stored inside a container</a>.</p>
+</div>
+<div id="hash_multi_set_packed" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Append a value to a packed set stored inside a container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_set_packed(txn_t *tx, hash_val_t *set,
+    hash_val_t *existing, uint64_t container_id) {
+  container_item_t item = {
+      .container_id = container_id, .item_id = existing-&gt;val};
+  ensure(container_item_get(tx, &amp;item));
+  void *end   = item.data.address + item.data.size;
+  void *start = item.data.address;
+  while (start &lt; end) {
+    uint64_t v;
+    start = varint_decode(start, &amp;v);
+    if (v == set-&gt;val) return success();  // value already exists
+  }
+  span_t new_val = {
+      .size = item.data.size + varint_get_length(set-&gt;val)};
+  if (new_val.size &gt; 128) {
+    return hash_multi_set_convert_to_nested(tx, set, &amp;item);
+  }
+  ensure(txn_alloc_temp(tx, new_val.size, &amp;new_val.address));
+  memcpy(new_val.address, item.data.address, item.data.size);
+  varint_encode(set-&gt;val, new_val.address + item.data.size);
+  item.data = new_val;
+  bool in_place;
+  ensure(container_item_update(tx, &amp;item, &amp;in_place));
+  if (in_place == false) {
+    hash_val_t update = {.hash_id = set-&gt;hash_id,
+        .flags                    = hash_multi_packed,
+        .val                      = item.item_id,
+        .key                      = set-&gt;key};
+    ensure(hash_set(tx, &amp;update, 0));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>hash_multi_set_packed()</code> will load the existing item&#8217;s data using its reference <code>item_id</code> and scan it. If we have a new value, we&#8217;ll need to extend the buffer to fit the new
+value. This is done using the <code>txn_alloc_temp()</code> function that we are already familiar with.
+Note that we place a limit on the size of such packed structures. Once we go beyond 128 bytes, we&#8217;ll move to a nested model. We&#8217;ll look into that soon, for now, let&#8217;s see what happens when
+we add an item to packed value.</p>
+</div>
+<div class="paragraph">
+<p>We allocate the new buffer, copy the existing data and write the new value at the end. Then we update the container&#8217;s item and update the <code>item_id</code> if needed. The values in the packed
+buffer are not stored in any particular order and we have to scan through the whole buffer each time we append to it. Given that we are talking about a pretty small maximum size, I&#8217;m not
+worried about this.</p>
+</div>
+<div class="paragraph">
+<p>The size limit is 128 bytes, which <em>is</em> small. The idea here, just like with the B+Tree move from uniquifiers to nested trees, is that the data distribution of values means that once you
+go beyond a certain size, you are almost certain going to be growing a lot larger. For that reason, it is best to move to the more efficient model early.
+We convert the value from packed value to a nested hash table in <a href="#hash_multi_set_convert_to_nested"><code>hash.multi.c</code> - Convert a packed buffer of values into a nested hash table</a>.</p>
+</div>
+<div id="hash_multi_set_convert_to_nested" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Convert a packed buffer of values into a nested hash table</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_set_convert_to_nested(
+    txn_t *tx, hash_val_t *set, container_item_t *item) {
+  uint64_t nested_hash;
+  ensure(hash_create(tx, &amp;nested_hash));
+  hash_val_t nested = {.hash_id = nested_hash, .key = set-&gt;val};
+  ensure(hash_set(tx, &amp;nested, 0));
+  void *start = item-&gt;data.address;
+  void *end   = start + item-&gt;data.size;
+  while (start &lt; end) {
+    start = varint_decode(start, &amp;nested.key);
+    ensure(hash_set(tx, &amp;nested, 0));
+  }
+  uint64_t old_val = set-&gt;val;
+  set-&gt;val         = nested.hash_id;
+  set-&gt;flags       = hash_multi_nested;
+  ensure(hash_set(tx, set, 0));
+  set-&gt;val = old_val;
+  ensure(container_item_del(tx, item));
+  ensure(
+      hash_multi_write_nested_hash(tx, set-&gt;hash_id, nested.hash_id));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>hash_multi_set_convert_to_nested()</code> will simply create a new nested hash table and add the values from the packed buffer (and the newly set value) to the nested hash table
+as keys. After we are done modifying both hash tables, we record the nesting association between them in the same manner we did with nested B+Trees. The parent hash table&#8217;s metadata has
+a linked list of associated hash tables. This is managed by the <code>hash_multi_write_nested_hash()</code> function, shown on <a href="#hash_multi_write_nested_hash"><code>hash.multi.c</code> - Record the new hash table to the list of nested tables in the parent hash table</a>.</p>
+</div>
+<div id="hash_multi_write_nested_hash" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Record the new hash table to the list of nested tables in the parent hash table</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_write_nested_hash(
+    txn_t *tx, uint64_t root, uint64_t nested) {
+  page_metadata_t *r_metadata, *n_metadata;
+  ensure(txn_modify_metadata(tx, root, &amp;r_metadata));
+  ensure(txn_modify_metadata(tx, nested, &amp;n_metadata));
+
+  assert(r_metadata-&gt;common.page_flags == page_flags_hash);
+  assert(n_metadata-&gt;common.page_flags == page_flags_hash);
+  n_metadata-&gt;hash.nested.next = r_metadata-&gt;hash.nested.next;
+  r_metadata-&gt;hash.nested.next = nested;
+  if (n_metadata-&gt;hash.nested.next) {
+    page_metadata_t *next;
+    ensure(
+        txn_modify_metadata(tx, n_metadata-&gt;hash.nested.next, &amp;next));
+    assert(next-&gt;common.page_flags == page_flags_hash);
+    next-&gt;hash.nested.prev = nested;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We need to keep track of those nested hash tables to allow us to efficiently drop them when we drop the parent table. Otherwise, we&#8217;ll need to scan through all the values that we have in
+the hash table. By keeping track of the nested hash tables, we can directly drop them.</p>
+</div>
+<div class="paragraph">
+<p>The final piece of work we still have to review to support adding multiple values per hash key is what happens when we add a multi value when the key is nested. This is handled in the
+<code>hash_multi_set_nested()</code> function shown on <a href="#hash_multi_set_nested"><code>hash.multi.c</code> - Add a value to a nested hash table</a>.</p>
+</div>
+<div id="hash_multi_set_nested" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Add a value to a nested hash table</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_set_nested(
+    txn_t *tx, hash_val_t *set, uint64_t nested_hash_id) {
+  hash_val_t nested = {.hash_id = nested_hash_id, .key = set-&gt;val};
+  ensure(hash_set(tx, &amp;nested, 0));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The isn&#8217;t much in <a href="#hash_multi_set_nested"><code>hash.multi.c</code> - Add a value to a nested hash table</a>, since we simply utilize the existing API to store the new multi value in the nested table as a key. This conclude the exploration of how we
+handle appending a new value to a multi hash. Let&#8217;s look at how we handle the other side, reading items from a multi value hash table. Unlike the usual hash API, we don&#8217;t have a
+function to get the value for a key. A single key may have any number of values, after all. For that reason, we have the <code>hash_multi_get_next()</code> method, which allows us to iterate over
+all the values of a particular key. This is shown on <a href="#hash_multi_get_next"><code>hash.multi.c</code> - Going over all the values of a particular key</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_iterating_over_multiple_values_per_key">Iterating over multiple values per key</h4>
+<div class="paragraph">
+<p>It is important to note that this iteration, unlike the one done using the iteration using <code>btree_multi_get_next()</code> isn&#8217;t done in order. We are getting the values in an arbitrary order
+that may <em>change</em>. In other words, you can&#8217;t assume that two iteration of <code>hash_multi_get_next()</code> will return the results in the same order. There may have been an addition to the
+key which pushed it from packed to nested mode, which will change the order of iteration, for example.</p>
+</div>
+<div id="hash_multi_get_next" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Going over all the values of a particular key</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_multi_get_next(txn_t *tx, pages_map_t **state,
+    hash_val_t *it, uint64_t container_id) {
+  if (it-&gt;iter_state.iterating_nested) {
+    uint64_t k = it-&gt;key;
+    ensure(hash_get_next(tx, state, it));
+    it-&gt;val = it-&gt;key;
+    it-&gt;key = k;
+    return success();
+  }
+  hash_val_t existing = {.hash_id = it-&gt;hash_id, .key = it-&gt;key};
+  ensure(hash_get(tx, &amp;existing));
+  if (existing.has_val == false) {
+    it-&gt;has_val = false;
+    return success();
+  }
+  it-&gt;has_val = true;
+  switch (existing.flags) {
+    case hash_multi_single:
+      if (it-&gt;iter_state.pos_in_page != 0) {
+        it-&gt;has_val = false;
+        return success();
+      }
+      it-&gt;iter_state.pos_in_page++;
+      return success();
+    case hash_multi_nested:
+      it-&gt;hash_id                     = existing.val;
+      it-&gt;iter_state.iterating_nested = true;
+      ensure(hash_multi_get_next(tx, state, it, container_id));
+      return success();
+    case hash_multi_packed:
+      ensure(hash_multi_get_next_packed(
+          tx, existing.val, it, container_id));
+      return success();
+    default:
+      failed(EINVAL, msg("Unknown flag type"));
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#hash_multi_get_next"><code>hash.multi.c</code> - Going over all the values of a particular key</a> is complicated by the fact that we need to handle quite a few different states and support re-entry to the function. We keep the state of the
+iteration in the <code>iter_state</code> structure inside the <code>hash_val_t</code>. The first thing we do in <code>hash_multi_get_next()</code> is check if we are iterating over a nested hash table using the
+<code>iterating_nested</code> field. This is initially set to <code>false</code>, so we&#8217;ll ignore it for now.</p>
+</div>
+<div class="paragraph">
+<p>We get the relevant key from the hash table and check if it exists. If it doesn&#8217;t, we&#8217;ll stop the iteration. In other words, iterating over a key that doesn&#8217;t exists will not
+return an error, just an empty set of results. If the value exists, we check the <code>flags</code> of the value to decide how to deal with it. For <code>hash_multi_single</code> we&#8217;ll return the
+current value and setup things up so the <em>next</em> call will end the iteration.</p>
+</div>
+<div class="paragraph">
+<p>For <code>hash_multi_nested</code> flag, we know that the value in the hash table is the nested table <code>hash_id</code>, we update the hash table we search for and set <code>iterating_nested</code> to <code>true</code>.
+Then we recurse into the function again. This time, since <code>iterating_nested</code> is set to <code>true</code>, the condition at the start of the function applies and we&#8217;ll use the standard
+iteration process for hash tables on the nested hash table. It is important to understand that the work here is simply to find what the actual nested hash table is and then
+forward all the rest of the work to it.</p>
+</div>
+<div class="paragraph">
+<p>The final option we have here is the <code>hash_multi_packed</code> flag. In this case, we have multiple values stored inside a container, which we handle by calling to
+<code>hash_multi_get_next_packed()</code>. You can see how that works in <a href="#hash_multi_get_next_packed"><code>hash.multi.c</code> - Iterating over a set of packed values</a>.</p>
+</div>
+<div id="hash_multi_get_next_packed" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Iterating over a set of packed values</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_get_next_packed(txn_t *tx,
+    uint64_t item_id, hash_val_t *it, uint64_t container_id) {
+  container_item_t item = {
+      .container_id = container_id, .item_id = item_id};
+  ensure(container_item_get(tx, &amp;item));
+  if (it-&gt;iter_state.pos_in_page &gt;= item.data.size) {
+    it-&gt;has_val = false;
+    return success();
+  }
+  void *end = varint_decode(
+      item.data.address + it-&gt;iter_state.pos_in_page, &amp;it-&gt;val);
+  it-&gt;iter_state.pos_in_page = (uint16_t)(end - item.data.address);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>hash_multi_get_next_packed()</code> we grab the packed value from the container and then read the next one. We keep the position we are on in the packed value using the <code>pos_in_page</code>
+field. Once we have read past the size of the value in the container, we know we can stop the iteration process.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Iteration efficiencies of multi hash values</div>
+<div class="paragraph">
+<p>The way I structured the code here probably leaves some performance optimizations on the table. We have to do a lookup on the primary hash table on each call to <code>hash_multi_get_next()</code>
+for example. That isn&#8217;t something I&#8217;m too worried about, though. In most cases, we are going to either end up with small number of items or a lot of them. In other words, I&#8217;m not
+expecting a lot of values to be packed. It is either going to be a single value or <em>many</em> values, which means that we&#8217;ll end up with a nested hash table.</p>
+</div>
+<div class="paragraph">
+<p>The cost of iteration on the nested hash table is checking a single field on each call to <code>hash_multi_get_next()</code>. In practice, I expect the cost to be nil, especially once you take
+into account branch prediction. Optimizing single and packed options, on the other hand, would require us to make the <code>hash_val_t</code> structure larger to carry more state.
+The <code>hash_val_t</code> structure isn&#8217;t big enough that this would be a major issue, but I avoided going that route to reduce the complexity in the codebase.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;ll need to revisit that decision once I have some benchmark numbers.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that we know how to append and iterate over multiple values, there is just one last thing that we need to do, <em>remove</em> a value from a multi value hash table.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_a_value_from_multi_value_keys">Deleting a value from multi value keys</h4>
+<div class="paragraph">
+<p>Removal of a value from the multi value hash is very similar to looking it up. The process starts with <code>hash_multi_del()</code>, shown on <a href="#hash_multi_del"><code>hash.multi.c</code> - Remove a value from a multi value hash table</a>.</p>
+</div>
+<div id="hash_multi_del" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Remove a value from a multi value hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_multi_del(
+    txn_t *tx, hash_val_t *del, uint64_t container_id) {
+  hash_val_t existing = {.hash_id = del-&gt;hash_id, .key = del-&gt;key};
+  ensure(hash_get(tx, &amp;existing));
+  if (existing.has_val == false) return success();  // already gone
+  switch (existing.flags) {
+    case hash_multi_single:  // just delete normally
+      ensure(hash_del(tx, del));
+      return success();
+    case hash_multi_packed:
+      ensure(hash_multi_del_packed(tx, del, &amp;existing, container_id));
+      return success();
+    case hash_multi_nested:
+      existing.hash_id = existing.val;
+      existing.key     = del-&gt;val;
+      ensure(hash_del(tx, &amp;existing));
+      page_metadata_t *metadata;
+      ensure(txn_get_metadata(tx, existing.hash_id, &amp;metadata));
+      uint64_t entries;
+      ensure(hash_get_entries_count(tx, existing.hash_id, &amp;entries));
+      if (entries == 0) {  // empty, remove
+        ensure(hash_drop_nested(tx, existing.hash_id));
+        ensure(hash_del(tx, del));
+        return success();
+      }
+      return success();
+    default:
+      failed(EINVAL, msg("Unknown flag type"));
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>hash_multi_del()</code> has four options that it needs do deal with. If there are no values for the provided key, there is nothing to be done. This is the easiest option. If there
+is a single value for the key, we can simple remove it from the hash table and we are done. Things gets more interesting with the other two options. If we have to deal with either
+packed value or nested hash table. Let&#8217;s look at how we deal with packed values first in <a href="#hash_multi_del_packed"><code>hash.multi.c</code> - Removing a value from a packed set of values inside a container</a>.</p>
+</div>
+<div id="hash_multi_del_packed" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Removing a value from a packed set of values inside a container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_multi_del_packed(txn_t *tx, hash_val_t *del,
+    hash_val_t *existing, uint64_t container_id) {
+  container_item_t item = {
+      .container_id = container_id, .item_id = existing-&gt;val};
+  ensure(container_item_get(tx, &amp;item));
+  void *end   = item.data.address + item.data.size;
+  void *start = item.data.address;
+  while (start &lt; end) {
+    uint64_t v;
+    void *cur = varint_decode(start, &amp;v);
+    if (v == del-&gt;val) {  // found the value
+      span_t buf = {.size = (size_t)(start - item.data.address)};
+      ensure(txn_alloc_temp(tx, item.data.size, &amp;buf.address));
+      memcpy(buf.address, item.data.address, buf.size);
+      memcpy(buf.address + buf.size, cur, (size_t)(end - cur));
+      buf.size += (size_t)(end - cur);
+      if (buf.size == 0) {  // completely empty
+        ensure(container_item_del(tx, &amp;item));
+        ensure(hash_del(tx, del));
+        return success();
+      }
+      item.data = buf;
+      bool in_place;
+      ensure(container_item_update(tx, &amp;item, &amp;in_place));
+      if (in_place == false) {
+        existing-&gt;val = item.item_id;
+        ensure(hash_set(tx, existing, 0));
+      }
+      return success();
+    }
+    start = cur;
+  }
+  return success();  // value not found, no change
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>hash_multi_del_packed()</code> we are scanning through the values packed into a container item. If we find a value, we allocate a temporary buffer from the transaction and copy the
+<em>rest</em> of the value to the new buffer. Then we update the container item. If the new value is empty, we can delete the item from the container and the key from the hash table. Note
+that updating the container&#8217;s item may move it. In that case, we&#8217;ll need to update the item id that we store in the hash table.</p>
+</div>
+<div class="paragraph">
+<p>It is important to note that we aren&#8217;t ever moving from a packed mode to a single mode. In theory, we could do that, it is easy enough to detect when we have a single value and move
+the key to a single mode. The reason I&#8217;m not doing that is that in almost all cases, the key is going to be shortly removed or appended to with more values.</p>
+</div>
+<div id="hash_get_entries_count" class="listingblock">
+<div class="title"><code>hash.c</code> - Getting the count of entries in a hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_get_entries_count(
+    txn_t* tx, uint64_t hash_id, uint64_t* number_of_entries) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, hash_id, &amp;hash_root));
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    *number_of_entries = hash_root.metadata-&gt;hash.number_of_entries;
+  } else {
+    *number_of_entries =
+        hash_root.metadata-&gt;hash_dir.number_of_entries;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We haven&#8217;t looked yet on how <code>hash_multi_del()</code> deals with nested hash tables. In <a href="#hash_multi_del"><code>hash.multi.c</code> - Remove a value from a multi value hash table</a> you can see that we call <code>hash_del()</code> on the nested hash table, but we aren&#8217;t
+done just yet. We need to check if the nested hash table is empty. We do that by calling to <code>hash_get_entries_count()</code>, shown in <a href="#hash_get_entries_count"><code>hash.c</code> - Getting the count of entries in a hash table</a>. If the nested table is
+empty, we can drop the nested table and remove the key from the parent table.</p>
+</div>
+<div class="paragraph">
+<p>Removing the key from the parent table is obvious, but dropping the nest table is a bit more complex. In addition to freeing the pages held by the nested hash table, we also need
+to remove the nested table from the linked list of associated tables on the parent table. This is all handled in the <code>hash_drop_nested()</code> function, shown on <a href="#hash_drop_nested"><code>hash.multi.c</code> - Dropping a nested hash table and removing it from the parent table</a>.</p>
+</div>
+<div id="hash_drop_nested" class="listingblock">
+<div class="title"><code>hash.multi.c</code> - Dropping a nested hash table and removing it from the parent table</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_drop_nested(txn_t *tx, uint64_t nested_hash_id) {
+  page_metadata_t *nested;
+  ensure(txn_modify_metadata(tx, nested_hash_id, &amp;nested));
+  assert(nested-&gt;common.page_flags == page_flags_hash);  // empty now
+  if (nested-&gt;hash.nested.next) {
+    page_metadata_t *nested_next;
+    ensure(txn_modify_metadata(
+        tx, nested-&gt;hash.nested.next, &amp;nested_next));
+    assert(nested_next-&gt;common.page_flags == page_flags_hash);
+    nested_next-&gt;hash.nested.prev = nested-&gt;hash.nested.prev;
+  }
+  if (nested-&gt;tree.nested.prev) {
+    page_metadata_t *nested_prev;
+    ensure(txn_modify_metadata(
+        tx, nested-&gt;hash.nested.prev, &amp;nested_prev));
+    assert(nested_prev-&gt;common.page_flags == page_flags_hash);
+    nested_prev-&gt;hash.nested.next = nested-&gt;hash.nested.next;
+  }
+  ensure(hash_drop_one(tx, nested_hash_id));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>hash_drop_nested()</code> will first update the linked list of associated hash tables to remove the dropped nested table. Then it will call to <code>hash_drop_one()</code> to do the
+actual dropping of the nested hash table pages. But what <em>is</em> <code>hash_drop_one()</code>? We haven&#8217;t seen that function before. I had to rename the <code>hash_drop()</code> to <code>hash_drop_one()</code> to
+allow us to handle associated hash tables. This is because we may want to call <code>hash_drop()</code> on a hash table that is used with multiple values. The new <code>hash_drop()</code> implementation
+is shown in <a href="#hash_drop_with_nesting"><code>hash.c</code> - Drop a hash table and all its associated tables</a>.</p>
+</div>
+<div id="hash_drop_with_nesting" class="listingblock">
+<div class="title"><code>hash.c</code> - Drop a hash table and all its associated tables</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_drop_nested(txn_t* tx, uint64_t hash_id) {
+  while (hash_id) {
+    page_t hash = {.page_num = hash_id};
+    ensure(txn_get_page(tx, &amp;hash));
+    assert(hash.metadata-&gt;common.page_flags == page_flags_hash);
+    hash_id = hash.metadata-&gt;hash.nested.next;
+    ensure(hash_drop_one(tx, hash.page_num));
+  }
+  return success();
+}
+result_t hash_drop(txn_t* tx, uint64_t hash_id) {
+  ensure(hash_drop_nested(tx, hash_id));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first item in the linked list is the parent hash table, so we&#8217;ll simply scan from the given <code>hash_id</code> and remove all the nested hash tables in the list. The bulk of the work
+is still done by <code>hash_drop_one()</code>, we simply added another function to orchestrate it.</p>
+</div>
+<div class="paragraph">
+<p>And now we are done. We have the ability to store multiple values per key on both B+Trees and hash tables. What we are left with is to look at the tests and see how we can <em>use</em>
+this feature, but we&#8217;ll do that in the next chapter.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">Unit Tests</h3>
+<div class="paragraph">
+<p>The tests we have for this feature are fairly simple. We append, iterate, remove and check the contents of the multi value key again. The nice thing about this feature is that there
+isn&#8217;t <em>much</em> to it, making it straightforward to test and use.</p>
+</div>
+<div id="tests15" class="listingblock">
+<div class="title"><code>test.c</code> - Testing using multiple values for B+Tree and hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t multiple_vals_tree(uint64_t amount) {
+  db_t db;
+  db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+  ensure(db_create("/tmp/db/try", &amp;options, &amp;db));
+  defer(db_close, db);
+
+  {
+    txn_t tx;
+    ensure(txn_create(&amp;db, TX_WRITE, &amp;tx));
+    defer(txn_close, tx);
+    uint64_t tree_id;
+    ensure(btree_create(&amp;tx, &amp;tree_id));
+
+    char* key       = "127.0.0.1";
+    btree_val_t set = {.tree_id = tree_id,
+        .key = {.address = key, .size = strlen(key)}};
+    for (size_t i = 0; i &lt; amount; i++) {
+      set.val++;
+      ensure(btree_multi_append(&amp;tx, &amp;set));
+    }
+
+    {
+      uint64_t count    = 0;
+      btree_cursor_t it = {.tree_id = tree_id,
+          .tx                       = &amp;tx,
+          .key = {.address = key, .size = strlen(key)}};
+      defer(btree_free_cursor, it);
+      ensure(btree_multi_cursor_search(&amp;it));
+      while (true) {
+        ensure(btree_multi_get_next(&amp;it));
+        if (it.has_val == false) break;
+        count++;
+        ensure(count == it.val);
+      }
+      ensure(count == amount);
+    }
+
+    for (size_t i = 1; i &lt; amount; i += 2) {
+      btree_val_t del = {.tree_id = tree_id,
+          .val                    = i,
+          .key = {.address = key, .size = strlen(key)}};
+      ensure(btree_multi_del(&amp;tx, &amp;del));
+    }
+
+    {
+      uint64_t count    = 0;
+      btree_cursor_t it = {.tree_id = tree_id,
+          .tx                       = &amp;tx,
+          .key = {.address = key, .size = strlen(key)}};
+      defer(btree_free_cursor, it);
+      ensure(btree_multi_cursor_search(&amp;it));
+      while (true) {
+        ensure(btree_multi_get_next(&amp;it));
+        if (it.has_val == false) break;
+        count += 2;
+        ensure(count == it.val);
+      }
+      ensure(count == amount);
+    }
+  }
+  return success();
+}
+
+result_t multiple_vals_hash(uint64_t amount) {
+  db_t db;
+  db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+  ensure(db_create("/tmp/db/try", &amp;options, &amp;db));
+  defer(db_close, db);
+
+  {
+    txn_t tx;
+    ensure(txn_create(&amp;db, TX_WRITE, &amp;tx));
+    defer(txn_close, tx);
+    uint64_t hash_id, container_id;
+    ensure(hash_create(&amp;tx, &amp;hash_id));
+    ensure(container_create(&amp;tx, &amp;container_id));
+
+    hash_val_t set = {.hash_id = hash_id, .key = 127001};
+    for (size_t i = 0; i &lt; amount; i++) {
+      set.val = i + 1;
+      ensure(hash_multi_append(&amp;tx, &amp;set, container_id));
+    }
+
+    {
+      uint64_t count = 0;
+      hash_val_t it  = {.hash_id = set.hash_id, .key = 127001};
+      pages_map_t* pages;
+      ensure(pagesmap_new(8, &amp;pages));
+      defer(free, pages);
+      while (true) {
+        ensure(hash_multi_get_next(&amp;tx, &amp;pages, &amp;it, container_id));
+        if (it.has_val == false) break;
+        count++;
+        ensure(it.val &gt; 0 &amp;&amp; it.val &lt;= amount);
+      }
+      ensure(count == amount);
+    }
+
+    for (size_t i = 1; i &lt; amount; i += 2) {
+      hash_val_t del = {.hash_id = hash_id, .val = i, .key = 127001};
+      ensure(hash_multi_del(&amp;tx, &amp;del, container_id));
+    }
+
+    {
+      uint64_t count = 0;
+      hash_val_t it  = {.hash_id = set.hash_id, .key = 127001};
+      pages_map_t* pages;
+      ensure(pagesmap_new(8, &amp;pages));
+      defer(free, pages);
+      while (true) {
+        ensure(hash_multi_get_next(&amp;tx, &amp;pages, &amp;it, container_id));
+        if (it.has_val == false) break;
+        count += 2;
+        ensure(it.val &gt; 0 &amp;&amp; it.val &lt;= amount);
+      }
+      ensure(count == amount);
+    }
+  }
+  return success();
+}
+describe(multiple_vals) {
+  before_each() {
+    errors_clear();
+    system("mkdir -p /tmp/db");
+    system("rm -f /tmp/db/*");
+  }
+
+  it("6 multi btree records") { assert(multiple_vals_tree(6)); }
+
+  it("many identical btree records") {
+    assert(multiple_vals_tree(300));
+  }
+
+  it("6 multi hash records") { assert(multiple_vals_hash(6)); }
+
+  it("many identical hash records") {
+    assert(multiple_vals_hash(300));
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+  <ul style="list-style-type: none;">
+    <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+    <li><a class="footer-text" href="./ch16.html">Previous chapter</a></li>
+    <li><a class="footer-text" href="./ch18.html">Next chapter</a></li>
+  </ul>
+</div>
+</body>
+</html>

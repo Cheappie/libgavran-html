@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Raw data containers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_raw_data_containers">Raw data containers</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Container</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(1), using opaque handle from write</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arbitrary binary data</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iteration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arbitrary order (unrelated to handle value)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We built a hash table in the previous chapter, which will allow us to lookup a <code>uint64_t</code> value using a <code>uint64_t</code> key. If this is all we ever want to do, that is fine, but in
+practice, we need to deal with more complex data.
+The API we have to deal with <em>arbitrary data</em> right now in Gavran is fairly poor, in terms of what it can offer us. We have pages, and that is pretty much it. That doesn&#8217;t
+work very  well when we deal with arbitrary data, we need some better way to handle it. After thinking about it for quite a bit, I came up with the most minimal set of API that
+I could think of for managing arbitrary data in Gavran, shown in <a href="#container_api"><code>gavran/db.h</code> - API for CRUD operations on arbitrary data</a>.</p>
+</div>
+<div id="container_api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - API for CRUD operations on arbitrary data</div>
+<div class="content">
+<pre class="highlight"><code>// create / delete container
+result_t container_create(txn_t *tx, uint64_t *container_id);
+result_t container_drop(txn_t *tx, uint64_t container_id);
+
+typedef struct container_item {
+  uint64_t container_id;
+  uint64_t item_id;
+  span_t data;
+} container_item_t;
+
+// CRUD operations
+result_t container_item_put(txn_t *tx, container_item_t *item);
+result_t container_item_update(
+    txn_t *tx, container_item_t *item, bool *in_place);
+result_t container_item_get(txn_t *tx, container_item_t *item);
+result_t container_item_del(txn_t *tx, container_item_t *item);
+// iteration
+result_t container_get_next(txn_t *tx, container_item_t *item);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#container_api"><code>gavran/db.h</code> - API for CRUD operations on arbitrary data</a> expose two new primitives that we&#8217;ll be able to make use of. There is the <em>Container</em> and the <em>Container Item</em>. You can think about a container as
+simply a grouping of values. Gavran makes no requirements about the structure or shape of the values. You may have a single container and dump all the items there or multiple
+containers. The key here is that once you have a container you can place items in it. An item is simply a piece of data that is stored by Gavran. Again, we make no requirement
+on its shape, form or size. The latter is important, since it means that we&#8217;ll need to support items of any size, including those that span multiple pages.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at how we can use the API usage in <a href="#remember_item"><code>test.c</code> - Using the container API to store an item</a>, here we are storing a JSON string inside Gavran. The container was already previously allocated and we are
+creating a new write transaction to store the JSON to the container, returning the new item id back to the caller.</p>
+</div>
+<div id="remember_item" class="listingblock">
+<div class="title"><code>test.c</code> - Using the container API to store an item</div>
+<div class="content">
+<pre class="highlight"><code>static result_t remember_item(
+    db_t* db, uint64_t container_id, char* json, uint64_t* item_id) {
+  txn_t w;
+  ensure(txn_create(db, TX_WRITE, &amp;w));
+  defer(txn_close, w);
+  container_item_t item = {.container_id = container_id,
+      .data = {.address = json, .size = strlen(json)}};
+  ensure(container_item_put(&amp;w, &amp;item));
+  *item_id = item.item_id;
+  ensure(txn_commit(&amp;w));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#remember_item"><code>test.c</code> - Using the container API to store an item</a>, we can see that we simply call <code>container_item_put()</code> to add an item, and then we get an <code>item_id</code> value, which we could later use to get the item back.
+We have a simple way to recall items, using <em>opaque</em> ids. With the API and its usage in place, let&#8217;s talk a bit about what kind of promises we are going to give to
+the user.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A container is expected to be a very long lived object. It is similar to a table in a relational database. Something that you create once and use for many times afterward.</p>
+</li>
+<li>
+<p>An item id should allow us to access the item&#8217;s content with <code>O(1)</code> cost.</p>
+</li>
+<li>
+<p>The item id is going to remain stable for the life time of the item.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This means that given an item id, we can very quickly get to the item&#8217;s data and that we can rely on the item&#8217;s id not changing behind our back. That means that we can store
+that id and reuse it later. Given just the API we have seen so far, we have enough for basic CRUD operations. But how does this work? Let&#8217;s look at things in order, we have
+the <code>container_create()</code> function, where it all starts, in <a href="#container_create"><code>container.c</code> - Creating a new container</a>.</p>
+</div>
+<div id="container_create" class="listingblock">
+<div class="title"><code>container.c</code> - Creating a new container</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_create(txn_t *tx, uint64_t *container_id) {
+  page_t p = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;p, 0));
+  p.metadata-&gt;container.page_flags = page_flags_container;
+  p.metadata-&gt;container.floor      = sizeof(uint16_t);
+  p.metadata-&gt;container.ceiling    = PAGE_SIZE;
+  p.metadata-&gt;container.free_space = PAGE_SIZE - sizeof(int16_t);
+
+  hash_val_t set = {.key = p.page_num, .val = 0};
+  ensure(hash_create(tx, &amp;set.hash_id));
+  ensure(hash_set(tx, &amp;set, 0));
+  p.metadata-&gt;container.free_list = set.hash_id;
+
+  *container_id = p.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>container_create()</code> allocates a single page and setup its metadata, the metadata for a container page is using the <code>container_page_t</code> struct and it is shown in
+<a href="#container_page_t"><code>gavran/db.h</code> - The metadata of a container page</a>. This is used to manage a container and its items, as we&#8217;ll shortly see.
+You can also see in <a href="#container_page_t"><code>gavran/db.h</code> - The metadata of a container page</a> that we are starting to use Gavran to implement itself. The container has a <code>free_list</code>, to manage its free list. We&#8217;ll
+discuss this in detail later on in this chapter. What is important is that this is actually a hash table, the same one that we implemented in the last chapter.
+Things are starting to click into place, I&#8217;m very happy to say.</p>
+</div>
+<div id="container_page_t" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - The metadata of a container page</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct container_page {
+  page_flags_t page_flags;
+  uint8_t _padding1[1];
+  uint16_t free_space;
+  uint16_t floor;
+  uint16_t ceiling;
+  uint64_t next;
+  uint64_t prev;
+  uint64_t free_list;
+} container_page_t;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Looking at the structure in <a href="#container_page_t"><code>gavran/db.h</code> - The metadata of a container page</a> it may not be obvious how everything plays together, so let&#8217;s look <a href="#container-page">The structure of a single page in a container</a> to see how the container
+is actually structured. This is the first time that we see interesting use of the page&#8217;s metadata. Pretty much <em>all</em> the interesting details about the container
+page are actually being manage from its metadata.</p>
+</div>
+<div id="container-page" class="imageblock">
+<div class="content">
+<img src="../imgs/container-page.png" alt="container page">
+</div>
+<div class="title">Figure 1. The structure of a single page in a container</div>
+</div>
+<div class="paragraph">
+<p>A container page is meant to contain items, that is why it is named this way. An item can be of any size and we want to pack as many items as possible into a page
+to allow for greater density. That means that we need to somehow <em>manage</em> the items inside a page. This is done using the <code>floor</code> and <code>ceiling</code> fields in the
+<code>container_page_t</code> structure.</p>
+</div>
+<div class="sect2">
+<h3 id="_writing_an_item">Writing an item</h3>
+<div class="paragraph">
+<p>The idea is that when we want to write an item to the page, we&#8217;ll write it to the <em>top</em> of the page. To write an item that is 64 bytes on a page, we&#8217;ll lower the
+<code>ceiling</code> by 64 bytes and then write 64 bytes from the new <code>ceiling</code> position toward the old value. After writing the item, we aren&#8217;t done. We need some way
+to <em>refer</em> to the item. We could use the offset inside the page, but that has its own issues. In particular, we&#8217;ll likely need to defrag the page at some point,
+which will require us to move the items around. If we use the offset in the page as the id of the item, we&#8217;ll need to change the id. We want to avoid that.</p>
+</div>
+<div class="paragraph">
+<p>Instead, we&#8217;ll write the offset of the item into the <code>floor</code> of the page. We consider the bottom of the page as an array of <code>int16_t</code>, containing the offsets
+of the item in the page. Whenever we have a new item, we&#8217;ll raise the <code>floor</code> by another 2 bytes (the size of <code>int16_t</code>) and place the offset of the item in
+the new position. The id of the item in this case is the index into this array of positions at the bottom of the page.</p>
+</div>
+<div class="paragraph">
+<p>In other words, we place the actual value of an item on the top, growing down and we set the position of the item in the page at the bottom, growing up. A page
+is considered full when the <code>ceiling</code> and the <code>floor</code> meet. It might be easier to understand how this work if we&#8217;ll look at <a href="#container_add_item_to_page"><code>container.c</code> - Adding an item to a page</a>.
+The caller of <code>container_add_item_to_page()</code> is responsible for making sure that there is enough space in the page for adding the item.</p>
+</div>
+<div id="container_add_item_to_page" class="listingblock">
+<div class="title"><code>container.c</code> - Adding an item to a page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_add_item_to_page(txn_t *tx, span_t *item,
+    uint64_t page_num, uint64_t *item_id, bool is_reference) {
+  page_metadata_t *metadata;
+  ensure(txn_modify_metadata(tx, page_num, &amp;metadata));
+  assert(metadata-&gt;common.page_flags == page_flags_container);
+  page_t p = {.page_num = page_num, .number_of_pages = 1};
+  ensure(txn_modify_page(tx, &amp;p));
+  uint64_t actual_size = container_get_total_size(item-&gt;size);
+  int16_t *positions   = p.address;
+  size_t max_pos       = metadata-&gt;container.floor / sizeof(uint16_t);
+  size_t index         = 0;
+  for (; index &lt; max_pos; index++) {  // find first empty position
+    if (positions[index] == 0) break;
+  }
+  if (index == max_pos) {  // none found, allocate a new one
+    metadata-&gt;container.floor += sizeof(uint16_t);
+  }
+  metadata-&gt;container.ceiling -=
+      (uint16_t)(item-&gt;size + varint_get_length(item-&gt;size));
+  metadata-&gt;container.free_space -= actual_size;
+
+  void *start      = p.address + metadata-&gt;container.ceiling;
+  item-&gt;address    = varint_encode(item-&gt;size, start);
+  positions[index] = (int16_t)metadata-&gt;container.ceiling;
+  if (is_reference) positions[index] *= -1;
+  *item_id = page_num * PAGE_SIZE + (index + 1);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>container_add_item_to_page()</code> we start by getting the container page&#8217;s metadata as well as the page itself ready for modifications. We then scan the bottom
+of the page looking for an empty index in the <code>int16_t* positions</code> array. If we can&#8217;t find one, we&#8217;ll increase the size of the <code>positions</code> array by incrementing
+the <code>floor</code> field on the metadata.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Working with raw memory</div>
+<div class="paragraph">
+<p>One of the things that we&#8217;ll run into over and over again when implementing persistent data structures is that we give meaning to certain parts of memory
+without bothering to go through any sort of structure or API. We have the raw memory of the container page, and we decide that we are going to treat the
+start of the page as an array of <code>int16_t</code>. At the same time, at the end of the page, we are working with raw bytes.</p>
+</div>
+<div class="paragraph">
+<p>We also allow ourselves to do extend an array, which is not something that you&#8217;ll typically see in C. This is because we are working at a lower level than usual.
+It may take a bit of time to get used to the way we look at a piece of memory first as a raw set of bytes and then as an array or a struct. Note that unsaid but
+very important is the notion of alignment.</p>
+</div>
+<div class="paragraph">
+<p>We are making sure that our accesses are either properly aligned or going through the proper channels to ensure that we&#8217;ll not have to deal with alignment issues.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we have the index where the position of the value will go, we need to put the value itself in its place. Beside the item&#8217;s value, we also need to keep its
+size. We handle that using <code>varint</code>, which we covered in the last chapter.
+The last action of <code>container_add_item_to_page()</code> is to record the position of the item in the <code>positions</code> array and then compute the new <code>item_id</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>item_id</code> computation is interesting. We use the <code>page_num</code> and the <code>index</code> to generate the <code>item_id</code>. Let&#8217;s dig deeper into what is going on in the last
+part of <code>container_add_item_to_page()</code>. When <em>reading</em> an item, we&#8217;ll need to find it with <code>O(1)</code> cost. Ideally, we&#8217;ll want the cost to be similar to just a
+pointer dereference.</p>
+</div>
+<div class="paragraph">
+<p>We achieve this goal by encoding the <code>page_num</code> in the <code>item_id</code>. What we are <em>actually</em> doing by multiplying the <code>page_num</code> by <code>PAGE_SIZE</code>? That actually
+give us the offset of the page in <em>bytes</em>. The <code>index</code>, on the other hand, is known to be a maximum of 4095. It is an index into an <code>int16_t</code> array whose size
+is a maximum of 8192 bytes, after all. We&#8217;re adding <code>1</code> to the value for reasons that we&#8217;ll be made clear shortly. With the <code>item_id</code> in the shape that it is,
+we can easily get to the relevant page, find the position of the item <em>within</em> the page and return the results to the user.</p>
+</div>
+<div class="paragraph">
+<p>Looking back at the requirements we have for storing items, we have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An <code>item_id</code> providing <code>O(1)</code> access time, we achieve that by packing both the <code>page_num</code> and the <code>index</code> into a single <code>uint64_t</code>.</p>
+</li>
+<li>
+<p>An <code>item_id</code> should remain stable for the life time of the item, we achieve that by returning not the position of the item in the page, but using indirection
+through the <code>positions</code> array. We can change the actual location of the item in the page without affecting its id.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>container_add_item_to_page()</code> function is called under a number of assumptions that I want to call out explicitly:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The item&#8217;s size is small enough to fit in a page, I defined that as under 6KB.</p>
+</li>
+<li>
+<p>The page in question <em>has</em> enough space between the <code>floor</code> and <code>ceiling</code> values to fit an item of the desired size.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There is quite a lot of machinery in place to ensure that these assumptions hold. Let&#8217;s start with the first item in the list, how do we store an item that is too
+big to be held in a page?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_a_large_item">Writing a <em>large</em> item</h3>
+<div class="paragraph">
+<p>When we are writing small values, we want to place them in a container page, to get the maximum density. But an item can be of <em>any</em> size, we want to support
+storing of an item that is 20KB in size as well as an item that is 10MB in size. These do not fit in a page, so how do we deal with that? When we worked on the
+foundation of Gavran we implemented allocation strategies for pages, these are going to come in handy now. When we need to write an item whose size is too large
+to a page, we&#8217;ll allocate it in an <em>overflow</em> page.</p>
+</div>
+<div class="paragraph">
+<p>An overflow page is a page (or a set of pages) that are dedicated to holding a single value. They have no structure of their own and simply hold their value. We
+have actually mostly dealt with overflow pages up until this chapter whenever we wanted to store some data. Jumping forward a bit, in <a href="#container_api"><code>gavran/db.h</code> - API for CRUD operations on arbitrary data</a>
+we have the <code>container_get_next()</code>. We need it to be able to iterate over all the items in a container. That is simple to do when the values are stored in the
+container&#8217;s page, but how will we deal with large values?</p>
+</div>
+<div class="paragraph">
+<p>The answer to that is simple, we&#8217;ll store the large item <em>twice</em>. The first time, we&#8217;ll store it in an overflow page, but we&#8217;ll also store the page number of the
+overflow page in the container page. This is a small value, so it fits very well and it gives us a very simple way to handle iteration of all the values in the
+container.</p>
+</div>
+<div class="paragraph">
+<p>You can see how we handle writing a large value to the container in <a href="#container_item_put_large"><code>container.c</code> - Adding a large item to a container</a>. I have defined large value as any value that exceeds 6KB in size.
+The balance in here is between external and internal fragmentation. A value that is 5.9KB in size will be stored directly in the container page, but it means that
+we can put only values that are much smaller. If there is a good mix of sizes, we&#8217;ll likely get good density of values. On the other hand, an item that is 6.1 KB
+will have its own page, but we&#8217;ll waste the rest of the page that is sitting empty.</p>
+</div>
+<div id="container_item_put_large" class="listingblock">
+<div class="title"><code>container.c</code> - Adding a large item to a container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_put_large(
+    txn_t *tx, container_item_t *item) {
+  page_t p = {.number_of_pages = (uint32_t)TO_PAGES(item-&gt;data.size)};
+  ensure(txn_allocate_page(tx, &amp;p, item-&gt;container_id));
+  p.metadata-&gt;overflow.page_flags         = page_flags_overflow;
+  p.metadata-&gt;overflow.is_container_value = true;
+  p.metadata-&gt;overflow.number_of_pages    = p.number_of_pages;
+  p.metadata-&gt;overflow.size_of_value      = item-&gt;data.size;
+  memcpy(p.address, item-&gt;data.address, item-&gt;data.size);
+  uint8_t buffer[10];
+  uint8_t *buffer_end  = varint_encode(p.page_num, buffer);
+  container_item_t ref = {// now wire the other side
+      .container_id = item-&gt;container_id,
+      .data         = {
+          .address = buffer, .size = (size_t)(buffer_end - buffer)}};
+  span_t data          = {.size = ref.data.size};
+  ensure(container_item_allocate(tx, &amp;ref, &amp;data, /*is_ref*/ true));
+  memcpy(data.address, buffer, ref.data.size);
+  p.metadata-&gt;overflow.container_item_id = ref.item_id;
+  item-&gt;item_id                          = p.page_num * PAGE_SIZE;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We allocate space directly using <code>txn_allocate_page()</code> and then register the metadata as an <code>page_flags_overflow</code>. An overflow page has two interesting fields
+in its metadata: <code>number_of_pages</code> and the <code>size_of_value</code>. The first is meant to record how many pages this value uses and the second what is the actual
+size of the value. You can see that we use <code>TO_PAGES()</code> to go from the item&#8217;s size to the number of pages it will use.
+Gavran&#8217;s overflow pages use <code>uint32_t</code> to store the number of pages, so a single overflow page can use a maximum of 32 TB. I think that this is large enough
+that we don&#8217;t really need to concern ourselves further with this detail.</p>
+</div>
+<div class="paragraph">
+<p>After we allocate the page, we copy the data from the item to the page&#8217;s buffer and then we register the newly allocated page in the container. We encode
+the overflow page number into a buffer and write <em>that</em> to the container as well. You can see that we pass <code>true</code> to the <code>is_reference</code> flag of
+<code>container_item_allocate()</code>. We saw how that is used in <code>container_add_item_to_page()</code>. If the passed value is a reference, we store the position of the
+value in the <code>positions</code> array on the container&#8217;s page using negative numbers. This is used as an indication later that this isn&#8217;t the value itself but
+a reference to it.</p>
+</div>
+<div class="paragraph">
+<p>The final step in the <code>container_item_put_large()</code> is to compute the <code>item_id</code>. In the case of a large value, we use the <code>page_num</code> multiplied by <code>PAGE_SIZE</code>,
+that gives us direct access to the page when we want to read. The <code>item_id</code> that is created from storing the page reference in the container is only used
+to link the overflow page back to the container, we are never exposing this it to the outside world.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">The structure of the <code>item_id</code></div>
+<div class="paragraph">
+<p>A large item will be stored on an overflow page and the value will be the <code>page_num * PAGE_SIZE</code>. A <em>small</em> value, on the other hand, will be stored inside
+a container page and the <code>item_id</code> will be the <code>page_num * PAGE_SIZE + index + 1</code>. The <code>+1</code> there is important. It ensures that we can tell at a glance
+whatever an <code>item_id</code> refers to a small or large item.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>item_id</code> is evenly divisible by <code>PAGE_SIZE</code>, that means that we are looking at an overflow page. If the <code>item_id</code> isn&#8217;t divisible by <code>PAGE_SIZE</code>,
+it means that we are looking at a small value and we can find the container page number using integer division and the index in the page using modulus on the
+<code>PAGE_SIZE</code>. Because <code>0</code> is a valid index for a small item value, we increment that by one to ensure that there is no potential for confusion.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_allocating_space_for_items">Allocating space for items</h3>
+<div class="paragraph">
+<p>We looked into how we store large items to an overflow page and we saw the final step in adding small items to a container page. Let&#8217;s see how the entire
+process works. We&#8217;ll start at the top, with <code>container_item_put()</code>, shown on <a href="#container_item_put"><code>container.c</code> - Entry point to adding a value to a container</a>.</p>
+</div>
+<div id="container_item_put" class="listingblock">
+<div class="title"><code>container.c</code> - Entry point to adding a value to a container</div>
+<div class="content">
+<pre class="highlight"><code>#define CONTAINER_ITEM_SMALL_MAX_SIZE (6 * 1024)
+
+result_t container_item_put(txn_t *tx, container_item_t *item) {
+  if (item-&gt;data.size &gt; CONTAINER_ITEM_SMALL_MAX_SIZE) {
+    ensure(container_item_put_large(tx, item));
+    return success();
+  }
+  span_t span = {.size = item-&gt;data.size};
+  ensure(container_item_allocate(tx, item, &amp;span, /*is_ref*/ false));
+  memcpy(span.address, item-&gt;data.address, item-&gt;data.size);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the value is large, we&#8217;ll call to <code>container_item_put_large()</code> to do its work. But small values are handled differently. We call to <code>container_item_allocate()</code>
+to find the appropriate location for the value. An interesting note about this function is that it doesn&#8217;t actually write the item&#8217;s data. Instead, it gives us
+the address where we can write the data. This allows us to allocate an item and write directly to that location, instead of having to store the data in some
+temporary buffer and then have Gavran copy it. You can see the implementation of <code>container_item_allocate()</code> in <a href="#container_item_allocate"><code>container.c</code> - Allocating space for a small item in the container</a>.</p>
+</div>
+<div id="container_item_allocate" class="listingblock">
+<div class="title"><code>container.c</code> - Allocating space for a small item in the container</div>
+<div class="content">
+<pre class="highlight"><code>static inline size_t container_get_total_size(size_t size) {
+  return sizeof(int16_t) +          // offset to value
+         varint_get_length(size) +  // varint len
+         size;
+}
+
+static result_t container_item_allocate(txn_t *tx,
+    container_item_t *item, span_t *data, bool is_reference) {
+  uint64_t total_size_required = container_get_total_size(data-&gt;size);
+
+  uint64_t page_num;
+  ensure(container_find_small_space_to_allocate(
+      tx, item-&gt;container_id, total_size_required, &amp;page_num));
+  ensure(container_add_item_to_page(
+      tx, data, page_num, &amp;item-&gt;item_id, is_reference));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We are already familiar with <code>container_add_item_to_page()</code> function which is called in <a href="#container_item_allocate"><code>container.c</code> - Allocating space for a small item in the container</a>. It does the work of actually adding the
+item to the page. And <code>container_find_small_space_to_allocate()</code> role is find that space. You can also see in <a href="#container_find_small_space_to_allocate"><code>container.c</code> - Find a container page that has enough space to add the current item</a> the
+<code>container_get_total_size()</code> function, used to compute how much space a small item will take. In addition to the raw size of the item, we have 2 bytes taken
+by the <code>int16_t</code> value we use to store the position of the value as well as the encoded size of the item.</p>
+</div>
+<div class="paragraph">
+<p>This is pretty much it in terms of writing to the container, but there is still a big topic to cover. Space allocation <em>inside</em> the container.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_allocating_space_in_the_container">Allocating space in the container</h3>
+<div class="paragraph">
+<p>When we want to allocate a large item (greater than 6KB), we&#8217;ll simply allocate the pages for it. This is easy and simple approach to dealing with the issue.
+However, what happens when we have to deal with a smaller item? In this case, we want to place it inside a container page, the question is, <em>which</em> container
+page.
+A container starts out from a single page, but when it is full, we&#8217;ll need to allocate more pages. And it is possible that some pages will have space while
+some won&#8217;t. What makes things more complex is that an item can be of any size. If we need to find space for an item that is <code>768</code> bytes in size, we may not
+be able to find space for it in a particular page, but there is still enough space in that page to fit other, smaller values.</p>
+</div>
+<div class="paragraph">
+<p>We handle this using the <code>free_list</code>, which is actually a hash table. In this case, we aren&#8217;t using it as a table, but as a hash set. We store in the keys
+the page numbers of pages in the container that has free space available. When we need to allocate space in the container, we&#8217;ll scan the hash table and
+try to find a page that has enough space for the current item that is being added.
+You can see how this is done on <a href="#container_find_small_space_to_allocate"><code>container.c</code> - Find a container page that has enough space to add the current item</a>.</p>
+</div>
+<div id="container_find_small_space_to_allocate" class="listingblock">
+<div class="title"><code>container.c</code> - Find a container page that has enough space to add the current item</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_find_small_space_to_allocate(txn_t *tx,
+    uint64_t container_id, uint64_t required_size,
+    uint64_t *page_num) {
+  page_metadata_t *header_metadata;
+  ensure(txn_get_metadata(tx, container_id, &amp;header_metadata));
+  pages_map_t *pages, *to_remove = 0;
+  ensure(pagesmap_new(8, &amp;pages));
+  defer(free, pages);
+  defer(free, to_remove);
+  hash_val_t it = {.hash_id = header_metadata-&gt;container.free_list};
+  *page_num     = 0;
+  while (true) {
+    ensure(hash_get_next(tx, &amp;pages, &amp;it));
+    if (it.has_val == false) break;
+    page_metadata_t *metadata;
+    ensure(txn_get_metadata(tx, it.key, &amp;metadata));
+    bool has_enough_space;
+    ensure(container_page_can_fit_item_size(
+        tx, it.key, metadata, required_size, &amp;has_enough_space));
+    if (has_enough_space) {
+      *page_num = it.key;
+      break;
+    }
+    page_t p = {.page_num = it.key};
+    ensure(txn_get_page(tx, &amp;p));
+    uint32_t avg_size =
+        container_get_page_avg_item_size(&amp;p, metadata);
+    if (metadata-&gt;container.free_space &gt;= (avg_size + avg_size / 4))
+      continue;
+    if (!to_remove) {
+      ensure(pagesmap_new(8, &amp;to_remove));
+    }
+    ensure(pagesmap_put_new(&amp;to_remove, &amp;p));
+  }
+  ensure(container_remove_full_pages(tx, container_id, to_remove));
+  if (!*page_num) {  // couldn't find matching page, allocate new one
+    ensure(container_allocate_new_page(tx, container_id, page_num));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#container_find_small_space_to_allocate"><code>container.c</code> - Find a container page that has enough space to add the current item</a> starts by defining two <code>pages_map_t</code>. One (<code>pages</code>) is used to store the state of <code>hash_get_next()</code>, as we saw in
+the previous chapter. The other map we use it <code>to_remove</code>, which is not initialized at this point. We then start to scan over the <code>free_list</code>, finding each
+container page in turn and checking it if is a good fit for the current item. This is done via <code>container_page_can_fit_item_size()</code>. You can check how this
+is done in <a href="#container_page_can_fit_item_size"><code>container.c</code> - Checking whatever a page is a good candidate for a particular item</a>.</p>
+</div>
+<div class="paragraph">
+<p>If we have enough space, we can abort the search, do whatever cleanup is required and return. If we <em>can&#8217;t</em> find space in the page, we check if it is full.
+We define a page as full when its free space is too small to hold an item that is 125% of the average item size in the page. You can see how we compute the
+average size of an item in a page in <a href="#container_get_page_avg_item_size"><code>container.c</code> - Computing the average size of an item in a page</a>.</p>
+</div>
+<div id="container_get_page_avg_item_size" class="listingblock">
+<div class="title"><code>container.c</code> - Computing the average size of an item in a page</div>
+<div class="content">
+<pre class="highlight"><code>static uint32_t container_get_page_avg_item_size(
+    page_t *p, page_metadata_t *metadata) {
+  size_t max_pos     = metadata-&gt;container.floor / sizeof(uint16_t);
+  int16_t *positions = p-&gt;address;
+  uint32_t sizes = 0, count = 0;
+  for (size_t i = 0; i &lt; max_pos; i++) {
+    if (!positions[i]) continue;
+    uint64_t item_sz;
+    int16_t offset = positions[i];
+    if (offset &lt; 0) offset *= -1;
+    void *end =
+        varint_decode(p-&gt;address + offset, &amp;item_sz) + item_sz;
+    uint16_t entry_size = (uint16_t)(end - (p-&gt;address + offset));
+    sizes += entry_size;
+    count++;
+  }
+  if (count == 0) count = 1;
+  return sizes / count;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the current page is too full to hold more entries we&#8217;ll add it to the <code>to_remove</code> map and clean it after we exit the loop.
+This is done by <code>container_remove_full_pages()</code>, which will iterate over the <code>to_remove</code> map (if it was created) in order to remove full pages from the
+<code>free_list</code>. We have to do this in two stages because it isn&#8217;t safe to iterate over the hash table while we are modifying it.
+Finally, if we were unable to find <em>any</em> page that would match our requirements, we&#8217;ll allocate a new one using <code>container_allocate_new_page()</code>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">What is the cost of finding an available page?</div>
+<div class="paragraph">
+<p>Every time that we need to insert a new (small) item to the container, we need to find a page with enough space for the item. In the worst case, we may need
+to scan through the entire free list before we&#8217;ll find a good location (or allocate a new one). For this reason, we check the <code>avg_size</code> if we couldn&#8217;t fit the
+current item into the page.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that we check if there is enough space there to fit <em>another</em> value, or if we are better off remove the page from the <code>free_list</code> to avoid having
+to scan through a lot of pages.
+This way, we can assume that for the most part, we&#8217;ll end up with pages in the <code>free_list</code> that has enough space for the items we want to place in the container
+and can usually assume that we&#8217;ll have to through just one page before we find space for the new item.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Pages that don&#8217;t have enough free space are added to the <code>to_remove</code> map, which is then passed to <code>container_remove_full_pages()</code> for cleanup, as you can see
+in <a href="#container_remove_full_pages"><code>container.c</code> - Remove all the pages with no free space from the <code>free_list</code></a>.</p>
+</div>
+<div id="container_remove_full_pages" class="listingblock">
+<div class="title"><code>container.c</code> - Remove all the pages with no free space from the <code>free_list</code></div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_remove_full_pages(
+    txn_t *tx, uint64_t container_id, pages_map_t *to_remove) {
+  if (!to_remove) return success();
+  size_t iter_state = 0;
+  page_t *p;
+  page_metadata_t *header_metadata;
+  ensure(txn_modify_metadata(tx, container_id, &amp;header_metadata));
+  while (pagesmap_get_next(to_remove, &amp;iter_state, &amp;p)) {
+    hash_val_t del = {.hash_id = header_metadata-&gt;container.free_list,
+        .key                   = p-&gt;page_num};
+    ensure(hash_del(tx, &amp;del));
+    header_metadata-&gt;container.free_list = del.hash_id;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We check if <code>to_remove</code> has been initialized and if it has a value, we iterate over all the items in the map and remove them from the <code>free_list</code>. Note that the
+only impact this has is to remove them from consideration for <em>new</em> items. These pages are going to still be part of the container, hold their data and allow
+to do modifications in place (if there is room).</p>
+</div>
+<div class="paragraph">
+<p>We remove an item from the <code>free_list</code> if it has no available space, but what does <em>that</em> mean? Let&#8217;s look at <a href="#container_page_can_fit_item_size"><code>container.c</code> - Checking whatever a page is a good candidate for a particular item</a> where we
+compute whatever a page has enough free space for our needs and see what is going on.</p>
+</div>
+<div id="container_page_can_fit_item_size" class="listingblock">
+<div class="title"><code>container.c</code> - Checking whatever a page is a good candidate for a particular item</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_page_can_fit_item_size(txn_t *tx,
+    uint64_t page_num, page_metadata_t *metadata,
+    uint64_t required_size, bool *is_match) {
+  *is_match = false;
+  if (required_size &gt; metadata-&gt;container.free_space) {
+    return success();
+  }
+  if (required_size &gt;  // is it *usable* space?
+      metadata-&gt;container.ceiling - metadata-&gt;container.floor) {
+    ensure(txn_modify_metadata(tx, page_num, &amp;metadata));
+    page_t p = {.page_num = page_num};
+    ensure(txn_modify_page(tx, &amp;p));
+    ensure(container_defrag_page(metadata, &amp;p));
+  }
+  // double check, defrag may not be able to free enough space
+  if (required_size &lt;=
+      metadata-&gt;container.ceiling - metadata-&gt;container.floor) {
+    *is_match = true;
+    return success();
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We first check whatever the page metadata shows that we have enough space for the item. If we don&#8217;t, there is nothing to be done. But even if we <em>have</em> enough
+space in the page, it doesn&#8217;t mean that it is <em>usable</em> space. A pattern of writes and deletes may mean that we have free space in theory, but not in a manner
+that help us.
+For that reason, we check the difference between the <code>floor</code> and <code>ceiling</code> values. If there is enough space for the item, we are done and can allocate the new
+item in the page immediately. If there isn&#8217;t enough space, we&#8217;ll defrag the page using <code>container_defrag_page()</code> before we check again. After calling defrag,
+we <em>should</em> have enough space, but there are some pathologic cases that we have to take into account here. It is actually far simply to call defrag on the page
+as needed than to try to find available free spot in the page.
+Let&#8217;s look at how we implement the defrag on a page in <a href="#container_defrag_page"><code>container.c</code> - De-fragmenting a page to increase usable space.</a>.</p>
+</div>
+<div id="container_defrag_page" class="listingblock">
+<div class="title"><code>container.c</code> - De-fragmenting a page to increase usable space.</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_defrag_page(
+    page_metadata_t *metadata, page_t *p) {
+  int32_t max_pos    = metadata-&gt;container.floor / sizeof(uint16_t);
+  int16_t *positions = p-&gt;address;
+  for (int32_t i = max_pos - 1; i &gt;= 0; i--) {
+    if (positions[i] != 0) break;  // clear empties from end
+    metadata-&gt;container.floor -= sizeof(uint16_t);
+    max_pos--;
+  }
+  void *tmp;
+  ensure(mem_alloc_page_aligned(&amp;tmp, PAGE_SIZE));
+  defer(free, tmp);
+  memcpy(tmp, p-&gt;address, PAGE_SIZE);
+  max_pos = metadata-&gt;container.floor / sizeof(uint16_t);
+  metadata-&gt;container.ceiling = PAGE_SIZE;
+  for (int32_t i = 0; i &lt; max_pos; i++) {
+    if (positions[i] == 0) continue;
+    uint64_t item_sz;
+    int16_t offset = positions[i];
+    if (offset &lt; 0) offset *= -1;
+    void *end = varint_decode(tmp + offset, &amp;item_sz) + item_sz;
+    uint16_t entry_size = (uint16_t)(end - (tmp + offset));
+    metadata-&gt;container.ceiling -= entry_size;
+    memcpy(p-&gt;address + metadata-&gt;container.ceiling,
+        tmp + positions[i], entry_size);
+    positions[i] = (int16_t)metadata-&gt;container.ceiling;
+  }
+  // clear old values
+  memset(p-&gt;address + metadata-&gt;container.floor, 0,
+      metadata-&gt;container.ceiling - metadata-&gt;container.floor);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We start by scanning the <code>uint16_t* positions</code> array from the end and trying to see if there are any cleared locations on the end. That allows us to shrink the
+size of the <code>positions</code> array. We then copy the contents of the page to a temporary buffer and reset the <code>ceiling</code> on the page. From there we need to simply
+scan the list of entries in the page and copy them one at a time. For each one, we&#8217;ll "lower" the <code>ceiling</code> and then update the position of the entry in the page.</p>
+</div>
+<div class="paragraph">
+<p>Note that because the item ids that we hand out are the position of the <em>index</em> into the page, defragging the page is something that we can do without any
+externally visible change in behavior. That is really important, because otherwise we would need to call out to anyone else that may hold a reference to the <code>item_id</code>
+of any of the moved items to let them know about the change.</p>
+</div>
+<div class="paragraph">
+<p>We just went over a lot of code that try to help us use the space from our already existing pages, but eventually we&#8217;ll run out of all the available space and will
+need to allocate a new page. This is shown in <a href="#container_allocate_new_page"><code>container.c</code> - Allocating a new page and wiring it to the container</a>.</p>
+</div>
+<div id="container_allocate_new_page" class="listingblock">
+<div class="title"><code>container.c</code> - Allocating a new page and wiring it to the container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_allocate_new_page(
+    txn_t *tx, uint64_t container_id, uint64_t *page_num) {
+  page_t p = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;p, container_id));
+  page_metadata_t *header_metadata;
+  ensure(txn_modify_metadata(tx, container_id, &amp;header_metadata));
+
+  p.metadata-&gt;container.page_flags = page_flags_container;
+  p.metadata-&gt;container.prev       = container_id;
+  p.metadata-&gt;container.next       = header_metadata-&gt;container.next;
+  p.metadata-&gt;container.floor      = 0;
+  p.metadata-&gt;container.ceiling    = PAGE_SIZE;
+  p.metadata-&gt;container.free_space = PAGE_SIZE;
+  header_metadata-&gt;container.next  = p.page_num;
+
+  hash_val_t set = {.hash_id = header_metadata-&gt;container.free_list,
+      .key                   = p.page_num,
+      .val                   = 0};
+  ensure(hash_set(tx, &amp;set, 0));
+  header_metadata-&gt;container.free_list = set.hash_id;
+
+  *page_num = p.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are a few interesting things that happen in <code>container_allocate_new_page()</code>. We start by allocating the new page and setting up its metadata. As part of that,
+we register the newly allocate page in the linked list of container pages by adding it as the next item in the list after the root. This allows us to iterate over
+all the pages in the container and thus, over all the items.</p>
+</div>
+<div class="paragraph">
+<p>Part of the work that <code>container_allocate_new_page()</code> is tasked with is to register the newly allocated page in the <code>free_list</code>, so it will be available the next
+time we want to allocate space for an item.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reading_an_item">Reading an item</h3>
+<div class="paragraph">
+<p>Now that we have seen how we write an item to the container, let&#8217;s look at the other side, reading an item from the container. In order to do that, we need to
+get the <code>item_id</code> and pass it to <code>container_item_get()</code>, shown in <a href="#container_item_get"><code>container.c</code> - Reading an item from the container</a>.</p>
+</div>
+<div id="container_item_get" class="listingblock">
+<div class="title"><code>container.c</code> - Reading an item from the container</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_item_get(txn_t *tx, container_item_t *item) {
+  if (item-&gt;item_id % PAGE_SIZE == 0) {
+    // large item
+    page_t p = {.page_num = item-&gt;item_id / PAGE_SIZE};
+    ensure(txn_get_page(tx, &amp;p));
+    assert(p.metadata-&gt;overflow.page_flags == page_flags_overflow);
+    assert(p.metadata-&gt;overflow.is_container_value);
+    item-&gt;data.address = p.address;
+    item-&gt;data.size    = p.metadata-&gt;overflow.size_of_value;
+  } else {
+    uint64_t index = (item-&gt;item_id % PAGE_SIZE) - 1;
+    page_t p       = {.page_num = item-&gt;item_id / PAGE_SIZE};
+    ensure(txn_get_page(tx, &amp;p));
+    assert(p.metadata-&gt;container.page_flags == page_flags_container);
+    int16_t *positions = p.address;
+    ensure(positions[index] &gt; 0, msg("invalid item_id"),
+        with(item-&gt;item_id, "%lu"));
+    item-&gt;data.address =
+        varint_decode(p.address + positions[index], &amp;item-&gt;data.size);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use the <code>item-&gt;item_id</code> to check if this reference a small or a large item. If this is a large object, the <code>item_id</code> is divisible by <code>PAGE_SIZE</code> and we can
+simply load that page directly. If the <code>item_id</code> isn&#8217;t divisible by <code>PAGE_SIZE</code>, we go to the page in question and find the actual position of the value from the <code>index</code>.
+The actual page number and the index are computed from the <code>item_id</code>, but they should be considered opaque to the callers.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">The <code>item_id</code> is an opaque value</div>
+<div class="paragraph">
+<p>The <code>item_id</code> is, at its core, a reference to a specific location on disk. It is essentially an offset from the start of the file that either points to the real data or
+to another offset to find it. The fact that you know how we generate the <code>item_id</code> shouldn&#8217;t mean that you can do anything with the value.</p>
+</div>
+<div class="paragraph">
+<p>The <code>item_id</code> should be treated as a black box. The only thing that you should be doing with the <code>item_id</code> is to pass it back to the <code>container_*</code> functions.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#container_item_get"><code>container.c</code> - Reading an item from the container</a> also has an interesting limit, you can only use it to get items by their public <code>item_id</code>. We know that large items actually have two <code>item_id</code>.
+The first is to point to the exact page we use for the value, but the second is just a reference to the real <code>item_id</code>, and it is stored inside the container page. Why
+are we doing this?</p>
+</div>
+<div class="paragraph">
+<p>The idea is that a large item has two <code>item_id</code>. A public one (divisible by <code>PAGE_SIZE</code>), which is returned from the <code>container_item_put()</code> and a private one (not
+divisible by <code>PAGE_SIZE</code>), which store the reference. We use this when we need to iterate over the values, as you can see in <a href="#container_get_next"><code>container.c</code> - Iterating over the entries in the container</a>.</p>
+</div>
+<div id="container_get_next" class="listingblock">
+<div class="title"><code>container.c</code> - Iterating over the entries in the container</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_get_next(txn_t *tx, container_item_t *item) {
+  uint64_t page_num;
+  ensure(container_get_next_item_id(tx, item, &amp;page_num));
+  while (page_num) {
+    page_t p = {.page_num = page_num};
+    ensure(txn_get_page(tx, &amp;p));
+    assert(p.metadata-&gt;common.page_flags == page_flags_container);
+    size_t max_pos = p.metadata-&gt;container.floor / sizeof(uint16_t);
+    int16_t *positions = p.address;
+    for (size_t i = (item-&gt;item_id % PAGE_SIZE) - 1; i &lt; max_pos;
+         i++) {
+      if (positions[i] == 0) continue;
+      if (positions[i] &lt; 0) {
+        uint64_t size;  // large reference
+        varint_decode(varint_decode(p.address + -positions[i], &amp;size),
+            &amp;item-&gt;item_id);
+        item-&gt;item_id *= PAGE_SIZE;
+        ensure(container_item_get(tx, item));
+        return success();
+      }
+      item-&gt;item_id = p.page_num * PAGE_SIZE + i + 1;
+      item-&gt;data.address =
+          varint_decode(p.address + positions[i], &amp;item-&gt;data.size);
+      return success();
+    }
+    page_num      = p.metadata-&gt;container.next;
+    item-&gt;item_id = page_num * PAGE_SIZE + 1;
+  }
+  memset(&amp;item-&gt;data, 0, sizeof(span_t));
+  item-&gt;item_id = 0;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#container_get_next"><code>container.c</code> - Iterating over the entries in the container</a> is a bit complex, mostly because we are expected to be called many times and we need to keep state between calls. The idea is that
+we&#8217;ll use the <code>item_id</code> to pass the state between calls. The code in <code>container_get_next()</code> is tied closely to <code>container_get_next_item_id()</code>, which is shown in
+<a href="#container_get_next_item_id"><code>container.c</code> - Figuring out what page we&#8217;ll scan and setting up the <code>item_id</code> to the <em>next</em> item</a>. The idea is that in <code>container_get_next_item_id()</code> we resolve the container page that we are currently on. This can be computed as
+simply as dividing the <code>item_id</code> by <code>PAGE_SIZE</code> for small items. But we also need to account for large items. In this case, we get the metadata of the large item
+and then get the <em>private</em> <code>item_id</code>, which point back to the container page holding the reference.</p>
+</div>
+<div class="paragraph">
+<p>Using this method, we are able to iterate over the container without too much of a hassle, even when we have to deal with large items. The <code>container_get_next_item_id()</code>
+function will increment the <code>item_id</code>, because this set us up for the look in <code>container_get_next()</code>, where we are looking at the <em>next</em> item. Inside this loop, we check
+if the current position points to a large item, in which case we get it from the actual page, or if it is a small item, we just get its size and address.</p>
+</div>
+<div class="paragraph">
+<p>Note that <code>varint_decode()</code> will return the position in the buffer <em>after</em> the integer it decoded. That is where the real value start, which make it very convenient to
+work with it.</p>
+</div>
+<div id="container_get_next_item_id" class="listingblock">
+<div class="title"><code>container.c</code> - Figuring out what page we&#8217;ll scan and setting up the <code>item_id</code> to the <em>next</em> item</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_get_next_item_id(
+    txn_t *tx, container_item_t *item, uint64_t *page_num) {
+  if (item-&gt;item_id &amp;&amp; item-&gt;item_id % PAGE_SIZE == 0) {
+    // large item, resolve the small id
+    page_metadata_t *m;
+    ensure(txn_get_metadata(tx, item-&gt;item_id / PAGE_SIZE, &amp;m));
+    assert(m-&gt;overflow.is_container_value);
+    item-&gt;item_id = m-&gt;overflow.container_item_id;
+  }
+  if (item-&gt;item_id == 0) {  // first time
+    item-&gt;item_id = item-&gt;container_id * PAGE_SIZE + 1;
+    *page_num     = item-&gt;container_id;
+  } else {
+    *page_num = item-&gt;item_id / PAGE_SIZE;
+    item-&gt;item_id++;  // point to the _next_ item
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_an_item">Deleting an item</h3>
+<div class="paragraph">
+<p>After writing and reading, the next task we need to tackle is how we are going to delete an item from the container. This is done using the <code>container_item_del()</code>
+function, shown in <a href="#container_item_del"><code>container.c</code> - Deleting an item from the container</a>.</p>
+</div>
+<div id="container_item_del" class="listingblock">
+<div class="title"><code>container.c</code> - Deleting an item from the container</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_item_del(txn_t *tx, container_item_t *item) {
+  if (item-&gt;item_id % PAGE_SIZE == 0) {
+    // large item
+    page_t p = {.page_num = item-&gt;item_id};
+    ensure(txn_get_page(tx, &amp;p));
+    assert(p.metadata-&gt;overflow.page_flags == page_flags_overflow);
+    assert(p.metadata-&gt;overflow.is_container_value);
+    container_item_t ref = {.container_id = item-&gt;container_id,
+        .item_id = p.metadata-&gt;overflow.container_item_id};
+    ensure(container_item_del(tx, &amp;ref));
+    ensure(txn_free_page(tx, &amp;p));
+  } else {
+    uint64_t index = (item-&gt;item_id % PAGE_SIZE) - 1;
+    page_t p       = {.page_num = item-&gt;item_id / PAGE_SIZE};
+    ensure(txn_modify_page(tx, &amp;p));
+    assert(p.metadata-&gt;container.page_flags == page_flags_container);
+    int16_t *positions = p.address;
+    uint64_t size;
+    void *end =
+        varint_decode(p.address + positions[index], &amp;size) + size;
+    item-&gt;data.size = (size_t)(end - p.address - positions[index]);
+    memset(p.address + positions[index], 0, item-&gt;data.size);
+    positions[index] = 0;
+    p.metadata-&gt;container.free_space +=
+        (uint16_t)(item-&gt;data.size + sizeof(uint16_t));
+    ensure(container_item_del_finalize(tx, item, &amp;p));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To delete a large item, we get the <code>container_item_id</code> from the page metadata and delete that as well. Aside from that tidbit, the process of deleting a
+large item mostly consists of calling <code>txn_free_page()</code> on the item&#8217;s <code>overflow</code> page. Things gets more interesting when we need to delete a small item. Although,
+interesting might not be the right term. The process of actually deleting a small item consist of setting its' <code>positions</code> index to <code>0</code> and zeroing the memory for
+the item, nothing more.</p>
+</div>
+<div class="paragraph">
+<p>The real work is done in <code>container_item_del_finalize()</code>. We need to call this function because of two reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the page is completely empty, we can simply free the page itself.</p>
+</li>
+<li>
+<p>If the page has enough free space, we should register it in the <code>free_list</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see how this is handled in <a href="#container_item_del_finalize"><code>container.c</code> - Performing cleanup work after an item was deleted from the container page</a>.</p>
+</div>
+<div id="container_item_del_finalize" class="listingblock">
+<div class="title"><code>container.c</code> - Performing cleanup work after an item was deleted from the container page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_del_finalize(
+    txn_t *tx, container_item_t *item, page_t *p) {
+  // can delete this whole page?
+  if (p-&gt;metadata-&gt;container.free_space == PAGE_SIZE &amp;&amp;
+      p-&gt;page_num != item-&gt;container_id) {
+    ensure(container_remove_page(tx, item-&gt;container_id, p));
+  } else if (p-&gt;metadata-&gt;container.free_space &gt;
+             item-&gt;data.size * 2) {
+    // need to wire this again to the allocation chain
+    page_metadata_t *header;
+    ensure(txn_get_metadata(tx, item-&gt;container_id, &amp;header));
+    hash_val_t kvp = {.hash_id = header-&gt;container.free_list,
+        .key                   = p-&gt;page_num,
+        .val                   = 0};
+    ensure(hash_get(tx, &amp;kvp));
+    if (kvp.has_val == false) {
+      ensure(hash_set(tx, &amp;kvp, 0));
+    }
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>container_item_del_finalize()</code>, we first check if the entire page is free. If this is the case, and if this isn&#8217;t the first container page, we can just drop it
+entirely. We need to remove it from the linked list and the <code>free_list</code>, which is done in <code>container_remove_page()</code>.
+If the page isn&#8217;t empty, we check if it has more than enough space for two items. If that is the case, we check if it is already in the <code>free_list</code> and if it isn&#8217;t,
+we add it.
+The idea is that in the same manner that failure to add an item to a page will remove an item from the <code>free_list</code>, a deletion will add us back.</p>
+</div>
+<div class="paragraph">
+<p>Note that we do a little dance with the <code>header</code> value. We don&#8217;t want to modify the container&#8217;s metadata if we can avoid it, so we&#8217;ll only call to <code>txn_modify_metadata()</code>
+on the <code>header</code> if we added the page to the hash <em>and</em> the <code>hash_id</code> changed.</p>
+</div>
+<div class="paragraph">
+<p>The final part of deleting an item from the container is the <code>container_remove_page()</code>, shown in <a href="#container_remove_page"><code>container.c</code> - Removing a container page from the container</a>.</p>
+</div>
+<div id="container_remove_page" class="listingblock">
+<div class="title"><code>container.c</code> - Removing a container page from the container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_remove_page(
+    txn_t *tx, uint64_t container_id, page_t *p) {
+  page_metadata_t *prev, *next, *header;
+  ensure(txn_modify_metadata(tx, p-&gt;metadata-&gt;container.prev, &amp;prev));
+  prev-&gt;container.next = p-&gt;metadata-&gt;container.next;
+  if (p-&gt;metadata-&gt;container.next) {
+    ensure(
+        txn_modify_metadata(tx, p-&gt;metadata-&gt;container.prev, &amp;next));
+    prev-&gt;container.prev = p-&gt;metadata-&gt;container.prev;
+  }
+  ensure(txn_get_metadata(tx, container_id, &amp;header));
+  hash_val_t del = {
+      .hash_id = header-&gt;container.free_list, .key = p-&gt;page_num};
+  ensure(hash_del(tx, &amp;del));
+  ensure(txn_free_page(tx, p));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>container_remove_page()</code> function will wire the <code>next</code> / <code>prev</code> references for the page. Note that while we check if the <code>next</code> is set to <code>0</code>, we don&#8217;t need to
+check if <code>prev</code> is zeroed. This is because we don&#8217;t delete the first container page, and that is the only one without a <code>prev</code> page.</p>
+</div>
+<div class="paragraph">
+<p>We also remove the page from the <code>free_list</code> and have the same dance around <code>hash_id_changed</code> to avoid modifying the metadata of the header if we don&#8217;t want to.</p>
+</div>
+<div class="paragraph">
+<p>So far, we covered most of the functionality of the container API, but we are left with the most complex part yet to deal with. The <code>container_item_update()</code>
+implementation&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_an_item">Updating an item</h3>
+<div class="paragraph">
+<p>Updating an item turns out to be a pretty complex task. On the surface, this doesn&#8217;t make sense, it would be trivial to implement the update in terms of del and put,
+after all. The key issue with update is that we want, as much as possible, to retain the same <code>item_id</code>. In some cases, this is easy. If we are going to write an
+updated value of the same size, there is not going to be any problems. We&#8217;ll simply overwrite the old value, wherever it may be and the <code>item_id</code> will not change.</p>
+</div>
+<div class="paragraph">
+<p>The complexity starts to creep when we have an update that is of different size that the previous item. In most cases, the size difference when updating an item isn&#8217;t
+that big. We&#8217;ll typically have very slow growth or decline in the size, so it is still worth it to try to retain the same <code>item_id</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Why is the <code>item_id</code> important across updates?</div>
+<div class="content">
+<div class="paragraph">
+<p>We are going to go into a lot of trouble to maintain the <code>item_id</code> if at all possible. The question that pops to mind is, why? What is the benefit that we gain from
+keeping the same <code>item_id</code> across updates?</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s consider what you&#8217;ll do with the <code>item_id</code>. In most cases, you&#8217;ll store it in some location. When updating the item, if the <code>item_id</code> didn&#8217;t change, that means
+that we don&#8217;t need to update the stored location. This may seem like nitpicking, but reducing writes is why we have <code>hash_id_changed</code> and why I&#8217;m spending time trying
+to make sure that the <code>item_id</code> remains the same.</p>
+</div>
+<div class="paragraph">
+<p>A good discussion on the topic is in the blog post: <a href="https://eng.uber.com/postgres-to-mysql-migration/">Why Uber Engineering Switched from Postgres to MySQL</a>. See in
+particular the section about write amplification. Making sure that updates don&#8217;t change the <code>item_id</code> can allow us to skip significant number of cascading updates
+and that is certainly worth it.</p>
+</div>
+</div>
+</div>
+<div id="container_item_update" class="listingblock">
+<div class="title"><code>container.c</code> - Updating an existing item</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_item_update(
+    txn_t *tx, container_item_t *item, bool *in_place) {
+  *in_place = true;
+  if (item-&gt;item_id % PAGE_SIZE == 0) {
+    if (item-&gt;data.size &lt;= CONTAINER_ITEM_SMALL_MAX_SIZE) {
+      // large to small, can't update in place
+      return container_item_replace(tx, item, in_place);
+    }
+    return container_item_update_large(tx, item, in_place);
+  } else {
+    // small to large, cannot update in place
+    if (item-&gt;data.size &gt; CONTAINER_ITEM_SMALL_MAX_SIZE) {
+      return container_item_replace(tx, item, in_place);
+    }
+    return container_item_update_small(tx, item, in_place);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#container_item_update"><code>container.c</code> - Updating an existing item</a>, you can see that <code>container_item_update()</code> is mostly about handling the big ticket issues. We check the <code>item_id</code> that we need to update
+and make if we have a large item, but the new size is too small to fit into a single page all on its own, we&#8217;ll call to <code>container_item_replace()</code>. The same is the case
+if we had a small item but the new size is too big to fit into a container page and we need to write to an overflow page. You can see the behavior of <code>container_item_replace()</code>
+in <a href="#container_item_replace"><code>container.c</code> - Replacing an item by deleting the old item and putting the new one</a>.</p>
+</div>
+<div id="container_item_replace" class="listingblock">
+<div class="title"><code>container.c</code> - Replacing an item by deleting the old item and putting the new one</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_replace(
+    txn_t *tx, container_item_t *item, bool *in_place) {
+  *in_place            = false;
+  container_item_t del = {
+      .container_id = item-&gt;container_id, .item_id = item-&gt;item_id};
+  ensure(container_item_del(tx, &amp;del));
+  ensure(container_item_put(tx, item));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>container_item_replace()</code> function doesn&#8217;t do much, it will first delete the old value and then put the new one. This is the simplest possible thing that we could
+possibly do. Going back to <code>container_item_update()</code>, there are two other cases that we have to consider, a large value that is still too large to fit into a container
+page and a small value that is still small enough to fit a container page. Let&#8217;s start looking at <code>container_item_update_large()</code> first in <a href="#container_item_update_large"><code>container.c</code> - Updating a large item (hopefully) in place</a>.</p>
+</div>
+<div id="container_item_update_large" class="listingblock">
+<div class="title"><code>container.c</code> - Updating a large item (hopefully) in place</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_update_large(
+    txn_t *tx, container_item_t *item, bool *in_place) {
+  page_metadata_t *metadata;
+  uint64_t page_num = item-&gt;item_id / PAGE_SIZE;
+  ensure(txn_modify_metadata(tx, page_num, &amp;metadata));
+  assert(metadata-&gt;overflow.is_container_value);
+  uint32_t pages = (uint32_t)TO_PAGES(item-&gt;data.size);
+  page_t p       = {.page_num = page_num};
+  if (pages == metadata-&gt;overflow.number_of_pages) {
+    ensure(txn_modify_page(tx, &amp;p));
+  } else {
+    return container_item_replace(tx, item, in_place);
+  }
+  metadata-&gt;overflow.size_of_value = item-&gt;data.size;
+  memcpy(p.address, item-&gt;data.address, item-&gt;data.size);
+  memset(p.address + item-&gt;data.size, 0,  // zero remaining buffer
+      PAGE_SIZE - (item-&gt;data.size % PAGE_SIZE));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>container_item_update_large()</code>, we don&#8217;t care about specific size changes. We care if the number of <em>pages</em> was modified. If the number of pages is the same, we can
+simply modify the page, copy the value to the page and zero the remaining buffer to the end of the page. If the number of pages isn&#8217;t the same, we&#8217;ll need to call to
+<code>container_item_replace()</code>. In practice, this means that we&#8217;ll need to modify the <code>item_id</code> in this case only when our size change cross an 8KB boundary.</p>
+</div>
+<div class="paragraph">
+<p>The handling of small items update is more complex, as you can see in <a href="#container_item_update_small"><code>container.c</code> - Updating a small item in the container</a>.</p>
+</div>
+<div id="container_item_update_small" class="listingblock">
+<div class="title"><code>container.c</code> - Updating a small item in the container</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_update_small(
+    txn_t *tx, container_item_t *item, bool *in_place) {
+  page_t p       = {.page_num = item-&gt;item_id / PAGE_SIZE};
+  uint64_t index = item-&gt;item_id % PAGE_SIZE - 1;
+  ensure(txn_modify_page(tx, &amp;p));
+  int16_t *positions = p.address;
+  uint64_t old_item_size;
+  varint_decode(p.address + positions[index], &amp;old_item_size);
+  if (item-&gt;data.size == old_item_size) {
+    memcpy(p.address + positions[index] +
+               varint_get_length(item-&gt;data.size),
+        item-&gt;data.address, item-&gt;data.size);
+    return success();
+  }
+  page_metadata_t *metadata;
+  ensure(txn_modify_metadata(tx, p.page_num, &amp;metadata));
+  if (item-&gt;data.size &lt; old_item_size) {
+    void *data_start =
+        varint_encode(item-&gt;data.size, p.address + positions[index]);
+    memcpy(data_start, item-&gt;data.address, item-&gt;data.size);
+    memset(data_start + item-&gt;data.size, 0,
+        old_item_size - item-&gt;data.size);
+    metadata-&gt;container.free_space += old_item_size - item-&gt;data.size;
+    return success();
+  }
+  return container_item_update_small_size_increase(
+      tx, item, in_place, &amp;p, metadata, old_item_size);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are two scenarios that we handle in <a href="#container_item_update_small"><code>container.c</code> - Updating a small item in the container</a>. The first is when the size of the item is the same. In this case, we can simply copy it over
+the old data and call it a day. If the size is smaller, there isn&#8217;t much to do either. We write the value (with the prefixed size, of course) to the old location and
+zero the remaining bytes. The space that we aren&#8217;t using has been lost, but the next defrag will take care of that.</p>
+</div>
+<div class="paragraph">
+<p>The implementation gets interesting when we need to take care of a <em>larger</em> size. In this case, we can&#8217;t just use the existing space, let&#8217;s look at
+<a href="#container_item_update_small_size_increase"><code>container.c</code> - Find a place to put an item whose size is larger than before</a> to see how Gavran is handling this situation.</p>
+</div>
+<div id="container_item_update_small_size_increase" class="listingblock">
+<div class="title"><code>container.c</code> - Find a place to put an item whose size is larger than before</div>
+<div class="content">
+<pre class="highlight"><code>static result_t container_item_update_small_size_increase(txn_t *tx,
+    container_item_t *item, bool *in_place, page_t *p,
+    page_metadata_t *m, size_t old_item_size) {
+  uint64_t index          = item-&gt;item_id % PAGE_SIZE - 1;
+  uint64_t old_total_size = container_get_total_size(old_item_size);
+  uint64_t required_size  = container_get_total_size(item-&gt;data.size);
+  if (required_size &gt; m-&gt;container.free_space + old_total_size) {
+    return container_item_replace(tx, item, in_place);  // has to move
+  }
+  int16_t *positions = p-&gt;address;
+  memset(p-&gt;address + positions[index], 0,  // zero old value
+      old_total_size - sizeof(int16_t));
+  uint64_t just_item_size = required_size - sizeof(int16_t);
+  if (just_item_size &gt; m-&gt;container.ceiling - m-&gt;container.floor) {
+    ensure(container_defrag_page(m, p));
+    // we may still lack space afterward
+    if (just_item_size &gt; m-&gt;container.ceiling - m-&gt;container.floor) {
+      return container_item_replace(tx, item, in_place);
+    }
+  }
+  m-&gt;container.ceiling -= just_item_size;
+  m-&gt;container.free_space -= required_size - old_total_size;
+  positions[index] = (int16_t)m-&gt;container.ceiling;
+  void *data_start =
+      varint_encode(item-&gt;data.size, p-&gt;address + positions[index]);
+  memcpy(data_start, item-&gt;data.address, item-&gt;data.size);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We first check if there is enough room in the page for the new size (excluding the old size, of course). If there isn&#8217;t, we can just replace the value, there is no way
+for us to keep the same <code>item_id</code>. But even if there is space in the page, this doesn&#8217;t mean it is available for us. If the space between the <code>floor</code> and the <code>ceiling</code>
+isn&#8217;t enough, we nee to defrag the page. If there isn&#8217;t any space even after a defrag, we give up and replace the value.</p>
+</div>
+<div class="paragraph">
+<p>If there is enough space, either immediately or because of defrag, we can write the new item&#8217;s data to the top of the <code>ceiling</code> and update the <code>positions</code> array
+accordingly. The position of the value moved, in this case, but the <code>item_id</code> remained the same.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dropping_a_container">Dropping a container</h3>
+<div class="paragraph">
+<p>The last topic I want to cover in this chapter is dropping the container. This is similar to dropping a table in a relational database. It is not an action that you do
+often, but when you do, you&#8217;ll like all the resources used by the container to just go away. In this case, the resources are pages in the data file, and we&#8217;ll need to
+mark all of them as free after dropping the container. You can see how this is implemented in <a href="#container_drop"><code>container.c</code> - Dropping a container (and its <code>free_list</code>) and freeing all their pages</a>.</p>
+</div>
+<div id="container_drop" class="listingblock">
+<div class="title"><code>container.c</code> - Dropping a container (and its <code>free_list</code>) and freeing all their pages</div>
+<div class="content">
+<pre class="highlight"><code>result_t container_drop(txn_t *tx, uint64_t container_id) {
+  uint64_t page_num = container_id;
+  page_metadata_t *header;
+  ensure(txn_get_metadata(tx, container_id, &amp;header));
+  ensure(hash_drop(tx, header-&gt;container.free_list));
+  while (page_num) {
+    page_t p = {.page_num = page_num};
+    ensure(txn_get_page(tx, &amp;p));
+    size_t max_pos = p.metadata-&gt;container.floor / sizeof(int16_t);
+    int16_t *positions = p.address;
+    for (size_t i = 0; i &lt; max_pos; i++) {
+      if (positions[i] &gt;= 0) continue;
+      uint64_t size;  // large reference
+      uint64_t overflow_page_num;
+      varint_decode(varint_decode(p.address + -positions[i], &amp;size),
+          &amp;overflow_page_num);
+      page_t overflow = {.page_num = overflow_page_num};
+      ensure(txn_free_page(tx, &amp;overflow));
+    }
+    page_num = p.metadata-&gt;container.next;
+    ensure(txn_free_page(tx, &amp;p));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We start the dropping process by calling <code>hash_drop()</code> to release any pages held by the <code>free_list</code>. We then iterate through the pages in the container, trying to find
+any large items. If we find such, we&#8217;ll free their pages. After we are done with each page, we&#8217;ll free it in turn. The process completes once we have gone through all of
+the pages in the container.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">Unit tests</h3>
+<div class="paragraph">
+<p>As usual, we close our chapter with a few unit tests to verify that the code we wrote actually works. You can also see the API in action in the tests, although I&#8217;m more
+focused on verifying the results than beautiful code in the tests.</p>
+</div>
+<div id="tests15" class="listingblock">
+<div class="title"><code>test.c</code> - Testing using the container to store items</div>
+<div class="content">
+<pre class="highlight"><code>static result_t write_items(
+    db_t* db, uint64_t container_id, char* json) {
+  txn_t w;
+  ensure(txn_create(db, TX_WRITE, &amp;w));
+  defer(txn_close, w);
+  container_item_t item = {.container_id = container_id,
+      .data = {.address = json, .size = strlen(json)}};
+  for (size_t i = 0; i &lt; 1024; i++) {
+    ensure(container_item_put(&amp;w, &amp;item));
+  }
+
+  ensure(txn_commit(&amp;w));
+  return success();
+}
+
+static result_t read_item(db_t* db, uint64_t container_id,
+    uint64_t item_id, char* expected) {
+  txn_t r;
+  ensure(txn_create(db, TX_READ, &amp;r));
+  defer(txn_close, r);
+  container_item_t item = {
+      .container_id = container_id, .item_id = item_id};
+  ensure(container_item_get(&amp;r, &amp;item));
+  ensure(strlen(expected) == item.data.size);
+  ensure(memcmp(item.data.address, expected, strlen(expected)) == 0);
+
+  return success();
+}
+
+static result_t create_container(db_t* db, uint64_t* container_id) {
+  txn_t w;
+  ensure(txn_create(db, TX_WRITE, &amp;w));
+  defer(txn_close, w);
+  ensure(container_create(&amp;w, container_id));
+  ensure(txn_commit(&amp;w));
+  return success();
+}
+
+describe(containers) {
+  before_each() {
+    errors_clear();
+    system("mkdir -p /tmp/db");
+    system("rm -f /tmp/db/*");
+  }
+
+  it("can remember items") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+
+    char* json1 = "{'Hi': 'There'}";
+    uint64_t item_id1;
+    assert(remember_item(&amp;db, container_id, json1, &amp;item_id1));
+    char* json2 = "{'Msg': 'This is a longer string'}";
+    uint64_t item_id2;
+    assert(remember_item(&amp;db, container_id, json2, &amp;item_id2));
+
+    assert(read_item(&amp;db, container_id, item_id1, json1));
+    assert(read_item(&amp;db, container_id, item_id2, json2));
+  }
+
+  it("can update item size (small)") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+    char* json1 = "{'Hi': 'small text'}";
+    char* json2 =
+        "{'Hi': 'This is a larger amount of text that we write'}";
+
+    uint64_t item_id;
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      container_item_t item = {.container_id = container_id,
+          .data = {.address = json1, .size = strlen(json1)}};
+      assert(container_item_put(&amp;w, &amp;item));
+      item_id = item.item_id;
+      bool in_place;
+      item.data.address = json2;
+      item.data.size    = strlen(json2);
+
+      assert(container_item_update(&amp;w, &amp;item, &amp;in_place));
+      assert(in_place);
+      assert(txn_commit(&amp;w));
+    }
+    { assert(read_item(&amp;db, container_id, item_id, json2)); }
+  }
+
+  it("can update item size (large)") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+    void *buf1, *buf2;
+    assert(mem_calloc(&amp;buf1, 1024 * 12));
+    defer(free, buf1);
+    assert(mem_calloc(&amp;buf2, 1024 * 14));
+    defer(free, buf2);
+    memset(buf1, 'a', 1024 * 12 - 1);
+    memset(buf2, 'b', 1024 * 13 - 1);
+
+    uint64_t item_id;
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      container_item_t item = {.container_id = container_id,
+          .data = {.address = buf1, .size = strlen(buf1)}};
+      assert(container_item_put(&amp;w, &amp;item));
+      item_id = item.item_id;
+      bool in_place;
+      item.data.address = buf2;
+      item.data.size    = strlen(buf2);
+
+      assert(container_item_update(&amp;w, &amp;item, &amp;in_place));
+      assert(in_place);
+      assert(txn_commit(&amp;w));
+    }
+    { assert(read_item(&amp;db, container_id, item_id, buf2)); }
+  }
+
+#define ITEM_ARRAY_SIZE 185
+  it("force page defrag") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+    uint64_t items[ITEM_ARRAY_SIZE];
+    {
+      char* json1 = "{'Hi': 'This is a small amount of text'}";
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      container_item_t item = {.container_id = container_id,
+          .data = {.address = json1, .size = strlen(json1)}};
+      for (size_t i = 0; i &lt; ITEM_ARRAY_SIZE; i++) {
+        assert(container_item_put(&amp;w, &amp;item));
+        items[i] = item.item_id;
+      }
+      assert(txn_commit(&amp;w));
+    }
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      // delete to create gaps in the page
+      for (size_t i = 0; i &lt; ITEM_ARRAY_SIZE / 2; i += 2) {
+        container_item_t item = {
+            .container_id = container_id, .item_id = items[i]};
+        assert(container_item_del(&amp;w, &amp;item));
+      }
+      assert(txn_commit(&amp;w));
+    }
+    // everything on same page
+    assert(items[0] / PAGE_SIZE ==
+           items[ITEM_ARRAY_SIZE - 1] / PAGE_SIZE);
+    {
+      char* json2 =
+          "{'This': 'is a larger amount of json that cannot fit into "
+          "old holes from previous writes/deletes'}";
+      uint64_t new_item_id;
+      assert(remember_item(&amp;db, container_id, json2, &amp;new_item_id));
+      assert(new_item_id == items[0]);
+    }
+  }
+
+  it("can write more items than fit in a single page") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+
+    char* buffer   = "{'Hi':'There','Using':'longer json string'}";
+    size_t buf_len = strlen(buffer);
+    assert(write_items(&amp;db, container_id, buffer));
+
+    {
+      txn_t r;
+      assert(txn_create(&amp;db, TX_READ, &amp;r));
+      defer(txn_close, r);
+      size_t count         = 0;
+      container_item_t cur = {.container_id = container_id};
+      while (container_get_next(&amp;r, &amp;cur) &amp;&amp; cur.data.address) {
+        assert(buf_len == cur.data.size);
+        assert(memcmp(cur.data.address, buffer, buf_len) == 0);
+        count++;
+      }
+      assert(count == 1024);
+    }
+  }
+
+  it("can delete items") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+
+    char* buffer   = "{'Hi':'There','Using':'longer json string'}";
+    size_t buf_len = strlen(buffer);
+    uint64_t i1, i2, i3;
+    assert(remember_item(&amp;db, container_id, buffer, &amp;i1));
+    assert(remember_item(&amp;db, container_id, buffer, &amp;i2));
+    assert(remember_item(&amp;db, container_id, buffer, &amp;i3));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      container_item_t item = {
+          .container_id = container_id, .item_id = i2};
+      assert(container_item_del(&amp;w, &amp;item));
+      assert(txn_commit(&amp;w));
+    }
+
+    {
+      txn_t r;
+      assert(txn_create(&amp;db, TX_READ, &amp;r));
+      defer(txn_close, r);
+      size_t count         = 0;
+      container_item_t cur = {.container_id = container_id};
+      while (container_get_next(&amp;r, &amp;cur) &amp;&amp; cur.data.address) {
+        assert(buf_len == cur.data.size);
+        assert(memcmp(cur.data.address, buffer, buf_len) == 0);
+        count++;
+      }
+      assert(count == 2);
+    }
+  }
+
+  it("can write large item") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t container_id;
+    assert(create_container(&amp;db, &amp;container_id));
+
+    char* buffer   = "{'Hi':'There','Using':'longer json string'}";
+    size_t buf_len = strlen(buffer);
+    assert(write_items(&amp;db, container_id, buffer));
+
+    void* buf_large;
+    assert(mem_calloc(&amp;buf_large, 1024 * 7));
+    defer(free, buf_large);
+    memset(buf_large, 'a', 1024 * 7);
+    ((char*)buf_large)[1024 * 7 - 1] = 0;
+    for (size_t i = 0; i &lt; 3; i++) {
+      uint64_t item_id;
+      assert(remember_item(&amp;db, container_id, buf_large, &amp;item_id));
+    }
+    assert(write_items(&amp;db, container_id, buffer));
+
+    {
+      txn_t r;
+      assert(txn_create(&amp;db, TX_READ, &amp;r));
+      defer(txn_close, r);
+      size_t count = 0, count_large = 0;
+      container_item_t cur = {.container_id = container_id};
+      while (container_get_next(&amp;r, &amp;cur) &amp;&amp; cur.data.address) {
+        if (buf_len == cur.data.size) {
+          assert(memcmp(cur.data.address, buffer, buf_len) == 0);
+          count++;
+        } else if (1024 * 7 - 1 == cur.data.size) {
+          assert(memcmp(cur.data.address, buf_large, buf_len) == 0);
+          count_large++;
+        }
+      }
+      assert(count == 1024 * 2);
+      assert(count_large == 3);
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+  <ul style="list-style-type: none;">
+    <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+    <li><a class="footer-text" href="./ch14.html">Previous chapter</a></li>
+    <li><a class="footer-text" href="./ch16.html">Next chapter</a></li>
+  </ul>
+</div>
+</body>
+</html>

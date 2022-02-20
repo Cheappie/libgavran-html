@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>The foundation of Gavran</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>The foundation of Gavran</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this part, we&#8217;ll deal primarily with building the lowest levels of Gavran. How it writes to disk, what the data format is, etc. You already saw
+<a href="#foundation_structure">[foundation_structure]</a>, which sheds some light on the architecture of the foundation.</p>
+</div>
+<div class="paragraph">
+<p>The foundation starts at the PAL (Platform Abstraction Layer) and builds on top of that to implement ACID transactions, space management and much more.
+The design of Gavran calls to moving as much as possible into the foundation. We want to ensure that we have implemented the required functionality for
+a proper storage engine as deeply as possible. This is to ensure that higher level pieces don&#8217;t need to deal with that issue.</p>
+</div>
+<div class="paragraph">
+<p>For example, in Gavran, we implement MVCC (Multi Versioning Concurrency Control) at the foundation layer, meaning that higher tiers don&#8217;t need to concern
+themselves with it. This is in contrast to PostgreSQL, for example, where the MVCC is done at a much higher level and a transaction needs to actively
+filter data that is already out of date or shouldn&#8217;t be visible yet.</p>
+</div>
+<div class="paragraph">
+<p>Before we can get started implementing Gavran, however, we have to deal with a tenacious problem. We first need to deal with C&#8217;s greatest weaknesses:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Error handling.</p>
+</li>
+<li>
+<p>Resource lifetime and disposal.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For a very long time, I was working in a managed environment. The usual gymnastics that you have to go through in order to get errors or properly manage
+resource disposal right in C is <em>not</em> nice. I&#8217;m going to dedicate the very start of the project to get something that I think is much better going on.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_errors_handling_and_resource_management_infrastructure">Errors handling and resource management infrastructure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Error management in C is a manual (and tedious) process. The common method is to return an error code to the caller, which may decide how to handle that.
+Along the way, we lose a <em>lot</em> of contextual information. The <code>EBADF</code> error tells me that there is a bad file, but it doesn&#8217;t tell what the file <em>name</em> is,
+for example. Such details can make the difference from: "Oh, sure, easy fix" to "Well, I better make some coffee and start debugging this&#8230;&#8203;".</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Error handling &amp; resource management are critical infrastructures</div>
+<div class="paragraph">
+<p>We expect to write non trivial amount of code in this project and we&#8217;ll do a lot of low level work here. In order to ensure that we have a chance of getting
+to the end, we <em>must</em> have a good way to handle errors and manage resources.</p>
+</div>
+<div class="paragraph">
+<p>That is why the very first action I&#8217;m making in this book is explaining all about <em>error handling</em>. Even before we actually thought about what we&#8217;ll be
+building!</p>
+</div>
+<div class="paragraph">
+<p>I have taken inspiration from the Rust language <code>try!</code> macro (later shortened to <code>?</code>) and from Go&#8217;s <code>defer</code> calls. The idea is that as much as possible, we
+want to push error handling and resource management into the infrastructure. I&#8217;m using several compiler features to enable this style of work, in particular,
+using  <code>__attribute__((__cleanup__))</code> to enable automatic resource cleanup, similar to RAII in C++, but when writing plain C code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I want to first illustrate that with the sample code in <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a> and then discuss exactly what is going on here. In <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a>
+we have a function that reads 4 bytes from a file and convert these bytes into a string format. The task itself is nonsensical, meant to just illustrate a point.
+There are a bunch of things that can go wrong in this kind of code. We may fail to open the file, or allocate memory. We may fail to read from the file, or not read enough,
+etc. We need to remember to always close the file descriptor and we should always free the allocated buffer on error, but not if the function
+completed successfully.</p>
+</div>
+<div class="paragraph">
+<p>That is a <em>lot</em> of state to manage, and it makes it easy to make mistake. <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a> shows a function that has to deal with coordination across merely two
+resources. If we have to deal with more, the situation worsen. Take a look at the code and then we&#8217;ll break down everything that is new here.
+I have marked on the side all the interesting tidbits, so we can discuss them at length.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll have a longer discussion of the API used here in just a bit, for now, I want you mostly to get the <em>impression</em> of how this code is put together, rather than deal
+with the details.  The API in <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a> forms the basis of error handling and resource management strategy for the upcoming storage engine. Let&#8217;s see what
+it does and then we&#8217;ll discuss how they all fit together. I&#8217;ll discuss how they are <em>implemented</em> in the next section.</p>
+</div>
+<div id="read_int_to_str_buffer" class="listingblock">
+<div class="title"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</div>
+<div class="content">
+<pre class="highlight"><code>// <b class="conum">(1)</b>
+result_t read_int_to_str_buffer(const char* path, char** buffer) {
+  int fd = open(path, O_RDONLY, 0);
+  if (fd == -1) {
+    // <b class="conum">(2)</b>
+    failed(errno, msg("Unable to open file"), with(path, "%s"));
+  }
+  // <b class="conum">(3)</b>
+  defer(close, fd);
+  // <b class="conum">(4)</b>
+  void* tmp;
+  ensure(mem_alloc(&amp;tmp, 128));
+
+  size_t cancel_defer = 0;
+  // <b class="conum">(5)</b>
+  try_defer(free, tmp, cancel_defer);
+
+  int val;
+  ensure(read_all(fd, sizeof(int), &amp;val), with(path, "%s"));
+
+  int chars = sprintf(tmp, "%d", val);
+  ensure(realloc(&amp;tmp, (size_t)chars + 1));  // decrease size
+
+  *buffer = tmp;
+  // <b class="conum">(6)</b>
+  cancel_defer = 1;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The <code>result_t</code> type is the return type for any function that may fail. It is an opaque type that is set to zero on failure and non zero of success. Using C&#8217;s
+usual rules, we can use boolean operations on this value to test for success / fail. A key factor about <code>result_t</code> is that it is a value that <em>must</em> be observed.
+In other words, ignoring this value will result in a compiler error using our settings.</p>
+</li>
+<li>
+<p>The <code>failed()</code> macro is used to report errors. A call to <code>failed()</code> will exit the function with a fail status and the parameters to <code>failed()</code>
+will be used to generate an error message. It is expected that multiple methods will fail in a sequence, and the infrastructure is setup to handle this and
+generate appropriate set of errors representing the location in the stack this issue occur on.
+You can use <code>msg()</code> to provide some additional information and <code>with()</code> to provide more context, such as local parameters. This is how we can see the file name the
+<code>read_all()</code> was asked to scan, for example. The additional context can make such errors must easier to resolve. It is important to note that they are <em>not</em>
+evaluated if the operation completed successfully.</p>
+</li>
+<li>
+<p>The <code>defer()</code> and <code>try_defer()</code> allow us to register a function to be called when the current scope ends. This capability uses the <code>__attribute__((__cleanup__))</code> feature
+in GCC and Clang and it is how we intend to manage resources in general. Freeing ourselves from having to deal with them at every turn. The <code>try_defer()</code> macro also
+allows us to <em>cancel</em> this operation. We&#8217;ll see discuss why this is important shortly.</p>
+</li>
+<li>
+<p>The <code>ensure()</code> macro will check that a particular operation was successful (has non zero value) and will exit the function with an error if that isn&#8217;t the
+case. This reduce nesting in the function and make it easier to both read and write.</p>
+</li>
+<li>
+<p>The <code>success()</code> macro allows us to exit a method successfully.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If we call <code>read_int_to_str_buffer("/path/to/directory", &amp;buffer);</code> function (note that we used the path of a directory, not a file) we&#8217;ll have the following
+sequence of events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The directory is opened.</p>
+</li>
+<li>
+<p>The memory is allocated.</p>
+</li>
+<li>
+<p>The read fails.</p>
+</li>
+<li>
+<p>Everything gets cleaned up.</p>
+</li>
+<li>
+<p>Caller can call <code>errors_print_all()</code> to get the following output:</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>read_all()                - test.c:29  -  21 Is a directory   | Failed to read requested data, read_bytes = 0, cur = -1, size = 4
+
+read_int_to_str_buffer()  - test.c:53  -  22 Invalid argument | read_all(fd, sizeof(int), &amp;val), path = /path/to/directory</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Callers can also use <code>errors_get_codes()</code> or <code>errors_get_messages()</code> to interact with the errors stack programmatically.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll note that we get a <em>lot</em> of information here. This is <em>almost</em> a stack trace and the richness of exceptions, without any of the costs associated with it.
+We are also able to print out the current state at the time of the error, which can be <em>invaluable</em> for debugging and troubleshooting.</p>
+</div>
+<div class="paragraph">
+<p>There are several things that work together here in order to enable this style of code:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All the functions return <code>result_t</code>, which must be checked.</p>
+</li>
+<li>
+<p>Error reporting is done via <code>failed()</code>. And completion with no error is marked via <code>success()</code>.</p>
+</li>
+<li>
+<p>While you can check explicitly, you&#8217;ll usually just use <code>ensure()</code> to exit if the call has failed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of those together create a system that operate almost like exceptions. I don&#8217;t need to manually handle and pass errors up the chain, I don&#8217;t have to fret
+about how to provide context to an error, etc.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Inspirations for these ideas</div>
+<div class="paragraph">
+<p>The errors API concepts are very similar to how you deal with errors in <a href="https://en.wikibooks.org/wiki/OpenSSL/Error_handling">OpenSSL</a>. I had the chance
+of building completely new API so I stream-lined a lot of things, but the concepts are very similar.</p>
+</div>
+<div class="paragraph">
+<p>The <code>defer()</code> usage comes from Go, although I added the notion of <code>try_defer()</code> for more complex scenarios.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll notice that in the <code>read_int_to_str_buffer()</code> function we do almost no explicit error checking, this is done for us by the <code>ensure()</code>. The one case where we do have
+to test a value explicitly is when we are dealing with system code, when we are checking if the <code>open()</code> was successful, then calling <code>failed()</code> with the error.
+We want to push the things that can fail in this manner as deeply as possible, so we&#8217;ll be able to use the <code>ensure()</code> macro to reduce the amount of
+explicit error handling we have to go through.</p>
+</div>
+<div class="paragraph">
+<p>This style of error handling is problematic in C, because we can&#8217;t just <em>exit</em> a function, we have to do cleanup first. In pretty much any C project of any
+complexity you&#8217;ll see <code>goto</code> used for this approach, to try to centralized error handling in the function. This resource management strategy is brittle and hard
+to use. Instead, we offer <code>defer()</code> and <code>try_defer()</code>.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="title">Here <code>goto</code> is the <em>good</em> option!</div>
+<div class="paragraph">
+<p>You probably heard about the "GOTO Considered Harmful" paper and likely have an aversion to this keyword. However, in most C projects, the use of a <code>goto</code>
+for error handling is the <em>preferred</em> option. Because the other alternative is much worse, manually maintaining complex and brittle resource &amp; error management code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>defer()</code> and <code>try_defer()</code> are based on <code>__attribute__((__cleanup__))</code> extension for both Clang and GCC. This is a way to instruct the compiler to call a method
+when a variable goes out of scope. We use this approach to ensure that we have proper cleanup. For example, making sure that regardless of how we exit the
+<code>read_int_to_str_buffer()</code> function, the file will be properly closed.</p>
+</div>
+<div class="paragraph">
+<p>In <code>read_int_to_str_buffer()</code> there is another resource usage pattern that we need to deal with. The buffer we allocate to hold the string must be released in case the
+function fails, but must <em>not</em> be release if the function is successful.
+In order to handle this kind of scenario, we have <code>try_defer()</code>, it accepts an additional argument, that of a variable that it will monitor when called. If that variable is set,
+we&#8217;ll cancel the deferred call. In other words, we&#8217;ll be able to cancel the deferrable command in the successful path, but until that point, we&#8217;ll have automatic cleanup.</p>
+</div>
+<div class="paragraph">
+<p>These two approaches together leads to a much cleaner codebase. And now, let&#8217;s see how I actually built those.</p>
+</div>
+<div class="sect2">
+<h3 id="_implementing_resource_management">Implementing resource management</h3>
+<div class="paragraph">
+<p>I&#8217;ll start with the <code>defer()</code> commands, because they are the smaller of the two. Mostly they just give good syntax over the compiler behavior. You can see how they
+are implemented in <a href="#defer-api"><code>gavran/infrastructure.h</code> - Implementation of defer and try_defer using the __attribute__((__cleanup__))</a>.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that we setup a call to <code>void defer_&lt;function&gt;(cancel_defer_t* cd)</code> function. That will be called by the compiler when the scope exits. This
+The caller is responsible for providing this function. I would prefer to avoid it, but trying to do so send us <em>deep</em> into preprocessor magic, and I&#8217;m already
+stretching the limits of what I think is acceptable.</p>
+</div>
+<div class="paragraph">
+<p><a href="#defer-define"><code>gavran/infrastructure.h</code> - Adding support for calling cleanup functions via <code>defer()</code></a> shows how we can use these macros to define functions that will be called automatically. We implement <code>defer_free()</code> explicitly, but use the
+<code>enable_defer_imp()</code> to create an implementation of the <code>defer_close()</code> call. This allows us to call <code>defer(free, ptr)</code> or <code>defer(close, fd)</code> and have the right
+thing happen automatically.</p>
+</div>
+<div id="defer-api" class="listingblock">
+<div class="title"><code>gavran/infrastructure.h</code> - Implementation of defer and try_defer using the __attribute__((__cleanup__))</div>
+<div class="content">
+<pre class="highlight"><code>// <b class="conum">(1)</b>
+typedef struct cancel_defer {
+  void* target;
+  size_t* cancelled;
+} cancel_defer_t;
+
+#define CONCAT_(x, y) x##y
+#define CONCAT(x, y) CONCAT_(x, y)
+
+// <b class="conum">(2)</b>
+#define try_defer(func, var, cancel_marker)                  \
+  cancel_defer_t CONCAT(defer_, __COUNTER__)                 \
+      __attribute__((unused, __cleanup__(defer_##func))) = { \
+          .target = (void*)&amp;var, .cancelled = &amp;cancel_marker};
+
+// <b class="conum">(3)</b>
+#define defer(func, var)                                     \
+  cancel_defer_t CONCAT(defer_, __COUNTER__) __attribute__(( \
+      unused, __cleanup__(defer_##func))) = {.target = (void*)&amp;var};
+
+// <b class="conum">(4)</b>
+#define enable_defer(func) enable_defer_imp(func, 0, (void*), "%p")
+
+#define enable_defer_imp(func, failcode, convert, format) \
+  static inline void defer_##func(cancel_defer_t* cd) {   \
+    if (cd-&gt;cancelled &amp;&amp; *cd-&gt;cancelled) return;          \
+    if (func(convert(cd-&gt;target)) == failcode) {          \
+      errors_push(EINVAL, msg("Failure on " #func),       \
+                  with(convert(cd-&gt;target), format));     \
+    }                                                     \
+  }                                                       \
+  void enable_semicolon_after_macro_##__LINE__(void)</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The <code>cancel_defer_t</code> struct allow to capture the state that will be sent through the <code>defer()</code> call as well as the pointer to the cancellation flag.</p>
+</li>
+<li>
+<p>The actual macro implementing <code>try_defer()</code> and <code>defer()</code>. Note that we set the <code>cancelled</code> field to track the marker value provided by the caller.</p>
+</li>
+<li>
+<p>The <code>defer()</code> macro is implemented in the same manner, but without setting the <code>cancelled</code> field.</p>
+</li>
+<li>
+<p>Helper macros to add <code>defer()</code> support for other functions. We&#8217;ll see how this is used shortly.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We provide our own implementation on <code>free()</code> manually because <code>free()</code> cannot fail, so it returns a <code>void</code> which we can&#8217;t compare on. If your functions use the
+conventions outlined here, you can simply use <code>enable_defer(func_name)</code> and you are set.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">We are capturing the <em>address</em> of the <code>defer</code> argument</div>
+<div class="paragraph">
+<p>It it important to note that <code>defer()</code> does something different than <code>__attribute__((__cleanup__))</code>. While the later capture the value at the time of the call, we capture
+the <em>address</em> of the variable that is passed to <code>defer()</code>. That means that when the deferred function is called, we&#8217;ll operate on the current value of the variable,
+not on its original one.</p>
+</div>
+<div class="paragraph">
+<p>This can be very important if you are using <code>realloc()</code>, for example.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="defer-define" class="listingblock">
+<div class="title"><code>gavran/infrastructure.h</code> - Adding support for calling cleanup functions via <code>defer()</code></div>
+<div class="content">
+<pre class="highlight"><code>static inline void defer_free(cancel_defer_t* cd) {
+  if (cd-&gt;cancelled &amp;&amp; *cd-&gt;cancelled) return;
+  free(*(void**)cd-&gt;target);
+}
+
+enable_defer_imp(close, -1, *(int*), "%d");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>One issue that we have to think about, however, is that the cleanup itself may also fail. And in a "Quis custodiet ipsos custodes?" style, we have to consider
+how do we handle errors that happens on <code>defer</code>. At this point, the <code>return</code> was already called, so we may have a function that completed successfully, but failed
+cleanup.</p>
+</div>
+<div class="paragraph">
+<p>We consider such a thing a failure and therefor we check both the return value and the <code>errors_count()</code>, to see if there have been any errors after the <code>return</code>.
+See the discussion on how <code>ensure*(</code> is implemented in the next section.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_error_handling_strategy">Building error handling strategy</h3>
+<div class="paragraph">
+<p>Moving on to the error handling, we actually have a few levels inside the error handling that we need to consider. There are a few functions that you can
+use to <em>report</em> errors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>errors_push()</code> will create a new error and <code>errors_append_message()</code> will add additional context to it.</p>
+</li>
+<li>
+<p><code>errors_assert_empty()</code> can check if we were called with errors that haven&#8217;t been observed yet. In this case, we immediately return an error to avoid
+error propagation.</p>
+</li>
+<li>
+<p>The functions <code>errors_get_count()</code>, <code>errors_get_codes()</code>, <code>errors_get_messages()</code> will all inspect the existing errors if you need to do something programmatically
+to them.</p>
+</li>
+<li>
+<p>The function <code>errors_clear()</code> marks them as observed and <code>errors_print_all()</code> will print them errors to the console and clear them.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On top of these, several macros and being able to rely on <code>defer()</code> gives us the right behavior. The rest of the work is done mostly by macros, so let&#8217;s see them in <a href="#errors_api"><code>gavran/infrastructure.h</code> - Internal errors API implementation</a>.</p>
+</div>
+<div id="errors_api" class="listingblock">
+<div class="title"><code>gavran/infrastructure.h</code> - Internal errors API implementation</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct operation_result op_result_t;
+#define result_t __attribute__((warn_unused_result)) op_result_t*
+
+#define failed(CODE, ...)           \
+  errors_push(CODE, ##__VA_ARGS__); \
+  return failure_code()
+#define flopped(CALL) (!(CALL) || errors_get_count())
+#define ensure(CALL, ...)                            \
+  do {                                               \
+    if (flopped(CALL)) {                             \
+      failed(EINVAL, msg(#CALL " "), ##__VA_ARGS__); \
+    }                                                \
+  } while (0)
+
+#define failure_code() (op_result_t*)(void*) 0
+#define success() (op_result_t*)(void*) 1
+#define errors_push(CODE, ...)                           \
+  do {                                                   \
+    errors_push_new(__FILE__, __LINE__, __func__, CODE); \
+    (void)(__VA_ARGS__);                                 \
+  } while (0)
+#define msg(MSG) errors_append_message(MSG)
+#define with(EXPR, FORMAT) \
+  errors_append_message(", " #EXPR " = " FORMAT, EXPR)
+#define errors_assert_empty()                                   \
+  do {                                                          \
+    if (errors_get_count()) {                                   \
+      errors_push(                                              \
+          EINVAL,                                               \
+          msg("Invalid state when there are unnoticed errors"), \
+          with(__func__, "%s"));                                \
+      return failure_code();                                    \
+    }                                                           \
+  } while (0)
+
+op_result_t* errors_push_new(const char* file, uint32_t line,
+                             const char* func, int32_t code);
+
+__attribute__((__format__(__printf__, 1, 2))) op_result_t*
+errors_append_message(const char* format, ...);
+
+void errors_print_all(void);
+void errors_clear(void);
+const char** errors_get_messages(size_t* number_of_errors);
+int* errors_get_codes(size_t* number_of_errors);
+size_t errors_get_count(void);
+uint32_t errors_get_oom_flag(void);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A lot is going on in <a href="#errors_api"><code>gavran/infrastructure.h</code> - Internal errors API implementation</a>, allow me to go through this one at a time. We start by forward declaring <code>op_result_t</code>. We don&#8217;t actually <em>have</em> such
+a struct. We&#8217;ll be using <code>result_t</code>, which is a pointer to an <code>op_result_t</code> with the <code>warn_unused_result</code> enabled. Because we created a new type, the
+compiler will warn us about trying to assign it to other data types and the <code>warn_unused_result</code> will make sure that we can&#8217;t ignore it.</p>
+</div>
+<div class="paragraph">
+<p>The reason we declare this type is that the compiler will warn us if we are trying to assign this to any other type. It would generate a warning, and in
+addition to the unused result warning, that ensures that we have a return type that we <em>have</em> to take care of.</p>
+</div>
+<div class="paragraph">
+<p>The <code>failed()</code> and <code>ensure()</code> macros are variadic. They are meant to be used with the <code>with()</code> and <code>msg()</code> macros. The idea is that we&#8217;ll first push a new
+error and then be able to provide more context to it. In the case of <code>ensure</code>, if the expression is true, there is no cost and nothing is actually
+being run. Note that for <code>ensure</code>, we also check if <code>errors_get_count()</code> is non zero. This is to handle a scenario where we had a <code>defer()</code> that run
+and <em>failed</em> after the function itself was successful. We want to treat this as an error and fail as usual.</p>
+</div>
+<div class="paragraph">
+<p>You can also use <code>flopped()</code> to do a proper check if an operation was successful or not. This is used if you need to do some error handling on the operation,
+not just return to the caller. The <code>flopped()</code> will ensure that we consider also deferral errors into account before agreeing that the operation was successful.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">The difference between <code>op_result_t*</code> and <code>result_t</code></div>
+<div class="paragraph">
+<p>As far as the C compiler is concerned, <code>result_t</code> and <code>op_result_t*</code> are one and the same. After all <code>result_t</code> is a macro that resolves to
+<code>op_result_t*</code>. The difference between them is that the <code>result_t</code> macro also specifies <code>warn_unused_result</code>. This is how we force the
+compiler to validate that our errors are not discarded.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>errors_push()</code> macro just call to <code>errors_push_new()</code> with context using <code>__FILE__</code>, <code>__LINE__</code> and <code>__func__</code> built-ins to provide additional
+context for our "stack trace". The rest of the functions aren&#8217;t anything special. The <code>errors_push()</code> macro is <em>not</em> variadic, we could implement it this
+way, but I would rather have the more explicit usage of <code>with()</code> and <code>msg()</code>.
+The nice thing about <code>with()</code> is that it capture the expression value as well the expression text. That saves us some keystrokes on each error call.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Forcing error handling</div>
+<div class="paragraph">
+<p>Beyond just using <code>result_t</code>, we also have the <code>errors_assert_empty</code> macro which will can use to check if the caller has previously
+ignored an error. If that is the case, we&#8217;ll refuse to go on and error immediately.  That has the effect of ensuring that errors are handled, because it
+will very visibly break stuff if you don&#8217;t.</p>
+</div>
+<div class="paragraph">
+<p>This is meant for <em>external</em> users. If you called an API method and it failed and you didn&#8217;t check the error, all future operations will also fail.
+That keeps us in the habit of managing errors properly.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll note that unlike most C APIs, we are missing quite a bit here. Namely, where is the memory handling? In order to reduce as much as possible the
+complexity of the system, I have chosen to avoid memory allocations entirely in the errors API. Errors that happens <em>during</em> error handling are among
+the chief reasons for high severity issues. There is a interesting paper on the topic that you might want to go through,
+<a href="https://www.eecg.utoronto.ca/~yuan/papers/failure_analysis_osdi14.pdf">Simple Testing Can Prevent Most Critical Failures</a>. In it they find that 92% of the
+catastrophic failures are the result of bad handling on non fatal errors.</p>
+</div>
+<div class="paragraph">
+<p>At this point, you might understand why I put so much emphasis on proper error handling so early in the process. It is almost impossible to make such a
+change later in the lifetime of a project and the results are <em>important</em>.
+We&#8217;ll start talking about our errors handling implementation with <a href="#errors-impl-declarations"><code>errors.c</code> - Storage declaration for the errors API</a>.</p>
+</div>
+<div id="errors-impl-declarations" class="listingblock">
+<div class="title"><code>errors.c</code> - Storage declaration for the errors API</div>
+<div class="content">
+<pre class="highlight"><code>#undef _GNU_SOURCE
+
+#include &lt;gavran/infrastructure.h&gt;
+
+#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define MAX_ERRORS 64
+#define MAX_ERRORS_MSG_BUFFER 2048
+
+_Thread_local static char _messages_buffer[MAX_ERRORS_MSG_BUFFER];
+_Thread_local static const char *_errors_messages_buffer[MAX_ERRORS];
+_Thread_local static int _errors_messages_codes[MAX_ERRORS];
+
+_Thread_local static size_t _errors_count;
+_Thread_local static size_t _errors_buffer_len;
+_Thread_local static uint32_t _out_of_memory;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We define a number of variables as thread local state. The idea is that instead of allocating the memory at the time of an error, we&#8217;ll allocate the memory
+at the time we create the thread. This is done for us automatically, so by the time we get to actually recording an error, we don&#8217;t have to fear most failure
+modes.</p>
+</div>
+<div class="paragraph">
+<p>The <code>_messages_buffer</code> is a 2KB buffer that is used to store the actual messages for the errors, while the <code>_errors_messages_buffer</code> is an array that stores
+the relevant message for each of recorded array. In other words, the <code>_errors_messages_buffer</code> entries will always point to a location inside <code>_messages_buffer</code>.
+The <code>_errors_messages_buffer</code>, in turn, is a parallel array of the actual error codes that we got. This memory layout is shown in <a href="#errors_layout">The actual error messages are stored in a thread local buffer that is pre-allocated</a>.</p>
+</div>
+<div id="errors_layout" class="imageblock">
+<div class="content">
+<img src="../imgs/errors-layout.png" alt="errors layout">
+</div>
+<div class="title">Figure 1. The actual error messages are stored in a thread local buffer that is pre-allocated</div>
+</div>
+<div class="paragraph">
+<p>The <code>_errors_count</code> value counts the number of errors that are currently recorded while <code>_errors_buffer_len</code> counts how much of <code>_messages_buffer</code> is in use.
+The size of the buffer is 2KB and the maximum number of errors we can hold is 64. The <code>_out_of_memory</code> flag is set if we have too many errors, at which point
+we&#8217;ll start discarding them. I find that very unlikely to actually happen. Very deep stack traces are unusual in C so I don&#8217;t expect will need even that much.</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ll look at the API in <a href="#errors_api"><code>gavran/infrastructure.h</code> - Internal errors API implementation</a>, you can see that aside from <code>errors_push_new()</code> and <code>errors_append_message()</code>, all the other functions we offer are about
+reading the errors or clearing them. The usual method you&#8217;ll use the <code>ensure</code> / <code>failed</code> macros to bubble the errors to the callers until we get somewhere where
+we can make a decision about the issue. The caller will need to read the errors and make a determination and then clear the error state and prepare for the next
+operation.</p>
+</div>
+<div class="paragraph">
+<p>A shorthand for printing to the terminal is provided with <code>errors_print_all()</code>, typically for debugging purposes.
+If you need to access the error codes programmatically, you can use the <code>errors_get_codes()</code> function.</p>
+</div>
+<div class="paragraph">
+<p>Because we are doing no memory allocations and working on a fixed buffer, we need to be careful with how we process the messages. I tried doing that directly
+with the raw C API, but it was too complex to manage. I wrote a couple of utility functions to manage that and if you are interested, I would refer you to
+Howard Chu&#8217;s (author of LMDB) discussion of <a href="https://www.openldap.org/lists/openldap-software/200303/msg00560.html">C string API</a>. You can see what I did in
+<a href="#try_sprintf"><code>errors.c</code> - String processing routines</a>.</p>
+</div>
+<div id="try_sprintf" class="listingblock">
+<div class="title"><code>errors.c</code> - String processing routines</div>
+<div class="content">
+<pre class="highlight"><code>__attribute__((__format__(__printf__, 4, 0))) static bool
+try_vsprintf(char **buffer, char *buffer_end, size_t *chars,
+             const char *format, va_list ap) {
+  size_t sz = (size_t)(buffer_end - *buffer);
+  int rc = vsnprintf(*buffer, sz, format, ap);
+  if (rc &lt; 0 ||          // encoding
+      (size_t)rc &gt;= sz)  // space
+    return false;
+
+  *buffer += rc;
+  *chars += (size_t)rc;
+  return true;
+}
+
+__attribute__((__format__(__printf__, 4, 5))) static bool try_sprintf(
+    char **buffer, char *buffer_end, size_t *chars,
+    const char *format, ...) {
+  va_list ap;
+  va_start(ap, format);
+  bool ret = try_vsprintf(buffer, buffer_end, chars, format, ap);
+  va_end(ap);
+  return ret;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The key about the functions in <a href="#try_sprintf"><code>errors.c</code> - String processing routines</a> is that they accept a <em>limit</em> to how much they can write, and then do all the checks inside. The end result is that
+our code string processing routine looks much simpler, see for yourself in <a href="#error-push"><code>errors.c</code> - Pushing a new error into the thread&#8217;s buffer----</a>.</p>
+</div>
+<div id="error-push" class="listingblock">
+<div class="title"><code>errors.c</code> - Pushing a new error into the thread&#8217;s buffer----</div>
+<div class="content">
+<pre class="highlight"><code>op_result_t *errors_push_new(const char *file, uint32_t line,
+                             const char *func, int32_t code) {
+  // <b class="conum">(1)</b>
+  if (_errors_count &gt;= MAX_ERRORS) {
+    // we have no space any longer for errors, ignoring
+    _out_of_memory |= 1;
+    return 0;
+  }
+
+  // <b class="conum">(2)</b>
+  size_t index = _errors_count++;
+  _errors_messages_codes[index] = code;
+
+  char *msg = (_messages_buffer + _errors_buffer_len);
+  char *end = _messages_buffer + MAX_ERRORS_MSG_BUFFER;
+  char *start = msg;
+
+  char stack_buffer[128];
+  int rc = strerror_r(code, stack_buffer, 128);
+  if (rc) strcpy(stack_buffer, "Unknown code");
+
+  size_t chars_written = 0;
+  // <b class="conum">(3)</b>
+  if (!try_sprintf(&amp;msg, end, &amp;chars_written, "%s()", func) ||
+      !try_sprintf(&amp;msg, end, &amp;chars_written, "%-*c - %s:%i",
+                   (int)(30 - chars_written), ' ', file, line) ||
+      !try_sprintf(&amp;msg, end, &amp;chars_written, "%*c - %3i %-20s |  ",
+                   (int)(50 - chars_written), ' ', code,
+                   stack_buffer))
+    goto oom;
+
+  _errors_buffer_len += (size_t)(msg - start);
+  _errors_messages_buffer[index] = start;
+  return 0;
+oom:
+  _out_of_memory |= 2;
+  _errors_messages_buffer[index] = 0;
+  return 0;
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Check if we have more than the maximum number of errors. This is unlikely, in most use cases.</p>
+</li>
+<li>
+<p>Increment the current error counter. Note that we increment this counter even if we don&#8217;t have enough memory for the error message. In that case, the error
+message will be null, but the error code will be retained.</p>
+</li>
+<li>
+<p>We call <code>try_sprintf()</code> multiple times, formatting the error message. This code is a bit complex, since C&#8217;s string processing capabilities are&#8230;&#8203; awkward.
+A key factor here is that we can safely call these function even if there isn&#8217;t enough memory, they do their own check and bail out early. This code was
+<em>much</em> harder to follow before I introduced the <code>try_sprintf()</code> helper.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The fact that we can limit the number of errors we may run into <em>during</em> error handling is important. None of the error handling routines can generate an error
+or require any special treatment. Most of the nastiest issues that I have run into have happened while there was an error in the middle of handling an error.
+Reducing the number of possible failure points is very useful.</p>
+</div>
+<div class="paragraph">
+<p>Now that you have seen how we push a new error, let&#8217;s see how we provide more context to the error. The backend of the <code>with()</code> and <code>msg()</code> macros is the
+<code>errors_append_message()</code> function, shown in <a href="#errors_append_message"><code>errors.c</code> - Appending a message to the current error</a>.</p>
+</div>
+<div id="errors_append_message" class="listingblock">
+<div class="title"><code>errors.c</code> - Appending a message to the current error</div>
+<div class="content">
+<pre class="highlight"><code>op_result_t *errors_append_message(const char *format, ...) {
+  if (!_errors_count &amp;&amp; _errors_buffer_len) return 0;
+
+  // <b class="conum">(1)</b>
+  char *msg = (_messages_buffer + _errors_buffer_len) - 1;
+  char *end = _messages_buffer + MAX_ERRORS_MSG_BUFFER;
+  size_t chars_written = 0;
+
+  va_list ap;
+  va_start(ap, format);
+  bool ret = try_vsprintf(&amp;msg, end, &amp;chars_written, format, ap);
+  va_end(ap);
+  if (!ret) {
+    // <b class="conum">(2)</b>
+    *msg = 0;  // undo possible overwrite of null terminator
+    _out_of_memory |= 2;
+    return 0;
+  }
+
+  _errors_buffer_len += chars_written;
+  return 0;  // simply to allow it to be used in comma operator
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Here we start from one char <em>before</em> the end. This is so the next write will overwrite the null terminator.</p>
+</li>
+<li>
+<p>On the other hand, if we wrote to the buffer but hit the end, we&#8217;ll restore the overwritten null terminator so we won&#8217;t have an out of bound access on read.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>And finally, we have the rest of the errors API implementation in <a href="#errors-rest"><code>errors.c</code> - The rest of the implementation</a>.</p>
+</div>
+<div class="paragraph">
+<p>This is a very powerful API, since it allows us to have good error handling with little ceremony. The <code>errors_append_message()</code> and <code>errors_push_new()</code> return
+a <code>op_result_t*</code> because they might be used via the comma operator. That is a done in the <code>failed()</code> macro, which is called internally from the <code>ensure()</code>
+macro.</p>
+</div>
+<div id="errors-rest" class="listingblock">
+<div class="title"><code>errors.c</code> - The rest of the implementation</div>
+<div class="content">
+<pre class="highlight"><code>const char **errors_get_messages(size_t *number_of_errors) {
+  *number_of_errors = _errors_count;
+  return (const char **)_errors_messages_buffer;
+}
+
+int *errors_get_codes(size_t *number_of_errors) {
+  *number_of_errors = _errors_count;
+  return _errors_messages_codes;
+}
+
+void errors_print_all(void) {
+  for (size_t i = 0; i &lt; _errors_count; i++) {
+    printf("%s\n", _errors_messages_buffer[i]);
+  }
+
+  if (_out_of_memory) {
+    const char *msg =
+        "Too many errors, "
+        "additional errors were discarded";
+    printf("%s (%d)\n", msg, -(int32_t)_out_of_memory);
+  }
+  errors_clear();
+}
+
+void errors_clear(void) {
+  _out_of_memory = 0;
+  memset(_errors_messages_codes, 0,
+         sizeof(int32_t *) * _errors_count);
+  memset(_errors_messages_buffer, 0, sizeof(char *) * _errors_count);
+  memset(_messages_buffer, 0, _errors_buffer_len);
+  _errors_buffer_len = 0;
+  _errors_count = 0;
+}
+
+size_t errors_get_count() { return _errors_count; }
+
+uint32_t errors_get_oom_flag() { return _out_of_memory; }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may find it strange that the very first thing that I did when starting a storage engine is to build error handling code, but that is a foundation that
+will serve us for the rest of the project. The fact that we can have good ways to report error can save us <em>weeks</em> of troubleshooting time. And with this
+in place, we can now move to our very first real task, working with files.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="title">The errors API for external consumers?</div>
+<div class="paragraph">
+<p>We looked at the error API (and <code>defer()</code>) in the context of consuming this internally. Gavran, our storage engine, is meant to be an embedded library.
+That means that it is going to be used from other systems. Forcing our error convention on unsuspecting code bases is not something that I would consider
+desirable.</p>
+</div>
+<div class="paragraph">
+<p>From the outside, users have an API very similar to <a href="https://www.openssl.org/docs/man1.0.2/man3/err.html">OpenSSL</a>. You can check the status code of the
+operation using a return code and if you need more details, you can call the dedicated errors API to get more information.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_the_errors_api">Working with the errors API</h3>
+<div class="paragraph">
+<p>You might have noticed in <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a> that I&#8217;m calling <code>mem_alloc()</code>, but we haven&#8217;t seen where that function is defined. I have already started
+changing the way I&#8217;m writing code to build upon our infrastructure. <a href="#mem-usage"><code>memory.c</code> - Allocation of memory using the errors API</a> shows how I&#8217;m defining the allocation mechanism for Gavran.</p>
+</div>
+<div id="mem-usage" class="listingblock">
+<div class="title"><code>memory.c</code> - Allocation of memory using the errors API</div>
+<div class="content">
+<pre class="highlight"><code>result_t mem_alloc(void** buffer, size_t size) {
+  void* tmp_buf = malloc(size);
+  if (!tmp_buf) {
+    failed(ENOMEM, msg("Unable to allocate buffer"),
+           with(size, "%zu"));
+  }
+  *buffer = tmp_buf;
+  return success();
+}
+
+result_t mem_alloc_page_aligned(void** buffer, size_t size) {
+  void* tmp_buf;
+  int err = posix_memalign(&amp;tmp_buf, 4096, size);
+  if (err) {
+    failed(err, msg("Unable to allocate page aligned buffer"),
+           with(size, "%zu"));
+  }
+  *buffer = tmp_buf;
+  return success();
+}
+
+result_t mem_realloc(void** buffer, size_t new_size) {
+  void* tmp_buf = realloc(*buffer, new_size);
+  if (!tmp_buf) {
+    failed(ENOMEM, msg("Unable to re-allocate buffer"),
+           with(new_size, "%zu"));
+  }
+  *buffer = tmp_buf;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#mem-usage"><code>memory.c</code> - Allocation of memory using the errors API</a> isn&#8217;t really that interesting. What is interesting is that now that I have it, I can skip a lot of checks in my code and rely on the
+fact that I can call these method via <code>ensure()</code>. Because they are just using <code>malloc()</code>, <code>posix_memalign()</code> and <code>realloc()</code>, I can also combine these with <code>defer(free, &#8230;&#8203;)</code>
+and get all the benefits of automatic resource management. You can see how well that worked out for the code in  <a href="#read_int_to_str_buffer"><code>test.c</code> - Mostly automatic handling of resource usage and error handling in C</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Why <code>mem_alloc_page_aligned</code>?</div>
+<div class="paragraph">
+<p>One of the things that we&#8217;ll deal with often in Gavran is memory, it turns out that page aligned memory is very important for a whole host of factors. Direct I/O,
+memory mapping, etc. That is why I&#8217;m making it a priority in the API with <code>mem_alloc_page_aligned()</code> as a first class function. We&#8217;ll be using it a <em>lot</em>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I have also implemented other functions, such as <code>result_t mem_duplicate_string(char** dest, const char* src)</code> which is a wrapper over <code>strdup()</code>, <code>mem_calloc()</code> which
+wraps <code>calloc()</code>, etc. I&#8217;m not going to bore you with repeating a whole host of very similar functions being adapted to our infrastructure.
+If you are interested, peek into the code.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_the_errors_api">Testing the errors API</h3>
+<div class="paragraph">
+<p>I intend to close each chapter with a set of unit tests, verifying the functionality of the system that we built so far.</p>
+</div>
+<div class="paragraph">
+<p>Testing C isn&#8217;t a lot of fun, but it is important. I initially tried to build the test framework using Python, but I realized that I spent more time debugging
+<code>cyptes</code> issues than anything else. What was worse, when the test showed a failure, I would have to rebuild it in C and then debug it, rather than work through
+the tests directly.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m going to be using the <a href="https://github.com/mortie/snow">Snow</a> testing framework, which gives us nice API to work with and makes it easy to debug and monitor
+the tests. For example, we are going to run all our tests through <code>Valgrind</code> as a matter of course, so we can verify that there are no memory issues.</p>
+</div>
+<div class="paragraph">
+<p>You can see the actual tests in <a href="#testing_errors_and_defer">[testing_errors_and_defer]</a>. We are testing the full functionality of our system so far. Right now, it doesn&#8217;t mean much, but
+as we&#8217;ll build more and more functionality, this is going to be incredibly valuable in ensuring that we don&#8217;t have to deal with</p>
+</div>
+<div id="testing_errors_and_defer" class="listingblock">
+<div class="content">
+<pre class="highlight"><code>result_t mark(int* f) {
+  *f = 1;
+  return success();
+}
+
+enable_defer(mark);
+
+describe(errors_and_resource_usage) {
+  before_each() {
+    errors_clear();  // reset the state
+  }
+
+  it("Can setup defer to happen automatically") {
+    int a = 0;
+    {
+      defer(mark, a);
+      // should be implicitly called here
+    }
+    assert(a == 1);
+  }
+
+  it("Can cancel deferral defer to happen automatically") {
+    int a = 0;
+    {
+      size_t cancel_defer = 0;
+      try_defer(mark, a, cancel_defer);
+      cancel_defer = 1;
+    }
+    assert(a == 0);
+  }
+
+  it("No errors should return zero count") {
+    assert(errors_get_count() == 0, "Should have no errors");
+  }
+
+  it("Can record error") {
+    errors_push(EIO, msg("Testing errors"));
+
+    assert(errors_get_count() == 1, "Expected error");
+    size_t count;
+    assert(errors_get_codes(&amp;count)[0] == EIO, "Got wrong code back");
+    assert(count == 1, "Count doesn't match");
+  }
+
+  it("Max 64 errors") {
+    for (size_t i = 0; i &lt; 100; i++) {
+      errors_push(EIO, msg("Testing errors"));
+    }
+
+    assert(errors_get_count() == 64, "Too many errors");
+  }
+
+  it("Very large errors won't overflow") {
+    char buffer[256] = {0};
+    memset(buffer, 'a', 255);
+
+    for (size_t i = 0; i &lt; 100; i++) {
+      errors_push(EIO, msg("Testing errors"), with(buffer, "%s"));
+    }
+    assert(errors_get_count() == 64);
+
+    size_t count;
+    int* codes = errors_get_codes(&amp;count);
+    assert(count == 64);
+    const char** msgs = errors_get_messages(&amp;count);
+    assert(count == 64);
+
+    for (size_t i = 0; i &lt; 6; i++) {
+      assert(codes[i] == EIO);
+      assert(msgs[i] != 0);
+    }
+
+    for (size_t i = 6; i &lt; 64; i++) {
+      assert(codes[i] == EIO);  // retained the code
+      assert(msgs[i] == 0);     // no space, ignored
+    }
+  }
+
+  it("Will translate codes to strings") {
+    errors_push(EINVAL, msg("Testing errors"));
+
+    size_t count;
+    const char** msgs = errors_get_messages(&amp;count);
+    assert(count == 1, "Where is my error?");
+
+    assert(strstr(msgs[0], "Invalid argument") != 0,
+           "Couldn't find the error string");
+  }
+
+  it("Can call function and get error back") {
+    char cwd[PATH_MAX];
+    getcwd(cwd, sizeof(cwd));
+    char* buffer = 0;
+    // we pass the working directory, this expects a file, error
+    op_result_t* res = read_int_to_str_buffer(cwd, &amp;buffer);
+    free(buffer);
+    assert(res == 0, "Operation should have failed");
+    size_t count;
+    int* codes = errors_get_codes(&amp;count);
+    assert(count == 2, "Expected to get erors");
+    assert(codes[0] == EISDIR, "Bad error code?");
+    assert(codes[1] == EINVAL, "Bad error code?");
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the output of the tests is shown below. Not that I&#8217;m running them in Valgrind to make sure that everything is okay in term of memory utilization. On the first
+run, I didn&#8217;t initialize <code>cancel_defer</code> to zero, so Valgrind pointed out that I&#8217;m using uninitialized memory, which was very useful.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>==20213== Memcheck, a memory error detector
+==20213== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==20213== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20213== Command: ./build/gavran
+==20213==
+==20213== error calling PR_SET_PTRACER, vgdb might block
+
+Testing errors_and_resource_usage:
+ Success: Can setup defer to happen automatically (8.12ms)
+ Success: Can cancel deferral defer to happen automatically (1.59ms)
+ Success: No errors should return zero count (1.37ms)
+ Success: Can record error (28.20ms)
+ Success: Max 64 errors (12.91ms)
+ Success: Very large errors won't overflow (24.60ms)
+ Success: Will translate codes to strings (5.72ms)
+ Success: Can call function and get error back (12.14ms)
+errors_and_resource_usage: Passed 8/8 tests. (150.35ms)
+
+==20213==
+==20213== HEAP SUMMARY:
+==20213==     in use at exit: 0 bytes in 0 blocks
+==20213==   total heap usage: 6 allocs, 6 frees, 5,019 bytes allocated
+==20213==
+==20213== All heap blocks were freed -- no leaks are possible
+==20213==
+==20213== For lists of detected and suppressed errors, rerun with: -s
+==20213== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And that is quite enough for one chapter. In the next chapter we&#8217;ll start dealing with the operating system and build the basics of the platform abstraction
+layer that will help us interact with the rest of the system.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+    <ul style="list-style-type: none;">
+        <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+        <li><a class="footer-text" href="./ch01.html">Previous chapter</a></li>
+        <li><a class="footer-text" href="./ch03.html">Next chapter</a></li>
+    </ul>
+</div>
+</body>
+</html>

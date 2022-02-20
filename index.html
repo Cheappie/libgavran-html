@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table of contents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+        }
+
+        #main-container {
+            display: inline-flex;
+            flex-direction: column;
+            font-size: large;
+            row-gap: 30px;
+        }
+
+        #table-of-contents-container, #detailed-table-of-contents-container {
+            display: flex;
+            flex: 1 1 0;
+            flex-direction: column;
+            row-gap: 15px;
+        }
+
+        .chapters {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+        }
+
+        .subchapter {
+            display: flex;
+            flex-direction: column;
+            row-gap: 3px;
+            font-size: medium;
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+<div id="main-container">
+    <div id="table-of-contents-container">
+        <h1>Table of contents</h1>
+        <ol class="chapters">
+            <li><a href="./chapters/ch01.html">Introduction</a></li>
+            <li><a href="./chapters/ch02.html">The foundation of Gavran</a></li>
+            <li><a href="./chapters/ch03.html">Working with (and against) the file system</a></li>
+            <li><a href="./chapters/ch04.html">The paging layer and our first transactions</a></li>
+            <li><a href="./chapters/ch05.html">Managing disk space allocations</a></li>
+            <li><a href="./chapters/ch06.html">Page management</a></li>
+            <li><a href="./chapters/ch07.html">Implementing ACID transactions</a></li>
+            <li><a href="./chapters/ch08.html">Implementing durable writes</a></li>
+            <li><a href="./chapters/ch09.html">Improving the Write Ahead Log</a></li>
+            <li><a href="./chapters/ch10.html">Dynamic file growth</a></li>
+            <li><a href="./chapters/ch11.html">Pages validation &amp; encryption</a></li>
+            <li><a href="./chapters/ch12.html">Supporting 32 bits and databases larger than 256 TB</a></li>
+            <li><a href="./chapters/ch13.html">Log shipping and other fun activities</a></li>
+            <li><a href="./chapters/ch14.html">Persistent data structures</a></li>
+            <li><a href="./chapters/ch15.html">Raw data containers</a></li>
+            <li><a href="./chapters/ch16.html">B+Trees</a></li>
+            <li><a href="./chapters/ch17.html">Storing multiple values per key</a></li>
+            <li><a href="./chapters/ch18.html">Tables</a></li>
+        </ol>
+    </div>
+    <div id="detailed-table-of-contents-container">
+        <h1>Detailed Table of contents</h1>
+        <ol class="chapters">
+            <li><a href="./chapters/ch01.html">Introduction</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch01.html#_setting_up_expectations">Setting up expectations</a></li>
+                    <li><a href="./chapters/ch01.html#_why_this_book">Why this book?</a></li>
+                    <li><a href="./chapters/ch01.html#_what_is_a_storage_engine">What is a storage engine?</a></li>
+                    <li><a href="./chapters/ch01.html#_what_will_we_build">What will we build?</a></li>
+                    <li><a href="./chapters/ch01.html#_the_structure_of_this_book">The structure of this book</a></li>
+                    <li><a href="./chapters/ch01.html#_the_structure_of_the_codebase">The structure of the codebase</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch02.html">The foundation of Gavran</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch02.html#_errors_handling_and_resource_management_infrastructure">Errors handling
+                        and resource management infrastructure</a></li>
+                    <li><a href="./chapters/ch02.html#_implementing_resource_management">Implementing resource management</a>
+                    </li>
+                    <li><a href="./chapters/ch02.html#_building_error_handling_strategy">Building error handling strategy</a>
+                    </li>
+                    <li><a href="./chapters/ch02.html#_working_with_the_errors_api">Working with the errors API</a></li>
+                    <li><a href="./chapters/ch02.html#_testing_the_errors_api">Testing the errors API</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch03.html">Working with (and against) the file system</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch03.html#_creating_a_file_handle">Creating a file handle</a></li>
+                    <li><a href="./chapters/ch03.html#_setting_the_files_size">Setting the file’s size</a></li>
+                    <li><a href="./chapters/ch03.html#_closing_a_file">Closing a file</a></li>
+                    <li><a href="./chapters/ch03.html#_reading_and_write_from_the_file">Reading and write from the file</a></li>
+                    <li><a href="./chapters/ch03.html#_durable_writes_and_fsync">Durable writes and fsync()</a></li>
+                    <li><a href="./chapters/ch03.html#_using_our_api_for_storing_and_retrieving_data">Using our API for storing
+                        and retrieving data</a></li>
+                    <li><a href="./chapters/ch03.html#_tests">Tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch04.html">The paging layer and our first transactions</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch04.html#_getting_to_grips_with_paging">Getting to grips with paging</a></li>
+                    <li><a href="./chapters/ch04.html#_a_skeleton_database">A skeleton database</a></li>
+                    <li><a href="./chapters/ch04.html#_implementing_transactions">Implementing transactions</a></li>
+                    <li><a href="./chapters/ch04.html#_managing_the_transaction_state_with_a_hash_table">Managing the transaction
+                        state with a hash table</a></li>
+                    <li><a href="./chapters/ch04.html#_committing_and_closing_the_transaction">Committing and closing the
+                        transaction</a></li>
+                    <li><a href="./chapters/ch04.html#_using_the_transaction_api">Using the transaction API</a></li>
+                    <li><a href="./chapters/ch04.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch05.html">Managing disk space allocations</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch05.html#_the_file_header">The file header</a></li>
+                    <li><a href="./chapters/ch05.html#_allocating_and_freeing_pages">Allocating and freeing pages</a></li>
+                    <li><a href="./chapters/ch05.html#_freeing_a_page">Freeing a page</a></li>
+                    <li><a href="./chapters/ch05.html#_building_an_allocation_strategy">Building an allocation strategy</a></li>
+                    <li><a href="./chapters/ch05.html#_allocating_pages">Allocating pages</a></li>
+                    <li><a href="./chapters/ch05.html#_putting_it_all_together">Putting it all together</a></li>
+                    <li><a href="./chapters/ch05.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch06.html">Page management</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch06.html#_placement_of_pages_metadata">Placement of pages metadata</a></li>
+                    <li><a href="./chapters/ch06.html#_dealing_with_large_values">Dealing with large values</a></li>
+                    <li><a href="./chapters/ch06.html#_the_structure_of_the_metadata">The structure of the metadata</a></li>
+                    <li><a href="./chapters/ch06.html#_implementing_multi_page_allocations">Implementing multi page
+                        allocations</a></li>
+                    <li><a href="./chapters/ch06.html#_freeing_allocated_disk_space">Freeing allocated disk space</a></li>
+                    <li><a href="./chapters/ch06.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch07.html">Implementing ACID transactions</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch07.html#_implementing_isolation_between_transactions">Implementing isolation
+                        between transactions</a></li>
+                    <li><a href="./chapters/ch07.html#_writing_to_disk_again">Writing to disk again</a></li>
+                    <li><a href="./chapters/ch07.html#_memory_management_concerns">Memory management concerns</a></li>
+                    <li><a href="./chapters/ch07.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch08.html">Implementing durable writes</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch08.html#_writing_to_a_write_ahead_log">Writing to a Write Ahead Log</a></li>
+                    <li><a href="./chapters/ch08.html#_checkpoints_and_wal_trimming">Checkpoints and WAL trimming</a></li>
+                    <li><a href="./chapters/ch08.html#_durability_concerns">Durability concerns</a></li>
+                    <li><a href="./chapters/ch08.html#_unit_tests">Unit Tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch09.html">Improving the Write Ahead Log</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch09.html#_verifying_transaction_integrity">Verifying transaction integrity</a></li>
+                    <li><a href="./chapters/ch09.html#_validating_future_transactions">Validating future transactions</a></li>
+                    <li><a href="./chapters/ch09.html#_remembering_the_transaction_id">Remembering the transaction id</a></li>
+                    <li><a href="./chapters/ch09.html#_optimizing_fsync_calls">Optimizing fsync calls</a></li>
+                    <li><a href="./chapters/ch09.html#_reducing_the_cost_of_writing_to_the_wal">Reducing the cost of writing to
+                        the WAL</a></li>
+                    <li><a href="./chapters/ch09.html#_compressing_the_transactions">Compressing the transactions</a></li>
+                    <li><a href="./chapters/ch09.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch10.html">Dynamic file growth</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch10.html#_increasing_the_size_of_the_data_file">Increasing the size of the data
+                        file</a></li>
+                    <li><a href="./chapters/ch10.html#_increasing_the_size_of_the_wal">Increasing the size of the WAL</a></li>
+                    <li><a href="./chapters/ch10.html#_recovery_with_dual_wal_files">Recovery with dual WAL files</a></li>
+                    <li><a href="./chapters/ch10.html#_implementing_checkpoint_with_dual_wal_files">Implementing checkpoint with
+                        dual WAL files</a></li>
+                    <li><a href="./chapters/ch10.html#_appending_to_the_wal">Appending to the WAL</a></li>
+                    <li><a href="./chapters/ch10.html#_unit_tests">Unit Tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch11.html">Pages validation &amp; encryption</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch11.html#_hashing_data_on_commit">Hashing data on commit</a></li>
+                    <li><a href="./chapters/ch11.html#_validating_the_wal_changes">Validating the WAL changes</a></li>
+                    <li><a href="./chapters/ch11.html#_verifying_the_data_on_disk">Verifying the data on disk</a></li>
+                    <li><a href="./chapters/ch11.html#_encrypting_the_data_on_disk">Encrypting the data on disk</a></li>
+                    <li><a href="./chapters/ch11.html#_designing_encryption_support_in_gavran">Designing encryption support in
+                        Gavran</a></li>
+                    <li><a href="./chapters/ch11.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch12.html">Supporting 32 bits and databases larger than 256 TB</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch12.html#_combining_encryption_and_32_bits_mode">Combining encryption and 32 bits
+                        mode</a></li>
+                    <li><a href="./chapters/ch12.html#_using_the_wal_in_32_bits_mode">Using the WAL in 32 bits mode</a></li>
+                    <li><a href="./chapters/ch12.html#_choosing_the_right_design">Choosing the right design</a></li>
+                    <li><a href="./chapters/ch12.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch13.html">Log shipping and other fun activities</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch13.html#_intercepting_writes_to_the_wal">Intercepting writes to the WAL</a></li>
+                    <li><a href="./chapters/ch13.html#_applying_log_records_on_live_database">Applying log records on live
+                        database</a></li>
+                    <li><a href="./chapters/ch13.html#_additional_considerations_for_log_shipping">Additional considerations for
+                        log shipping</a></li>
+                    <li><a href="./chapters/ch13.html#_implementing_incremental_backup_using_log_shipping">Implementing
+                        incremental backup using log shipping</a></li>
+                    <li><a href="./chapters/ch13.html#_unit_tests">Unit Tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch14.html">Persistent data structures</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch14.html#_persistent_hash_table">Persistent hash table</a></li>
+                    <li><a href="./chapters/ch14.html#_extendible_hashing">Extendible Hashing</a></li>
+                    <li><a href="./chapters/ch14.html#_implementing_a_persistent_hash_table">Implementing a persistent hash
+                        table</a></li>
+                    <li><a href="./chapters/ch14.html#_writing_a_value_to_the_hash_table">Writing a value to the hash table</a>
+                    </li>
+                    <li><a href="./chapters/ch14.html#_deleting_a_value_from_the_hash_table">Deleting a value from the hash
+                        table</a></li>
+                    <li><a href="./chapters/ch14.html#_iterating_over_the_entries">Iterating over the entries</a></li>
+                    <li><a href="./chapters/ch14.html#_the_structure_of_a_hash_page">The structure of a hash page</a></li>
+                    <li><a href="./chapters/ch14.html#_adding_an_entry_to_a_hash_page">Adding an entry to a hash page</a></li>
+                    <li><a href="./chapters/ch14.html#_deleting_a_value_from_a_hash_page">Deleting a value from a hash page</a>
+                    </li>
+                    <li><a href="./chapters/ch14.html#_dropping_a_hash_table">Dropping a hash table</a></li>
+                    <li><a href="./chapters/ch14.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch15.html">Raw data containers</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch15.html#_writing_an_item">Writing an item</a></li>
+                    <li><a href="./chapters/ch15.html#_writing_a_large_item">Writing a large item</a></li>
+                    <li><a href="./chapters/ch15.html#_allocating_space_for_items">Allocating space for items</a></li>
+                    <li><a href="./chapters/ch15.html#_allocating_space_in_the_container">Allocating space in the container</a>
+                    </li>
+                    <li><a href="./chapters/ch15.html#_reading_an_item">Reading an item</a></li>
+                    <li><a href="./chapters/ch15.html#_deleting_an_item">Deleting an item</a></li>
+                    <li><a href="./chapters/ch15.html#_updating_an_item">Updating an item</a></li>
+                    <li><a href="./chapters/ch15.html#_dropping_a_container">Dropping a container</a></li>
+                    <li><a href="./chapters/ch15.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch16.html">B+Trees</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch16.html#_creating_a_btree">Creating a B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_writing_to_the_a_btree">Writing to the a B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_searching_a_key_in_a_page">Searching a key in a page</a></li>
+                    <li><a href="./chapters/ch16.html#_finding_where_to_make_the_write">Finding where to make the write</a></li>
+                    <li><a href="./chapters/ch16.html#_traversing_paths_in_the_btree">Traversing paths in the B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_space_allocation_and_usage_in_a_btree_page">Space allocation and usage in
+                        a B+Tree page.</a></li>
+                    <li><a href="./chapters/ch16.html#_defragging_a_btree_page_to_recover_space">Defragging a B+Tree page to
+                        recover space</a></li>
+                    <li><a href="./chapters/ch16.html#_page_splits_in_the_btree">Page splits in the B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_reading_from_the_btree">Reading from the B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_dropping_the_btree">Dropping the B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_deleting_from_the_btree">Deleting from the B+Tree</a></li>
+                    <li><a href="./chapters/ch16.html#_iterating_over_the_btree_entries">Iterating over the B+Tree entries</a>
+                    </li>
+                    <li><a href="./chapters/ch16.html#_unit_tests">Unit tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch17.html">Storing multiple values per key</a>
+                <ol class="subchapter">
+                    <li><a href="./chapters/ch17.html#_building_a_btree_to_hold_multiple_values_per_key">Building a B+Tree to
+                        hold multiple values per key</a></li>
+                    <li><a href="./chapters/ch17.html#_using_a_nested_tree_to_optimize_key_duplication_for_multiple_values">Using
+                        a nested tree to optimize key duplication for multiple values</a></li>
+                    <li><a href="./chapters/ch17.html#_deleting_a_value_from_a_multi_value_btree">Deleting a value from a multi
+                        value B+Tree</a></li>
+                    <li><a href="./chapters/ch17.html#_iterating_over_multiple_values_per_key_using_btree">Iterating over
+                        multiple values per key using B+Tree</a></li>
+                    <li><a href="./chapters/ch17.html#_building_a_hash_that_will_hold_multiple_values_per_key">Building a hash
+                        that will hold multiple values per key</a></li>
+                    <li><a href="./chapters/ch17.html#_iterating_over_multiple_values_per_key">Iterating over multiple values per
+                        key</a></li>
+                    <li><a href="./chapters/ch17.html#_deleting_a_value_from_multi_value_keys">Deleting a value from multi value
+                        keys</a></li>
+                    <li><a href="./chapters/ch17.html#_unit_tests">Unit Tests</a></li>
+                </ol>
+            </li>
+            <li><a href="./chapters/ch18.html">Tables</a></li>
+        </ol>
+    </div>
+</div>
+
+</body>
+</html>

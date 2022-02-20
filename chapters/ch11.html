@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Pages validation &amp; encryption</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_pages_validation_encryption">Pages validation &amp; encryption</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You might have caught on by now to the fact that I <em>don&#8217;t</em> trust the disk. A catastrophic disk failure doesn&#8217;t happen all that often in normal day to day life, but errors are surprisingly
+common. Backblaze is an interesting case study in this regard, because they <a href="https://www.backblaze.com/b2/hard-drive-test-data.html">routinely publish failure rates of hard drives</a>. Some
+of which can reach an astonishingly high 2% failure rate in a single year.</p>
+</div>
+<div class="paragraph">
+<p>You can expect to have ECC (Error Correcting Codes) even on consumer drives today, and the nature of SSD drives means that they can recover from many minor errors on the fly without any
+user visible effects. That isn&#8217;t a fool proof plan and you can get into situations where <a href="https://www.backblaze.com/blog/how-reliable-are-ssds/">a read or write will simply fail</a>. I&#8217;m not
+worried too much about <em>that</em>, to be honest. Hard errors in reading the data from disks are fine. We can&#8217;t do better than the underlying hardware will allow us, after all.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Why not use double writes?</div>
+<div class="paragraph">
+<p>One option to increase survivability of data is to write it to multiple locations on the disk. That used to be a good option, because you would write it to separate parts of the disk
+and a single error would be unlikely to corrupt both copies. However, today most drives don&#8217;t allow you to control where the data will go and many SSDs will use write coalescing. In
+other words, writes that happened at the same time will go to the same place, even if they are "technically" on different locations on the disk.</p>
+</div>
+<div class="paragraph">
+<p>The other issue is the cost, we can do that for a few things, such as the file header, but we can&#8217;t do that to <em>all</em> pages, that would request us to double our storage requirement. A
+far better option in this regard is to use RAID to have the storage layer itself handle potential errors in storage.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="https://research.cs.wisc.edu/adsl/Publications/corruption-fast08.pdf">An Analysis of Data Corruption in the Storage Stack</a> from NetApp outlines some of the issues that you face at the
+hardware level. They found over 400,000(!) failures in a period of under 4 years, 30,000 of them bypassed all attempts to check them and got all the way to user&#8217;s software.
+Then there is also the possibility of kernel bugs [<a href="https://topic.alibabacloud.com/a/fix-ext4-log-jbd2-bug-ext4-file-system-has-the-following-bug_8_8_31190436.html" class="bare">https://topic.alibabacloud.com/a/fix-ext4-log-jbd2-bug-ext4-file-system-has-the-following-bug_8_8_31190436.html</a>], this is an English
+translation of a Chinese discussion on an EXT4 bug that caused data corruption after (very) heavy writes.
+Even something as silly as having the wrong cables can cause <a href="https://changelog.complete.org/archives/9769-silent-data-corruption-is-real">data corruption issues</a>.
+As you can imagine, the topic is quite interesting and there is a lot of
+<a href="https://perspectives.mvdirona.com/2012/02/observations-on-errors-corrections-trust-of-dependent-systems/">information available</a> on the topic. Including many academic studies.
+The <a href="https://queue.acm.org/detail.cfm?id=1866298">Keeping Bits Safe: How Hard Can It Be?</a> does a good job of summarizing the main challenges and issues.</p>
+</div>
+<div class="paragraph">
+<p>If you haven&#8217;t dropped this book and started to verify your backup routines, you can clearly see why there is a need to verify the data from the disk at the application level. Gavran
+is already doing some of that, we are using <code>BLAKE2b</code> to validate the data on the WAL when we read it. This ensures that the recovery data operates on known good data.
+What about the data file? The data there is just a subject to the vagaries of hardware and software failures as the WAL. We also need to validate this information, no? The question is how?</p>
+</div>
+<div class="sect2">
+<h3 id="_hashing_data_on_commit">Hashing data on commit</h3>
+<div class="paragraph">
+<p>We validate the WAL using <code>BLAKE2b</code> hash, and I see no reason to change that for the data file. If you&#8217;ll recall, the structure of the page metadata is explicitly setup to we reserved 32 bytes
+for additional uses. That is specifically for this purpose. The <code>page_metadata_t</code> has <code>crypto</code> as its first field. You can see what it looks like in <a href="#page_crypto_metadata_t_11"><code>gavran/db.h</code> - The <code>page_crypto_metadata_t</code> occupies the first 32 bytes in <code>page_metadata_t</code>.</a>.</p>
+</div>
+<div id="page_crypto_metadata_t_11" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - The <code>page_crypto_metadata_t</code> occupies the first 32 bytes in <code>page_metadata_t</code>.</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct page_crypto_metadata {
+  union {
+    // <b class="conum">(1)</b>
+    struct {
+      uint8_t nonce[16];
+      uint8_t mac[16];
+    } aead;
+    // <b class="conum">(2)</b>
+    uint8_t hash_blake2b[crypto_generichash_BYTES];
+  };
+} page_crypto_metadata_t;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Used for encryption (<code>aead</code> stands for Authenticated Encryption Additional Data).</p>
+</li>
+<li>
+<p>Used to store the cryptographic hash for the page.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll deal with the <code>aead</code> field later on in this chapter. For now, I want to focus on the <code>hash_blake2b</code> field.
+The idea is that we&#8217;ll hash each page when we commit the transaction and then we&#8217;ll validate them on read. Let&#8217;s look at what we need to do in order to hash the pages. There is one location
+that we can do this on, the <code>txn_commit</code> function. I added a call to <code>txn_finalize_modified_pages()</code> just before we call <code>wal_append</code>. At this point, there are no more changes possible in the
+transaction and we can operate over the final state of the pages. Such as compute the hash for the modified pages. This is shown in <a href="#txn_finalize_modified_pages"><code>txn.c</code> - Computing the final state of each of the pages in the transaction</a>.</p>
+</div>
+<div id="txn_finalize_modified_pages" class="listingblock">
+<div class="title"><code>txn.c</code> - Computing the final state of each of the pages in the transaction</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_finalize_modified_pages(txn_t *tx) {
+  txn_state_t *state = tx-&gt;state;
+  // <b class="conum">(1)</b>
+  page_t *modified_pages;
+  ensure(mem_calloc((void *)&amp;modified_pages,
+      state-&gt;modified_pages-&gt;count * sizeof(page_t)));
+  defer(free, modified_pages);
+  size_t modified_pages_idx = 0;
+  size_t iter_state         = 0;
+  page_t *current;
+  while (pagesmap_get_next(
+      tx-&gt;state-&gt;modified_pages, &amp;iter_state, &amp;current)) {
+    // <b class="conum">(2)</b>
+    // can't modify in place, the hash may change, need a copy
+    memcpy(&amp;modified_pages[modified_pages_idx++], current,
+        sizeof(page_t));
+  }
+  // <b class="conum">(3)</b>
+  for (size_t i = 0; i &lt; modified_pages_idx; i++) {
+    page_metadata_t *metadata;
+    ensure(txn_modify_metadata(
+        tx, modified_pages[i].page_num, &amp;metadata));
+    if ((modified_pages[i].page_num &amp; PAGES_IN_METADATA_MASK) ==
+        modified_pages[i].page_num)
+      // we handle metadata page separately, note that metadata pages
+      // *must* be modified, that is why we call modify metadat first
+      continue;
+
+    ensure(tx_finalize_page(tx, &amp;modified_pages[i], metadata));
+  }
+  // <b class="conum">(4)</b>
+  iter_state = 0;
+  while (pagesmap_get_next(
+      tx-&gt;state-&gt;modified_pages, &amp;iter_state, &amp;current)) {
+    if ((current-&gt;page_num &amp; PAGES_IN_METADATA_MASK) !=
+        current-&gt;page_num)
+      continue;  // not a metadata page
+    page_metadata_t *entries = current-&gt;address;
+
+    ensure(tx_finalize_page(tx, current, entries));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Allocate a buffer to hold all the modified pages, we are going to be modifying (metadata) pages while we are computing the hashes, so we can&#8217;t iterate over the hash directly.</p>
+</li>
+<li>
+<p>Copy the modified page numbers to a stable location, which won&#8217;t change as we call <code>txn_modify_metadata()</code> on the values.</p>
+</li>
+<li>
+<p>Call <code>txn_modify_metadata()</code> on each of the modified pages, but finalize only the pages that <em>aren&#8217;t</em> metadata pages.</p>
+</li>
+<li>
+<p>Finalize all the <em>metadata</em> pages in the transaction.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>There are a few interesting things going on in <code>txn_finalize_modified_pages()</code>. We iterate over all the modified pages in the transaction, but we can&#8217;t use the transaction hash table directly for that.
+The problem is that we need to modify the metadata of pages (because that is where we&#8217;ll store the hash). Modifying the metadata page may change the hash table that holds the modified pages, so we
+can&#8217;t simply iterate on it. Instead, we allocate a buffer to hold the modified pages and copy the values from the hash table to the <code>modified_pages</code> buffer.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">What is this page finalization?</div>
+<div class="paragraph">
+<p>We are going to use roughly the same structure both for hashing and encryption of pages. From my perspective page finalization is when we operate on the final state of the pages, readying
+them to be persisted. That can be computing a cryptographic hash or encrypting the data.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The next step is to run through the <code>modified_pages</code> and call <code>txn_modify_metadata()</code> on each one of them. We have a separate process for metadata pages than normal pages, but we must call
+<code>txn_modify_metadata()</code> on all the pages that are in the transaction. A metadata page may or may not have been modified by the transaction, but by calling <code>txn_modify_metadata()</code> on all the
+pages, we ensure that all the metadata pages that are relevant to the transaction are going to be in the transaction&#8217;s modified pages hash table.</p>
+</div>
+<div class="paragraph">
+<p>We call <code>tx_finalize_page()</code> on all the non metadata pages, but why do we need to treat the metadata pages differently? Normal pages have their hash stored in the metadata page, but for metadata
+pages, the hash is stored <em>inside</em> the page itself. The issue is that as we are running through the pages, we update their metadata pages, so we must process the metadata pages after
+we have finished processing all of the regular pages.</p>
+</div>
+<div class="paragraph">
+<p>The last loop in <code>txn_finalize_modified_pages()</code> iterate over the hash table again, why not use the <code>modified_pages</code> in this case? Because we may have <em>new</em> modified metadata pages that were added to the
+hash table because of the call to <code>txn_modify_metadata()</code>. We handle metadata hashing in a slightly differently than the way we handle normal pages, let&#8217;s look at
+<a href="#txn_hash_page"><code>txn.c</code> -  Hashing of a single page or metadata page</a> to see the details of how this works. I&#8217;m jumping directly to <code>txn_hash_page()</code>, which is called from <code>tx_finalize_page()</code>, for now. We&#8217;ll look at <code>tx_finalize_page()</code> when we discuss
+encryption, at the moment, it simply calls to <code>txn_hash_page(page, metadata-&gt;cyrpto.hash_blake2b);</code>.</p>
+</div>
+<div id="txn_hash_page" class="listingblock">
+<div class="title"><code>txn.c</code> -  Hashing of a single page or metadata page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_hash_page(
+    page_t *page, uint8_t hash[crypto_generichash_BYTES]) {
+  bool is_metadata_page =
+      (page-&gt;page_num &amp; PAGES_IN_METADATA_MASK) == page-&gt;page_num;
+
+  void *start = is_metadata_page
+                    ? page-&gt;address + crypto_generichash_BYTES
+                    : page-&gt;address;
+  size_t size = is_metadata_page ? PAGE_SIZE - sizeof(page_metadata_t)
+                                 : page-&gt;number_of_pages * PAGE_SIZE;
+
+  if (crypto_generichash(
+          hash, crypto_generichash_BYTES, start, size, 0, 0)) {
+    failed(ENODATA,
+        msg("Unable to compute page hash for page, shouldn't happen"),
+        with(page-&gt;page_num, "%lu"));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>txn_hash_page()</code> is straightforward, we hash the data in the page and write the results to the <code>hash</code> value. The difference is in how we deal with normal and metadata pages. For normal
+pages, we hash the entire page (or pages). But for metadata pages, we skip the first 32 bytes of the page. That is because we are actually storing the metadata page has on the first 32 bytes of the
+metadata page itself. The diagram in <a href="#metadata-hash">Hashing usage for metadata pages</a> might make it easier to visualize.</p>
+</div>
+<div id="metadata-hash" class="imageblock">
+<div class="content">
+<img src="../imgs/metadata-hash.png" alt="metadata hash">
+</div>
+<div class="title">Figure 1. Hashing usage for metadata pages</div>
+</div>
+<div class="paragraph">
+<p>We can&#8217;t hash the whole metadata page, because the <code>cyrpto.hash_blake2b</code> for the metadata page actually resides <em>in</em> the metadata page. Instead, we use a small trick. The metadata entry for the
+metadata page itself is always the first item in the metadata page, and we make sure that the <code>cyrpto.hash_blake2b</code> is the first thing in the <code>page_metadata_t</code>. That means that we can hash the
+metadata page from byte 32 to 8192, placing the hash in the first 32 bytes. That allows us to use a single call to hash the entire page, leaving just the hash prefix.</p>
+</div>
+<div class="paragraph">
+<p>We can use a more complex hashing scheme, if we wanted to place the hash of the page in another location, but this makes things easier all around and we
+don&#8217;t really care where the hash is in the metadata entry. The data we need for encryption share the same space as the <code>cyrpto.hash_blake2b</code>, and having it as the prefix for the page is also much
+nicer in terms of the API usage.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">What about freed pages?</div>
+<div class="paragraph">
+<p>A freed page is one that was modified and then freed. From the point of view of the WAL and the lowest levels of Gavran, there is no different between a freed page and a modified
+one. A freed page is simply one that has its free space bitmap cleared and its value was set to zeroes. As such, it will have a <em>valid</em> hash for a zeroed buffer.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>We are computing the hashes for all of the modified pages before we write them to the WAL, which means that the hash changes will get to the WAL as everything does. I love this approach
+because it is simply layering behaviors on top of existing behaviors, in orthogonal manner.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validating_the_wal_changes">Validating the WAL changes</h3>
+<div class="paragraph">
+<p>What about <em>verifying</em> the hashes? After all, that is pretty much what they we created them for, no? The first place that we&#8217;ll verify the hashes is after the WAL recover is complete.
+We just applied a whole bunch of diffs to the system, let&#8217;s make sure that all the pages that we touched are valid according to their hash.</p>
+</div>
+<div class="paragraph">
+<p>The last call in <code>wal_recover()</code> is to <code>wal_validate_recovered_pages()</code>. This is meant to be a last check to make sure that everything we wrote is
+fine and working. <a href="#wal_validate_recovered_pages"><code>wal.c</code> -  Verifying the hashes for all the pages touched by the WAL recovery</a> shows how we do the actual validation. We registered all the modified pages in the <code>modified_pages</code> hash table, which allows us to then scan through
+all those modified pages and validate their hashes. You can see how that works in <a href="#wal_validate_recovered_pages"><code>wal.c</code> -  Verifying the hashes for all the pages touched by the WAL recovery</a>.</p>
+</div>
+<div id="wal_validate_recovered_pages" class="listingblock">
+<div class="title"><code>wal.c</code> -  Verifying the hashes for all the pages touched by the WAL recovery</div>
+<div class="content">
+<pre class="highlight"><code>static result_t wal_validate_recovered_pages(
+    db_t *db, pages_map_t *modified_pages) {
+  size_t iter_state = 0;
+  page_t *page_to_validate;
+  while (pagesmap_get_next(
+      modified_pages, &amp;iter_state, &amp;page_to_validate)) {
+    txn_t rtx;
+    ensure(txn_create(db, TX_READ, &amp;rtx));
+    defer(txn_close, rtx);
+    page_t p = {.page_num = page_to_validate-&gt;page_num};
+    ensure(txn_get_page(&amp;rtx, &amp;p));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is nothing really there. We are creating a transaction and calling <code>txn_get_page()</code> for each of the pages that were modified in the WAL recovery. How does this help us?
+The actual validation is done by at the transaction level, which gets the page to validate and the expected hash for the page. We are not going to validate the data just after
+WAL recovery, we need to do that for pages that weren&#8217;t modified by the WAL. We are simply going to reuse the same functionality to do the validation explicitly.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Cryptographic hashing also helps catch bugs</div>
+<div class="paragraph">
+<p>The <em>reason</em> that we have implemented hashing of the pages and transactions is that we want to be safe from on disk errors. A <em>really</em> nice side affect of this feature is that we
+can now catch early all sort of errors and surprises. It can be frustrating to realize that you are chasing a potential data corruption bug only to realize that you forgot to pass
+the size in an edge case and are comparing to a null buffer, for example. But it is much better to get a clear an obvious error than have that edge case bite you two years down the
+line.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m speaking from experience here, storage engines are incredibly complicated beasts as they grow and the number of interactions inside the engine is very high. Being able to validate
+your work as you change things in very useful.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verifying_the_data_on_disk">Verifying the data on disk</h3>
+<div class="paragraph">
+<p>Validating on recovery is great, to ensure that the <em>recovery</em> process worked. But as we saw in the beginning of this chapter, we are highly suspicious of the disk in general. That means
+that we want to do better than just check the recently modified pages. <a href="#database_page_validation_options"><code>gavran/db.h</code> - Additional configuration options for the database</a> shows the options we have on the table.</p>
+</div>
+<div id="database_page_validation_options" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - Additional configuration options for the database</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct db_options {
+  uint64_t minimum_size;
+  uint64_t maximum_size;
+  uint64_t wal_size;
+  uint8_t encryption_key[32];
+  db_flags_t flags;
+  uint32_t _padding;
+  wal_write_callback_t wal_write_callback;
+  void *wal_write_callback_state;
+} db_options_t;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>database_page_validation_options_t</code> enum allows us to control how often we&#8217;ll validate the hashes on the pages. Here is what the options mean:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>page_validation_once</code> - <strong>Default</strong>: Validate each page the first time that we read it from disk, but not afterward.</p>
+</li>
+<li>
+<p><code>page_validation_none</code> - Don&#8217;t validate the pages at all.</p>
+</li>
+<li>
+<p><code>page_validation_always</code> - Validate each time the page is read.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>With <code>page_validation_none</code> we don&#8217;t have any code for doing the actual validation. For <code>page_validation_once</code>, the situation
+is more interesting. We need to track what pages we already validated. I decided to use the simplest possible approach and define a bitmap of checked pages. To handle that
+we&#8217;ll use the following fields from the <code>db_state_t</code> structure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>uint64_t* first_read_bitmap;</code></p>
+</li>
+<li>
+<p><code>uint64_t original_number_of_pages;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I&#8217;m initializing these in <code>db_setup_page_validation()</code> which is called from <code>db_create()</code>, you can see how it works in <a href="#db_setup_page_validation"><code>db.c</code> - Initiation of the bitmap used to track what pages we already verified the hash for.</a>.</p>
+</div>
+<div id="db_setup_page_validation" class="listingblock">
+<div class="title"><code>db.c</code> - Initiation of the bitmap used to track what pages we already verified the hash for.</div>
+<div class="content">
+<pre class="highlight"><code>implementation_detail result_t db_setup_page_validation(db_t *db) {
+  if (db-&gt;state-&gt;options.flags &amp; db_flags_page_validation_once) {
+    txn_t tx;
+    ensure(txn_create(db, TX_READ, &amp;tx));
+    defer(txn_close, tx);
+    page_metadata_t *metadata;
+    ensure(txn_get_metadata(&amp;tx, 0, &amp;metadata));
+    db-&gt;state-&gt;number_of_pages = db-&gt;state-&gt;original_number_of_pages =
+        metadata-&gt;file_header.number_of_pages;
+
+    ensure(mem_calloc(
+        (void *)&amp;db-&gt;state-&gt;first_read_bitmap,
+        metadata-&gt;file_header.number_of_pages * PAGE_SIZE / 8));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The idea is simple, with <code>page_validation_once</code>, we want to validate a page on the first time we read it from disk. Once it is read, we assume that it is fine and won&#8217;t validate it
+again. We only need to validate the pages that are on disk when we start up, not ones that come from extending the size of the database during the run of the database. That simplify
+things greatly because we don&#8217;t need to modify the size of the bitmap. During the WAL validation, we simply read the pages that we wrote to the data file using the normal
+<code>txn_get_page</code> and validate the pages as a side affect.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="title">What is the logic behind validating only once?</div>
+<div class="paragraph">
+<p>Given that we are worried about data corruption, why wouldn&#8217;t we want to validate the data at all times? Surely that would be safer, no?</p>
+</div>
+<div class="paragraph">
+<p>This is a bit of a complex question, mostly because we don&#8217;t <em>know</em> when we read the data from disk. We are using memory mapped I/O, and even after we write to the disk, we may be
+served the data from the RAM, not the disk. That means that it is entirely possible for us to have bad data on disk but valid data on RAM, with no way to tell. <code>BLAKE2b</code> is considered
+to be a very fast cryptographic hash, it can reach nearly 1GB/sec in processing speed. But that is still an additional cost that we may no want to pay if it won&#8217;t materially help us
+improve the safety of the system.</p>
+</div>
+<div class="paragraph">
+<p>At some point, we have to admit that we got to trust the hardware, if only a little bit. The <code>page_validation_once</code> option strikes the appropriate balance between paranoia and willful
+ignorance.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The actual validation function is <code>txn_ensure_page_is_valid()</code>, which is called from <code>txn_raw_get_page()</code>. <a href="#txn_ensure_page_is_valid"><code>txn.c</code> - Validating that a page match its expected hash</a> shows how it is implemented.</p>
+</div>
+<div id="txn_ensure_page_is_valid" class="listingblock">
+<div class="title"><code>txn.c</code> - Validating that a page match its expected hash</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_ensure_page_is_valid(txn_t *tx, page_t *page) {
+  if ((tx-&gt;state-&gt;flags &amp; db_flags_page_validation_none) ==
+      db_flags_page_validation_none) {
+    ensure(txn_validate_page(tx, page));
+    return success();
+  }
+  if (tx-&gt;state-&gt;flags &amp; db_flags_page_validation_once) {
+    db_state_t *db   = tx-&gt;state-&gt;db;
+    uint64_t *bitmap = db-&gt;first_read_bitmap;
+    // before the db init is completed or extended during this run
+    if (!bitmap || page-&gt;page_num &gt; db-&gt;original_number_of_pages ||
+        // already checked
+        (bitmap[page-&gt;page_num / 64] &amp; (1UL &lt;&lt; page-&gt;page_num % 64)))
+      return success();
+    ensure(txn_validate_page(tx, page));
+    // we only do it one, can skip it next time
+    bitmap[page-&gt;page_num / 64] |= (1UL &lt;&lt; page-&gt;page_num % 64);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>in <a href="#txn_ensure_page_is_valid"><code>txn.c</code> - Validating that a page match its expected hash</a> we check what is the validation mode. If it is <code>page_validation_none</code>, we can bail early. For <code>page_validation_always</code>, we&#8217;ll perform the check. For
+<code>page_validation_once</code>, however, we need to have a bit more work. We first check if the database was properly setup and if the page in question fall within the relevant range to
+check. Pages that were created by extending the database file in the current run will not be validated. Then we check the bitmap to see if we already checked this page before.
+If not, we&#8217;ll validate the page and mark the bitmap.
+The actual validation is done in <code>txn_validate_page()</code>, shown in <a href="#txn_validate_page_11"><code>txn.c</code> - Validating that a page match its expected hash</a>.</p>
+</div>
+<div id="txn_validate_page_11" class="listingblock">
+<div class="title"><code>txn.c</code> - Validating that a page match its expected hash</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_validate_page_hash(
+    page_t *page, uint8_t expected_hash[crypto_generichash_BYTES]) {
+  // <b class="conum">(1)</b>
+  uint8_t hash[crypto_generichash_BYTES];
+  ensure(txn_hash_page(page, hash));
+  // <b class="conum">(2)</b>
+  if (!memcmp(hash, expected_hash, crypto_generichash_BYTES))
+    return success();
+  // <b class="conum">(3)</b>
+  if (sodium_is_zero(expected_hash, crypto_generichash_BYTES) &amp;&amp;
+      sodium_is_zero(
+          page-&gt;address, page-&gt;number_of_pages * PAGE_SIZE))
+    return success();
+  // <b class="conum">(4)</b>
+  failed(ENODATA,
+      msg("Unable to validate hash for page, data corruption?"),
+      with(page-&gt;page_num, "%lu"));
+}
+static result_t txn_validate_page(txn_t *tx, page_t *page) {
+  page_metadata_t *metadata;
+  if ((page-&gt;page_num &amp; PAGES_IN_METADATA_MASK) != page-&gt;page_num) {
+    ensure(txn_get_metadata(tx, page-&gt;page_num, &amp;metadata));
+  } else {
+    metadata = page-&gt;address;
+  }
+  ensure(txn_validate_page_hash(page, metadata-&gt;cyrpto.hash_blake2b));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Do the actual hashing of the page.</p>
+</li>
+<li>
+<p>Check if the page&#8217;s hash match the expected hash.</p>
+</li>
+<li>
+<p>If there isn&#8217;t a match, check if the expected hash and the page contents are both zeroed.</p>
+</li>
+<li>
+<p>Report the invalid page up the chain.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The <code>txn_validate_page()</code> function fetch the relevant metadata for the page. We cannot use <code>txn_get_metadata()</code> when we are dealing with a metadata page, since it will call to <code>txn_get_page()</code>
+which will call right back to <code>txn_ensure_page_is_valid()</code>. The code then call to <code>txn_validate_page_hash()</code> to do the actual validation. What is interesting here is that there are <em>two</em>
+possibly valid options here:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The hash match the expected hash, everything it okay.</p>
+</li>
+<li>
+<p>The hash doesn&#8217;t match, but the page is zeroed and the expected hash is zero. In this case, we consider this to be okay as well. We are looking at an uninitialized page.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This completes the task of verifying that the data on disk wasn&#8217;t changed behind our back. We use a cryptographic hash function to ensure that even a single bit flip will cause us to
+detect and alert on the issue. In fact, we have quite a lot of hashing going on:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hashing of the transaction buffers, which ensure that we can detect invalid transaction on disk.</p>
+</li>
+<li>
+<p>Hashing of the pages during transaction commit, which is then validated:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>After WAL recovery.</p>
+</li>
+<li>
+<p>During normal operations, on first read from disk (or on each transaction, depending on your configuration).</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Now that we have hashing worked out, I want to look at another cryptographic feature, encryption of the data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_encrypting_the_data_on_disk">Encrypting the data on disk</h3>
+<div class="paragraph">
+<p>Hashing the data to ensure that it wasn&#8217;t changed behind our back is one level of safety that we can offer. Another is to ensure that no one can <em>read</em> our data unless they have the
+proper keys. We are going to implement encryption in Gavran, which will allow us to transparently encrypt and encrypt data, so no plain text is ever saved to disk. We are going to be
+using <code>Sodium</code>, a well known cryptographic library for this purpose.</p>
+</div>
+<div class="paragraph">
+<p>We have already made use of it using the <code>crypto_generichash()</code>, but I want to call it explicitly now that we are relying on its cryptographic properties. It is a well thought off
+library and has gone through several security reviews. I&#8217;m going to implement encryption on Gavran, but I want to emphasis that the implementation hasn&#8217;t been through proper security
+audit. I wanted to call it out explicitly, although I obviously believe that the system is secure. If you care about the encryption feature, you might want to get a proper cryptographer to review it.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Transparent data encryption</div>
+<div class="paragraph">
+<p>We are going to implement a feature called TDE (transparent data encryption). In this model, the data is <em>always</em> encrypted. On disk and in memory, in the WAL and for the data file.
+The only time that we hold the data in its decrypted form is when we have an active transaction that to hold it. From the point of view of the higher level APIs, there it no change
+in the behavior of the system, it can work with the data as usual.</p>
+</div>
+<div class="paragraph">
+<p>Whoever get a hold of the data files, on the other hand, must get the key in order to make sense of what is going on here. We are going to use <code>XChaCha20-Poly1305</code> algorithm to encrypt the
+data. This is an algorithm with 256 bits key and very high degree of security.</p>
+</div>
+<div class="paragraph">
+<p>That said, note that the security of the system is dependent on the <em>whole</em> system. How you store the key, for example, is quite important, but it is out of scope for Gavran.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Before I can get into the guts of the encryption implementation, I want to talk a bit about how encryption is used. This is <em>not</em> a premiere on encryption. I <em>would</em> recommend that you&#8217;ll
+read some. The <a href="https://www.amazon.com/dp/1593278268/">Serious Cryptography: A Practical Introduction to Modern Encryption</a> is a great introduction to cryptography and contains a lot of
+background information. The <a href="https://libsodium.gitbook.io/">Libsodium documentation</a> is another excellent resource for more practical advice. Don&#8217;t roll your own cryptography, please.
+Another good resource is <a href="https://paragonie.com/blog/2015/08/you-wouldnt-base64-a-password-cryptography-decoded">You Wouldn&#8217;t Base64 a Password - Cryptography Decoded</a> blog post from
+Paragon Initiative, which have <em>great</em> materials covering cryptography. I would recommend perusing their blog in general, highly interesting stuff.</p>
+</div>
+<div class="paragraph">
+<p>The <code>page_metadata_t</code> structure is setup in such a way that the <code>page_hash</code> and the <code>aead</code> overlap. In other words, you can use either one of them, not both. How will we verify
+that our data wasn&#8217;t changed behind our backs, if we don&#8217;t have hashing in place? The answer to that is that we are going to use an AEAD algorithm (<code>XChaCha20-Poly1305</code>, more specifically). AEAD
+stands for Authenticated Encryption Additional Data. In other words, the encryption algorithm ensures that not only is the data safe from prying eyes, but that the decrypted data is
+the same data that was encrypted.
+The <a href="https://paragonie.com/blog/2015/05/using-encryption-and-authentication-correctly">Using Encryption and Authentication Correctly</a> post does a good job discussing the issues of
+encryption and authentication.</p>
+</div>
+<div class="paragraph">
+<p>In short, it means that using <code>XChaCha20-Poly1305</code>, we can be assured that the decryption will work if and only if the data that was decrypted is identical to the data that was encrypted, any
+attempt to mess about with the encrypted bits will cause the entire decryption process to fail. That means that it would be a waste to also authenticate the data using a hash, in
+effect, we are already doing that.</p>
+</div>
+<div class="paragraph">
+<p>Just like the <code>hash_blake2b</code> that we kept, the verification of the encrypted data is done using a MAC (Message Authentication Code), we store that in <code>aead.mac</code> field and it is 16
+bytes in size (128 bits). There is also another field in this structure that is interesting: <code>aead.nonce</code>. This probably requires more explanation. Let&#8217;s assume that I have
+the functions <code>encrypt(key, data): (secret, mac)</code> and <code>decrypt(key, secret, mac): data</code>.</p>
+</div>
+<div class="paragraph">
+<p>Encryption is a purely math function, given identical inputs, you&#8217;ll get identical outputs. In modern cryptography, we assume that everything but the key is public. So you
+should be able to publish your encrypted text, the algorithm and the MAC and no worry about anyone being able to make any sense of this.</p>
+</div>
+<div class="paragraph">
+<p>However&#8230;&#8203; what happens when we have the following encrypted values: <code>{secret: "dwwdfk dw gdzq", mac: "7BC981EB"}</code>. We don&#8217;t know what the key is, and we can&#8217;t trick you to decrypting it for us.
+However, we <em>can</em> get you to encrypt another message for us. We&#8217;ll send you the string: "attack at dawn" to encrypt. If you return <code>{secret: "dwwdfk dw gdzq", mac: "7BC981EB"}</code>, we now know what
+was the original message. So there is a need to make sure that each time you encrypt a message, even identical ones, you&#8217;ll get a different value. That is the point of the <code>nonce</code>.
+It means: "Number only used once". The idea is that it is used to inject randomness into the process. Two identical messages encrypted with the same key and different nonces will
+result in different messages.</p>
+</div>
+<div class="paragraph">
+<p>So far so good, but that leads to a different problem: Nonce reuse. What happens if you use the same nonce with the same key twice? The answer is, sadly, <em>catastrophic</em>. In this
+case I think that the term is justified. It leaks the result of the XOR of the messages encrypted. You can see
+<a href="https://github.com/miscreant/meta/wiki/Nonce-Reuse-Misuse-Resistance">a great example of the problem in this page</a>.</p>
+</div>
+<div class="paragraph">
+<p>Now that you are aware of the background details, let&#8217;s talk about how we are going to approach it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_designing_encryption_support_in_gavran">Designing encryption support in Gavran</h3>
+<div class="paragraph">
+<p>Gavran is going to take the following approach for encryption. A user provided encryption key that is 32 bytes (256 bits) is used as the master key for all encryption work in Gavran.
+See the <code>encryption_key</code> field on the <code>db_options_t</code> struct in <a href="#page_crypto_metadata_t_11"><code>gavran/db.h</code> - The <code>page_crypto_metadata_t</code> occupies the first 32 bytes in <code>page_metadata_t</code>.</a>. That key isn&#8217;t actually used for any sort of encryption, instead, we use that key to <em>derive</em>
+dedicated keys for each individual encryption / decryption operation.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that we want to ensure separate domains for each cryptographic operation. If somehow a key leaks, we aren&#8217;t going to lose our entire security edifice. In practice,
+this means that whenever we need to encrypt a page, we&#8217;ll derive a key for that particular page (based on the page number) and the master key. Each key is going to be unique for that
+particular page, so even if we get nonce reuse, we&#8217;ll not be able to apply that across different pages. As for the actual nonce, we&#8217;ve reserved space in the <code>page_metadata_t</code> for
+it (and the MAC).</p>
+</div>
+<div class="paragraph">
+<p>However, we are in somewhat of a bother here. We want to use <code>XChaCha20-Poly1305</code>, but that has a requirement of a 192 bits nonce (24 bytes). We only have 16 bytes available for us in
+the <code>page_crypto_metadata_t</code> for the <code>aead.nonce</code>. Trying to extend the <code>page_crypto_metadata_t</code> to 40 bytes will either leave with just 24 bytes for the actual metadata or force us
+to increase the size of <code>page_metadata_t</code>. I don&#8217;t want either of these options. So far, aside from the <code>file_header_t</code>, we haven&#8217;t actually <em>used</em> the page metadata. That will change
+as soon as we get to the point where we implement real data structures.</p>
+</div>
+<div class="paragraph">
+<p>With <code>XChaCha20-Poly1305</code>, you can use a random buffer safely, because you have 2<sup>192</sup> possible values. But the only <em>requirement</em> we have for a nonce is that we&#8217;ll only use it once.
+We are going to use the <code>aead.nonce</code> in counter mode, giving us a 2<sup>128</sup> unique values. That means that on each transaction, we&#8217;ll increment the value of the <code>aead.nonce</code> for each
+page, giving us a secured way to use  <code>XChaCha20-Poly1305</code> without fearing the issues of nonce reuse.</p>
+</div>
+<div class="paragraph">
+<p>If you want to read more on the topic, I will point you to <a href="https://www.imperialviolet.org/2015/05/16/aeads.html">a good discussion</a> on the topic and leave it there. Encryption and
+practical cryptography is a vast field which is quite interesting, but out of scope for this book.</p>
+</div>
+<div class="paragraph">
+<p>Because each page is using a distinct key (derived from the master key), we don&#8217;t need to worry about nonce reuse <em>between</em> pages, only for the same page. We handle that by generating
+a random nonce once and then incrementing it on each transaction. That gives us a guarantee that we&#8217;ll not have any reuse between updates to the same page. The reason we use a random
+nonce as the base and then increment it each time is to avoid to leak the frequencies of change. If the nonce was simply the number of times that a page changed, it might give an
+observer some interesting data about where the important bits of the file are.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Encrypting the concents of the WAL</div>
+<div class="paragraph">
+<p>We don&#8217;t need to do that, it turns out. Given that the pages are already encrypted, what information do we have in the transaction that is secret?</p>
+</div>
+<div class="paragraph">
+<p>The only thing that the WAL can tell an observer is <em>what</em> pages have been changed (but not <em>what</em> changed). How problematic is up for debate, but I&#8217;m going to assume that
+this isn&#8217;t a major issue. If this is a problem we can simply encrypt the whole transaction data as a single unit again. That is the simplest approach for adding encryption to the WAL.</p>
+</div>
+<div class="paragraph">
+<p>Doing so would result in double encryption, which may be a concern. Attempts to reduce that may cause us to leak the <em>size</em> of transactions or at least the number of modified
+pages, which leads to a whole different pile of issues that we may have to consider. I chose to draw the line at this stage, the page numbers of modified pages and the transaction
+number are going to be visible in the WAL, the actual <em>data</em> is going to be encrypted.</p>
+</div>
+<div class="paragraph">
+<p>As an aside, if we <em>were</em> to encrypt the WAL, how would we handle the nonce? In this case, we could have used a random nonce, we&#8217;ll derive a key per transaction, so there is no
+chance for a reuse of both key and nonce.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Enough with the theoretical discussion, let&#8217;s get digging into the actual code and see how this gets implemented. The journey starts on <a href="#tx_finalize_page"><code>txn.c</code> -  Finalizing a page during <code>txn_commit()</code></a>, with the <code>tx_finalize_page()</code>
+function. You can see that most of the work is delegated to <code>txn_encrypt_page()</code>, with <code>tx_finalize_page()</code> being responsible to decide whatever to encrypt of hash the page and
+if we are encrypting a metadata page or a normal one. We looked at <code>txn_finalize_modified_pages()</code> in <a href="#txn_finalize_modified_pages"><code>txn.c</code> - Computing the final state of each of the pages in the transaction</a>, which orchestrate the whole thing. Just like the page
+hashing, we first run through all the normal pages and then we go through the metadata pages.</p>
+</div>
+<div id="tx_finalize_page" class="listingblock">
+<div class="title"><code>txn.c</code> -  Finalizing a page during <code>txn_commit()</code></div>
+<div class="content">
+<pre class="highlight"><code>static result_t tx_finalize_page(
+    txn_t *tx, page_t *page, page_metadata_t *metadata) {
+  if (tx-&gt;state-&gt;flags &amp; db_flags_encrypted) {
+    if ((page-&gt;page_num &amp; PAGES_IN_METADATA_MASK) == page-&gt;page_num) {
+      size_t shift = PAGE_METADATA_CRYPTO_HEADER_SIZE;
+      return txn_encrypt_page(tx, page-&gt;page_num,
+          page-&gt;address + shift, PAGE_SIZE - shift, metadata);
+    }
+    return txn_encrypt_page(tx, page-&gt;page_num, page-&gt;address,
+        page-&gt;number_of_pages * PAGE_SIZE, metadata);
+  } else {
+    return txn_hash_page(page, metadata-&gt;cyrpto.hash_blake2b);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the metadata page, we store the <code>aead.mac</code> and <code>aead.nonce</code> in the page itself. For other pages, we store the data in the associated metadata page. Most of <code>tx_finalize_page()</code>
+does it simply reflect that behavior so <code>txn_encrypt_page()</code> can be made simpler. Simplicity is a great feature in code, but especially in cryptographic code. You can see how <code>txn_encrypt_page()</code>
+is implemented in Listing 11.9.</p>
+</div>
+<div id="txn_encrypt_page" class="listingblock">
+<div class="title"><code>txn.c</code> -  Encrypting a page</div>
+<div class="content">
+<pre class="highlight"><code>static const char TxnKeyCtx[8] = "TxnPages";
+static result_t txn_encrypt_page(txn_t *tx, uint64_t page_num,
+    void *start, size_t size, page_metadata_t *metadata) {
+  // <b class="conum">(1)</b>
+  uint8_t subkey[crypto_aead_xchacha20poly1305_IETF_KEYBYTES];
+  if (crypto_kdf_derive_from_key(subkey,
+          crypto_aead_xchacha20poly1305_IETF_KEYBYTES, page_num,
+          TxnKeyCtx, tx-&gt;state-&gt;db-&gt;options.encryption_key)) {
+    failed(EINVAL, msg("Unable to derive key for page decryption"),
+        with(page_num, "%ld"));
+  }
+  uint8_t nonce[crypto_aead_xchacha20poly1305_IETF_NPUBBYTES];
+  // <b class="conum">(2)</b>
+  txn_generate_nonce(metadata);
+  txn_set_nonce(metadata, nonce);
+  // <b class="conum">(3)</b>
+  int result = crypto_aead_xchacha20poly1305_ietf_encrypt_detached(
+      start, metadata-&gt;cyrpto.aead.mac, 0, start, size, 0, 0, 0,
+      nonce, subkey);
+  sodium_memzero(subkey, crypto_aead_xchacha20poly1305_IETF_KEYBYTES);
+  if (result) {
+    failed(
+        EINVAL, msg("Unable to encrypt page"), with(page_num, "%ld"));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Derive a key from the master key and the page number, using <code>TxnKeyCtx</code> to generate a separate key domain.</p>
+</li>
+<li>
+<p>Generate the nonce and store it in the <code>nonce</code> variable, we&#8217;ll see exactly how shortly.</p>
+</li>
+<li>
+<p>Do the actual encryption.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The most interesting thing about <a href="#txn_encrypt_page"><code>txn.c</code> -  Encrypting a page</a> is the fact that we derive a new key from the master key. That means that each new page is going to use a different key. We use the
+<code>TxnKeyCtx</code> value (which is a static string) to ensure that we&#8217;ll have a separate domain for key derivation. The idea is that if we want to also encrypt WAL transactions, for example,
+we will also use a numeric value to derive the key, most likely the transaction id. In that case, we may end up using the same number to derive the key from the same master key. That
+would result in the same key being generated. In order to avoid that, we pass a context and thus make sure that each domain (transactions in WAL, pages in data file) will have a separate
+key space to generate from.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Other options for the nonce</div>
+<div class="paragraph">
+<p>Aside from generating the nonce randomly and then incrementing it, we also had some other options. We can use the transaction id as the nonce value. It is guaranteed to always increment
+and cannot repeat itself.</p>
+</div>
+<div class="paragraph">
+<p>We could also imply just increment the value every time, but we <em>zero</em> the page and its metadata when we call <code>txn_free</code>, so I thought it would be simpler to start from a random value
+and just increment. That is also the recommendation in the Sodium documentation and was the primary motivation why I select that approach.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is important to note that <code>txn_encrypt_page()</code> will encrypt the data <em>in place</em>. What it means is that immediately following this call, all the pages in the transactions are going to
+look like random noise. Given that the encryption steps happens as part of <code>txn_commit()</code> (just before we call <code>wal_append()</code>), it doesn&#8217;t matter to us. In fact, we are now
+<em>relying</em> on this to secure the WAL without having to encrypt the WAL&#8217;s transaction data as well. The contents that are sent to the WAL are already encrypted, after all.</p>
+</div>
+<div class="paragraph">
+<p><a href="#txn_generate_nonce"><code>txn.c</code> -  Generating a <code>nonce</code> for a single page</a> shows how we do the nonce generation. If the <code>aead.nonce</code> field is zero, we generate a random 128 bits value, otherwise we&#8217;ll simply increment it. That means that
+an observer cannot deduce the number of times a particular page has changed by just looking at the <code>nonce</code>. I&#8217;m not sure how useful that would be to an attacker, but it cost us very little
+to achieve and is recommended by Sodium.</p>
+</div>
+<div id="txn_generate_nonce" class="listingblock">
+<div class="title"><code>txn.c</code> -  Generating a <code>nonce</code> for a single page</div>
+<div class="content">
+<pre class="highlight"><code>static void txn_generate_nonce(page_metadata_t *metadata) {
+  if (sodium_is_zero(metadata-&gt;cyrpto.aead.nonce,
+          PAGE_METADATA_CRYPTO_NONCE_SIZE)) {
+    randombytes_buf(
+        metadata-&gt;cyrpto.aead.nonce, PAGE_METADATA_CRYPTO_NONCE_SIZE);
+  } else {
+    sodium_increment(
+        metadata-&gt;cyrpto.aead.nonce, PAGE_METADATA_CRYPTO_NONCE_SIZE);
+  }
+}
+static void txn_set_nonce(page_metadata_t *metadata,
+    uint8_t nonce[crypto_aead_xchacha20poly1305_IETF_NPUBBYTES]) {
+  memcpy(nonce, metadata-&gt;cyrpto.aead.nonce,
+      PAGE_METADATA_CRYPTO_NONCE_SIZE);
+  memset(nonce + PAGE_METADATA_CRYPTO_NONCE_SIZE, 0,
+      crypto_aead_xchacha20poly1305_IETF_NPUBBYTES -
+          PAGE_METADATA_CRYPTO_NONCE_SIZE);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are a few things to consider with this approach however, we can no longer use compression or diffing to reduce the I/O load on the WAL and there is a much bigger issue. How can we
+<em>read</em> the data back?</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Diffing and compressing encrypted data is a no go</div>
+<div class="paragraph">
+<p>By the time the transaction&#8217;s data reach the WAL, it is already encrypted. One of the properties of encrypted data is that unless you have the key, it is indistinguishable from random
+noise. Compression <em>relies</em> of finding repetitions in the data, which isn&#8217;t going to happen when we are comparing encrypted values.</p>
+</div>
+<div class="paragraph">
+<p>A less obvious, but much more serious issue is the problem with diffing data. We use AEAD algorithm, which means that the <em>whole</em> data must remain as is. We can&#8217;t modify the data in
+little bits, we need to replace it as a single unit. Because of those reasons, the <code>wal_append()</code> will disable diff and compression for the WAL when we are using an encrypted database.</p>
+</div>
+<div class="paragraph">
+<p>Technically speaking, if we had encrypted WAL, we could do the compression and diffing on the plain text data, as before. That would mean <code>wal_recover()</code> would be composed of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Decrypt the transaction.</p>
+</li>
+<li>
+<p>For each of the pages in the transaction, decrypt the relevant page.</p>
+</li>
+<li>
+<p>Apply the diff to the page.</p>
+</li>
+<li>
+<p>Encrypt the page again.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That works, in theory, but it is not practical. Consider the case of a partial write to the data file. One part of the page was written, the other was not. Using the WAL, that is not
+an issue, we can apply the diff blindly and recover all the lost data. But if we have something like that with encryption, we can&#8217;t decrypt the data on disk, so we can&#8217;t apply the diff to it.
+Which means that we are stuck with a single bit flip causing us to be unable to recover the database.</p>
+</div>
+<div class="paragraph">
+<p>There is a reason why the WAL only does validation of the pages it modified in the end. We <em>assume</em> that up until then, we may have corrupted data, and the act of re-applying the diffs
+from the last <code>fsync()</code> forward will make it all go away. With encryption, that is not possible, we have to overwrite the whole page.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>It turns out that reading the data is complex, because we have no place to <em>put</em> it. If you&#8217;ll recall, a read transaction is just an immutable copy of a write transaction, and we
+already encrypted the data. We need to decrypt the data before we can look at it, but where will we <em>put</em> this data?
+Let&#8217;s look at <a href="#txn_t_11"><code>gavran/db.h</code> - The <code>txn_t</code> structure, ready for encrypted databases</a>, to start unravel this mystery.</p>
+</div>
+<div id="txn_t_11" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - The <code>txn_t</code> structure, ready for encrypted databases</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct txn {
+  txn_state_t *state;
+  pages_map_t *working_set;
+} txn_t;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We have a <code>working_set</code> field in the <code>txn_t</code> structure. This is held by the <em>caller</em>, not by Gavran, and it is distinct for each transaction. We&#8217;ll be using the <code>working_set</code>
+hash table to hold the decrypted values. The idea is that we only hold the memory decrypted in memory for the duration of an active transaction and then immediately discard it.
+We initialize this table in <code>txn_create()</code> and we clear it in <code>txn_close()</code>. I&#8217;m showing just the relevant portion of these functions in <a href="#working_set_txn_close"><code>txn.c</code> - Creating the <code>working_set</code> on transaction creation and clearing in on <code>txn_close()</code> to wipe decrypted data from memory</a>, to show how
+we hold the decrypted data from memory and clear in when the transaction ends.</p>
+</div>
+<div id="working_set_txn_close" class="listingblock">
+<div class="title"><code>txn.c</code> - Creating the <code>working_set</code> on transaction creation and clearing in on <code>txn_close()</code> to wipe decrypted data from memory</div>
+<div class="content">
+<pre class="highlight"><code>result_t txn_create(db_t *db, db_flags_t flags, txn_t *tx) {
+  errors_assert_empty();
+  if (db-&gt;state-&gt;options.flags &amp; db_flags_page_need_txn_working_set) {
+    ensure(pagesmap_new(8, &amp;tx-&gt;working_set));
+  } else {
+    tx-&gt;working_set = 0;
+  }
+    // redacted
+}
+
+result_t txn_close(txn_t *tx) {
+  if (!tx || !tx-&gt;state) return success();
+  db_state_t *db = tx-&gt;state-&gt;db;
+  if (tx-&gt;state-&gt;tx_id == db-&gt;active_write_tx) {
+    db-&gt;active_write_tx = 0;
+  }
+  if (tx-&gt;working_set) {
+    size_t iter_state = 0;
+    page_t *p;
+    while (pagesmap_get_next(tx-&gt;working_set, &amp;iter_state, &amp;p)) {
+      if (tx-&gt;state-&gt;flags &amp; db_flags_encrypted) {
+        sodium_memzero(p-&gt;address, p-&gt;number_of_pages * PAGE_SIZE);
+      }
+      free(p-&gt;address);
+    }
+    free(tx-&gt;working_set);
+  }
+    // redacted
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The key piece of the code in <a href="#working_set_txn_close"><code>txn.c</code> - Creating the <code>working_set</code> on transaction creation and clearing in on <code>txn_close()</code> to wipe decrypted data from memory</a> is the call to <code>sodium_memzero()</code>, this will remove decrypted data from memory as soon as the transaction closes.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Where is your security boundary?</div>
+<div class="paragraph">
+<p>In general, I&#8217;m trying to follow best practices for secure code in Gavran, making sure that we use the cryptographic API appropriately, that hold on to sensitive data for as short a
+time as possible, etc. That is a good start, but be aware that there is a <em>lot</em> more that you probably need to consider, depending on your situation.</p>
+</div>
+<div class="paragraph">
+<p>For example, you might want to lock decrypted data in memory using <code>sodium_mlock()</code>, or ensure that the master key is protected in a security enclave or any of a hundred other details.
+Those tend to be <em>very</em> specific for a scenario and need, however. Locking pages in memory, for example, is something that operating systems <em>really</em> don&#8217;t like.
+On Linux, <code>RLIMIT_MEMLOCK</code> controls how many pages an unprivileged process can lock, the default value is <em>eight</em>.</p>
+</div>
+<div class="paragraph">
+<p>That means that if you want to keep the data in memory, you have to do quite a bit of work. It is easier to make sure that you are running with encrypted SWAP, to be honest.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>There wasn&#8217;t actually much that needed to be changed to support reading encrypted data. Take a look at <a href="#txn_raw_get_page_11"><code>txn.c</code> -  Getting the plain text version of an encrypted page.</a>, which shows the biggest change to the transaction&#8217;s behavior.</p>
+</div>
+<div id="txn_raw_get_page_11" class="listingblock">
+<div class="title"><code>txn.c</code> -  Getting the plain text version of an encrypted page.</div>
+<div class="content">
+<pre class="highlight"><code>result_t txn_raw_get_page(txn_t *tx, page_t *page) {
+  errors_assert_empty();
+  page-&gt;address = 0;
+  // <b class="conum">(1)</b>
+  if (!(tx-&gt;state-&gt;flags &amp; TX_COMMITED) &amp;&amp;
+      pagesmap_lookup(tx-&gt;state-&gt;modified_pages, page))
+    return success();
+  // <b class="conum">(2)</b>
+  if (pagesmap_lookup(tx-&gt;working_set, page)) return success();
+  txn_state_t *prev = tx-&gt;state;
+  // <b class="conum">(3)</b>
+  while (prev) {
+    if (pagesmap_lookup(prev-&gt;modified_pages, page)) break;
+    prev = prev-&gt;prev_tx;
+  }
+
+  if (!page-&gt;address) {
+    if (!page-&gt;number_of_pages) page-&gt;number_of_pages = 1;
+    ensure(pages_get(tx, page));
+  }
+
+  if (tx-&gt;state-&gt;flags &amp; db_flags_encrypted) {
+    // <b class="conum">(4)</b>
+    ensure(txn_decrypt_page(tx, page));
+  } else {
+    ensure(txn_ensure_page_is_valid(tx, page));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>We can only check the <code>modified_pages</code> directly if we are a write transaction, because an read transaction will have <em>encrypted</em> pages in its <code>modified_pages</code>.</p>
+</li>
+<li>
+<p>After checking the modified pages, look at the <code>wokring_set</code> if we have a copy of the page there.</p>
+</li>
+<li>
+<p>We start the search on old transaction from <em>ourselves</em>, this is so a read transaction will get the encrypted pages from <code>modified_pages</code> and then decrypt it into the <code>working_set</code>.</p>
+</li>
+<li>
+<p>If we need to read from an older transaction or from the file, we&#8217;ll need to decrypt the data before we can actually use it.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The purpose of the <code>working_set</code> is now clear. We have the modified pages hash table in the <code>txn_state_t</code>, and we have the <em>read</em> pages that we accessed in the transaction in the
+<code>working_set</code> field. Inside the <code>working_set</code>, the data is decrypted, which is why we wipe it on <code>txn_close()</code>. If we need to go to older transactions or to the file, we&#8217;ll need to
+handle the encrypted data, this is what the <code>txn_decrypt_page()</code> is for. Once that is called, we have the data decrypted and can continue with all of our other tasks as usual.</p>
+</div>
+<div class="paragraph">
+<p>There is a very important change in the behavior of <code>txn_raw_get_page()</code> that I want to emphasis. When we call <code>txn_commit()</code> on a transaction, we encrypt all the pages that were modified
+in the transaction. That means that once <code>txn_commit()</code> is called, all the data in <code>modified_pages</code> is <em>encrypted</em>. That cause a problem for a read transaction. If you&#8217;ll recall, a read
+transaction is based on the frozen snapshot of the previous write transaction. That means that with encrypted database, we can&#8217;t just access the data directly from <code>modified_pages</code>.</p>
+</div>
+<div class="paragraph">
+<p>That is why I changed <code>txn_raw_get_page()</code> to be look at the <code>modified_pages</code> only if the <code>TX_COMMIT</code> flag isn&#8217;t set. That applies only to a write transaction that is in progress, which
+means that after the transaction has been committed, we&#8217;ll not consider the <code>modified_pages</code> as an authoritative source for the pages after the transaction has been committed. Instead, we&#8217;ll
+search past transactions for the data. The key here is that we start the search with the same transaction. In this case, we&#8217;ll find the (encrypted) page in the <code>modified_pages</code> of the committed
+transaction, but we&#8217;ll not use it as is, which is the case of the previous lookup in the transaction&#8217;s <code>modified_pages</code>. We&#8217;ll treat it as any other value, meaning that it will have to be
+decrypted and then put in the <code>working_set</code> for us to use it.</p>
+</div>
+<div class="paragraph">
+<p>The functions <code>txn_raw_modify_page()</code> and <code>txn_get_metadata()</code> weren&#8217;t touched, they are already implemented in terms of <code>txn_raw_get_page()</code>, so everything just works.
+Let&#8217;s take a look at how the decryption process works, <a href="#txn_decrypt_page"><code>txn.c</code> - Decrypting a page</a> has the <code>txn_decrypt_page()</code> function.</p>
+</div>
+<div id="txn_decrypt_page" class="listingblock">
+<div class="title"><code>txn.c</code> - Decrypting a page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_decrypt_page(txn_t *tx, page_t *page) {
+  size_t cancel_defer = 0;
+  void *buffer        = 0;
+  ensure(mem_alloc_page_aligned(
+      &amp;buffer, page-&gt;number_of_pages * PAGE_SIZE));
+  try_defer(free, buffer, cancel_defer);
+  if ((page-&gt;page_num &amp; PAGES_IN_METADATA_MASK) == page-&gt;page_num) {
+    size_t shift = PAGE_METADATA_CRYPTO_HEADER_SIZE;
+    ensure(txn_decrypt(&amp;tx-&gt;state-&gt;db-&gt;options, page-&gt;address + shift,
+        PAGE_SIZE - shift, buffer + shift, page-&gt;address,
+        page-&gt;page_num));
+    memcpy(buffer, page-&gt;address, shift);
+  } else {
+    page_metadata_t *metadata;
+    ensure(txn_get_metadata(tx, page-&gt;page_num, &amp;metadata));
+    ensure(txn_decrypt(&amp;tx-&gt;state-&gt;db-&gt;options, page-&gt;address,
+        page-&gt;number_of_pages * PAGE_SIZE, buffer, metadata,
+        page-&gt;page_num));
+  }
+  page-&gt;address = buffer;
+  ensure(pagesmap_put_new(&amp;tx-&gt;working_set, page));
+  cancel_defer = 1;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We decide if we need to deal with a metadata page or not and then just setup the call to <code>txn_decrypt()</code>, which does the actual heavy lifting of decrypting the code accordingly.
+Note that if we aren&#8217;t dealing with a metadata page, we&#8217;ll actually call to <code>txn_get_metadata()</code> which will recurse back to <code>txn_raw_get_page()</code> to fetch the relevant data. The code for
+the actual decryption can be seen in <a href="#txn_decrypt"><code>txn.c</code> - Performing the actual decryption</a>, essentially the reverse of how we encrypt the page.</p>
+</div>
+<div id="txn_decrypt" class="listingblock">
+<div class="title"><code>txn.c</code> - Performing the actual decryption</div>
+<div class="content">
+<pre class="highlight"><code>static result_t txn_decrypt(db_options_t *options, void *start,
+    size_t size, void *dest, page_metadata_t *metadata,
+    uint64_t page_num) {
+  uint8_t subkey[crypto_aead_xchacha20poly1305_ietf_KEYBYTES];
+
+  if (crypto_kdf_derive_from_key(subkey,
+          crypto_aead_xchacha20poly1305_ietf_KEYBYTES, page_num,
+          TxnKeyCtx, options-&gt;encryption_key)) {
+    failed(EINVAL, msg("Unable to derive key for page decryption"),
+        with(page_num, "%ld"));
+  }
+  uint8_t nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
+  txn_set_nonce(metadata, nonce);
+  int result = crypto_aead_xchacha20poly1305_ietf_decrypt_detached(
+      dest, 0, start, size, metadata-&gt;cyrpto.aead.mac, 0, 0, nonce,
+      subkey);
+  sodium_memzero(subkey, crypto_aead_xchacha20poly1305_ietf_KEYBYTES);
+  if (result) {
+    if (!sodium_is_zero(start, size) &amp;&amp;
+        !sodium_is_zero(metadata-&gt;cyrpto.aead.mac,
+            crypto_aead_xchacha20poly1305_ietf_ABYTES)) {
+      failed(EINVAL, msg("Unable to decrypt page"),
+          with(page_num, "%ld"));
+    }
+    memset(dest, 0, size);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is one interesting thing about the code in <code>txn_decrypt()</code>, if the decryption failed, we check to see if the page and MAC are both zeroed. In this case, we don&#8217;t consider that a failure, but
+return a "decrypted" page that is also zero. This can happen whenever we access a page we haven&#8217;t touched before. Note that calling <code>txn_free()</code> will also zero the page, but that
+will not be visible. The zeroed page will be encrypted as usual and to the outside observer it will be impossible to tell what its content is.</p>
+</div>
+<div class="paragraph">
+<p>The cost of preemptively encrypting all the pages as we increase the file size can be prohibitive, and I don&#8217;t think that knowing if a page was ever used is a high risk for data
+leakage, so I didn&#8217;t bother with it. I mention it here for completion&#8217;s sake.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Why use <code>XChaCha20-Poly1305</code> algorithm?</div>
+<div class="paragraph">
+<p><code>XChaCha20-Poly1305</code> is the recommended algorithm by Sodium. It is also what Voron is using and Voron has gone through a security audit,
+the <a href="https://ayende.com/blog/182273-C/">RavenDB Security Review</a> is publicly available.</p>
+</div>
+<div class="paragraph">
+<p><code>XChaCha20-Poly1305</code> offers a good performance on many platforms without needing to jump through any hurdles.
+The alternative to <code>XChaCha20-Poly1305</code> was to use <code>AES-GCM</code>, its advantage is that it has hardware support (in fact, it is very
+hard to implement properly <em>without</em> hardware support) on wide range of platforms. It also features reasonably sized MAC and its nonce size is merely 12 bytes. That would make it <em>easier</em>
+to integrate into Gavran.</p>
+</div>
+<div class="paragraph">
+<p>The issue with <code>AES</code> is that it is <strong>hard</strong> to implement that without hardware support, and platforms that I want Gavran to run on lack support for such AES instructions. For example,
+you cannot use is on Raspberry PI (including the latest 4.0 models).</p>
+</div>
+<div class="paragraph">
+<p>It would be easy to use different encryption algorithm on different platforms, but then we have to deal with a database that can be opened on one machine and not on others.
+The actual algorithm we use is going to be very easy to change if needed and I&#8217;ll wait for benchmark results to see if any changes are required.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>And this is <em>it</em>. We have a fully functional transparent data encryption system. When we read data, in either read or write transactions, we&#8217;ll decrypt the data on the fly. When we
+modify data, we&#8217;ll read it and then use the usual Copy on Write. When we commit a transaction, we&#8217;ll encrypt the modified pages and write the encrypted data to the WAL for safe keeping.
+Everything continues to work, but we are safe from prying eyes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">Unit tests</h3>
+<div class="paragraph">
+<p>We are again trying to test some fairly tough issues here. You can get <em>very</em> deep into the rabbit hole when trying to test how hashing and encryption work. I&#8217;m going to assume that
+the underlying primitives are okay and see how we can ensure that the behavior we want is fine. That does mean that we are going to be testing with a bit of a blunt hammer.</p>
+</div>
+<div class="paragraph">
+<p>We are intentionally corrupting the data, by writing <code>1</code> into a location in the page directly. We are then trying to access the page and expect
+to fail, because it didn&#8217;t pass validation. Note that I&#8217;m having to restart the db between inserting the corruption because we&#8217;ll not check pages that were modified in the same run
+as we are on. We check such issues for both encrypted and non encrypted databases, making sure that we are getting the proper behavior (a clean failure) each time.</p>
+</div>
+<div class="paragraph">
+<p>For encryption, we test that we can&#8217;t find the raw string anywhere on the disk. The actual unit tests have the same test, but for an normal database, which does show the raw data
+on the file. To be safe, we also test the WAL files. Note that we have a read transaction open (<code>leaked</code>) which will prevent us from resetting the WAL file. So if the data is on
+the WAL, we&#8217;ll find it.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;re also trying to see if intersection of features will cause us a failure. Trying to read from a read transaction before we can run a checkpoint, so we have encrypted pages in
+memory, for example.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Some notes on performance</div>
+<div class="paragraph">
+<p>I have chosen to implement decryption of pages on a per transaction basis. In other words, each transaction is going to have to decrypt the data independently. That gives us
+the maximum safety guarantees, but also means that we have to pay the decryption cost all the time. Another way would be to have a cache of decrypted pages, which we can check
+before we have to decrypt.</p>
+</div>
+<div class="paragraph">
+<p>Most workloads have a shared set of pages that are routinely touched, so such a cache is likely to get really good hit ratios. Building such a cache, however, it pretty complex.
+Especially when we need to consider security implications of holding potentially a lot of data in decrypted form.</p>
+</div>
+</div>
+</div>
+<div id="test_11" class="listingblock">
+<div class="title"><code>test.c</code> - Unit testing page validation and encryption</div>
+<div class="content">
+<pre class="highlight"><code>static result_t open_file_and_get_map(
+    const char *path, file_handle_t **handle, span_t *map) {
+  ensure(pal_create_file(path, handle, pal_file_creation_flags_none));
+  map-&gt;size = (*handle)-&gt;size;
+  ensure(pal_mmap(*handle, 0, map));
+  ensure(pal_enable_writes(map));
+  return success();
+}
+
+#define open_file_and_map(fname, dest)            \
+  file_handle_t *CONCAT(file_, __LINE__);         \
+  assert(open_file_and_get_map(                   \
+      fname, &amp;CONCAT(file_, __LINE__), &amp;dest));   \
+  defer(pal_close_file, CONCAT(file_, __LINE__)); \
+  defer(pal_unmap, dest);
+
+describe(validation_and_encryption) {
+  before_each() {
+    errors_clear();
+    system("mkdir -p /tmp/db");
+    system("rm -f /tmp/db/*");
+  }
+
+  it("can start with clean db") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db),
+        "failed to create db");
+    defer(db_close, db);
+  }
+
+  it("can detect disk corruption") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    txn_t w;
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+    defer(txn_close, w);
+    page_t p = {.number_of_pages = 1};
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    const char str[] = "Hello From Gavran";
+    strcpy(p.address, str);
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+    // forcing a flush to disk, only allowed manually from tests
+    assert(wal_checkpoint(db.state, UINT64_MAX));
+
+    assert(db_close(&amp;db));
+
+    span_t map;
+    open_file_and_map("/tmp/db/try", map);
+
+    *(char *)(map.address + p.page_num * PAGE_SIZE + 100) = 1;
+
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+
+    void *r = txn_get_page(&amp;w, &amp;p);
+    size_t err_count;
+    int err_code = errors_get_codes(&amp;err_count)[0];
+    assert(err_count &gt; 0);
+    errors_clear();
+    assert(err_code == ENODATA);
+    assert(!r);
+  }
+
+  it("can detect disk corruption on encrypted database") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    randombytes_buf(options.encryption_key, 32);
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    txn_t w;
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+    defer(txn_close, w);
+    page_t p = {.number_of_pages = 1};
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    const char str[] = "Hello From Gavran";
+    strcpy(p.address, str);
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+    // forcing a flush to disk, only allowed manually from tests
+    assert(wal_checkpoint(db.state, UINT64_MAX));
+
+    assert(db_close(&amp;db));
+
+    span_t map;
+    open_file_and_map("/tmp/db/try", map);
+
+    *(char *)(map.address + p.page_num * PAGE_SIZE + 100) = 1;
+
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+
+    void *r = txn_get_page(&amp;w, &amp;p);
+    size_t err_count;
+    int err_code = errors_get_codes(&amp;err_count)[0];
+    assert(err_count &gt; 0);
+    errors_clear();
+    assert(err_code == EINVAL);
+    assert(!r);
+  }
+
+  it("can create encrypted db") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    randombytes_buf(options.encryption_key, 32);
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db),
+        "failed to create db");
+    defer(db_close, db);
+  }
+
+  it("can read encrypted data from old tx") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    randombytes_buf(options.encryption_key, 32);
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    txn_t w;
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+    defer(txn_close, w);
+    page_t p = {.number_of_pages = 1};
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    p.metadata-&gt;overflow.page_flags      = page_flags_overflow;
+    p.metadata-&gt;overflow.number_of_pages = 1;
+    const char str[]                     = "Hello From Gavran";
+    strcpy(p.address, str);
+
+    txn_t leaked;
+    assert(txn_create(&amp;db, TX_READ, &amp;leaked));
+    defer(free, leaked.working_set);
+
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+    {
+      txn_t rtx;
+      assert(txn_create(&amp;db, TX_READ, &amp;rtx));
+      defer(txn_close, rtx);
+      page_t rp = {.page_num = p.page_num};
+      assert(txn_get_page(&amp;rtx, &amp;rp));
+      assert(strcmp(str, rp.address) == 0);
+    }
+  }
+
+  it("on encrypted db, cannot find data on disk") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    randombytes_buf(options.encryption_key, 32);
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    txn_t w;
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+    defer(txn_close, w);
+    page_t p = {.number_of_pages = 1};
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    const char str[] = "Hello From Gavran";
+    strcpy(p.address, str);
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+
+    txn_t leaked;
+    assert(txn_create(&amp;db, TX_READ, &amp;leaked));
+    defer(free, leaked.working_set);
+
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    strcpy(p.address, str);
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+    assert(db_close(&amp;db));
+
+    span_t mmap;
+    open_file_and_map("/tmp/db/try", mmap);
+    assert(memmem(mmap.address, mmap.size, "Gavran",
+               strlen("Gavran")) == 0,
+        "Expected to find NO match");
+
+    open_file_and_map("/tmp/db/try-a.wal", mmap);
+    assert(memmem(mmap.address, mmap.size, "Gavran",
+               strlen("Gavran")) == 0,
+        "Expected to find NO match");
+
+    open_file_and_map("/tmp/db/try-b.wal", mmap);
+    assert(memmem(mmap.address, mmap.size, "Gavran",
+               strlen("Gavran")) == 0,
+        "Expected to find NO match");
+  }
+
+  it("on normal db, can find data on disk") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    txn_t w;
+    assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+    defer(txn_close, w);
+    page_t p = {.number_of_pages = 1};
+    assert(txn_allocate_page(&amp;w, &amp;p, 0));
+    const char str[] = "Hello From Gavran";
+    strcpy(p.address, str);
+    assert(txn_commit(&amp;w));
+    assert(txn_close(&amp;w));
+
+    assert(db_close(&amp;db));
+
+    span_t mmap;
+    open_file_and_map("/tmp/db/try", mmap);
+
+    void *c =
+        memmem(mmap.address, mmap.size, "Gavran", strlen("Gavran"));
+    assert(c != 0, "Expected to find a match");
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This concludes our endeavour into cryptography. The next item that I want to address at this layer is running large databases on 32 bits, we&#8217;ll handle that in the next chapter.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+    <ul style="list-style-type: none;">
+        <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+        <li><a class="footer-text" href="./ch10.html">Previous chapter</a></li>
+        <li><a class="footer-text" href="./ch12.html">Next chapter</a></li>
+    </ul>
+</div>
+</body>
+</html>

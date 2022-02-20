@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>B+Trees</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_btrees">B+Trees</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B+Tree</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(logN)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(logN), exact match, range queries</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sorted_map&lt;span_t, uint64_t&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iteration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sorted iteration</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A B+Tree is an adaptation of a binary tree to the realities of the hierarchy of storage access speed. This is probably a very strange way to phrase things, I know.
+Let&#8217;s go back a step. I&#8217;m going to assume that you are familiar with <a href="https://en.wikipedia.org/wiki/Binary_search_tree">binary search trees</a> in this chapter. If you
+need a refresher, the Wikipedia page on the topic is a great introduction. Common implementation of binary search trees are AVL Trees and Red/Black Trees.</p>
+</div>
+<div class="paragraph">
+<p>The key observation about binary search trees is that each time you visit a node, you cut the search space in half. That gives you the very desired property of
+<code>O(log<sub>2</sub>N)</code> insert and query times. There is a problem with such trees, however. You have to do a <em>lot</em> of pointer chasing to get to the final result. If all your
+data is in main memory, you can usually ignore this cost (not really, but we&#8217;ll pretend for a while). When your data is stored on disk, the situation is different.</p>
+</div>
+<div class="paragraph">
+<p>Consider the code is <a href="#naive-search-tree">A naive search tree implementation on top of FILE I/O</a>, which implements a binary search on top of a file. What would be the cost of running this code? The complexity is still
+going to be <code>O(log<sub>2</sub>N)</code>, after all, but what would be the <em>cost</em>?</p>
+</div>
+<div id="naive-search-tree" class="listingblock">
+<div class="title">A naive search tree implementation on top of FILE I/O</div>
+<div class="content">
+<pre class="highlight"><code>bool bst_find(FILE* f, char* key, uint64_t* val){
+    node_t node;
+    read_node(f, &amp;node);
+    int res = strcmp(key, node.key);
+    if (res == 0){
+        *val = node.value;
+        return true;
+    }
+    int64_t pos = res &lt; 0 ? node.left : node.right;
+    if(pos &lt; 0) return false; // not found
+    fseek(f, pos, SEEK_SET);
+    return bst_find(f,key,val);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#naive-search-tree">A naive search tree implementation on top of FILE I/O</a> we are doing one of the most expensive operations in terms of file I/O, small random reads. If the file in question holds 10,000 items
+we&#8217;ll need to perform <em>fourteen</em> reads from the disk. Let&#8217;s talk about
+<a href="https://www.freecodecamp.org/news/must-know-numbers-for-every-computer-engineer/">latency numbers every computer engineer must know</a>. This is a list of some really
+interesting numbers in terms of latency. Doing a seek on a (good) HDD takes 3 milliseconds. That means that on a hard disk, the best speed for the <code>bst_find()</code> call
+with just 10,000 items is 42 milliseconds. Even when running on SSD, you&#8217;ll still have a cost of &gt; 0.25 milliseconds running this function. That is a <em>lot</em>.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m using a very low number of items in the tree intentionally, to show how expensive binary search tree is. When the cost of accessing some parts of the tree are not
+equal, the binary search tree costs are very high. This is were B+Trees are coming into play. Instead of having a node with just <code>left</code> and <code>right</code> pointers, we are going
+to have much bigger nodes and an array pointers to child nodes. You can see how that looks like in <a href="#btree">A B+Tree has multiple pointers from each node to its children</a>.</p>
+</div>
+<div id="btree" class="imageblock">
+<div class="content">
+<img src="../imgs/btree.png" alt="btree">
+</div>
+<div class="title">Figure 1. A B+Tree has multiple pointers from each node to its children</div>
+</div>
+<div class="paragraph">
+<p>The idea with B+Trees is that we don&#8217;t want to use <code>log<sub>2</sub></code> for each node, which is the case where we have just two pointers. The typical number of pointers in a B+Tree
+node is in the <em>hundreds</em>. That means that if we have 10,000 items, we don&#8217;t need to do <code>log<sub>2</sub>(10,000)</code> but <code>log<sub>256</sub>(10,000)</code>. That means that instead of having
+to deal with 14 disk calls, we are going to need just 2. And if we raise the amount of items?
+With 10 million items, a B+Tree with 256 pointers per node will request just 3 disk accesses. A binary search tree (just two pointers) will require 24 reads from the disk.</p>
+</div>
+<div class="paragraph">
+<p>B+Trees are <em>far</em> more efficient in this kind of environment. Indeed, B+Trees are on of <em>the</em> most common persistent data structure you&#8217;ll find. There is a <em>vast</em>
+body of research on B+Trees and they have been in use for over half a century.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">B+Trees and memory hierarchies</div>
+<div class="paragraph">
+<p>I mentioned in the beginning of this chapter that B+Trees are meant to adapt a binary search tree to the realities of memory hierarchies. In any modern computer, you&#8217;ll
+find that you have roughly the following hierarchy of memory access speed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registers</p>
+</li>
+<li>
+<p>L1 Cache</p>
+</li>
+<li>
+<p>L2-L4 Cache</p>
+</li>
+<li>
+<p>Main memory</p>
+</li>
+<li>
+<p>Disk</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I&#8217;ll admit that this is <em>still</em> a simplified model. If you are running on NUMA nodes (non uniform memory access, common in multi socket machines), for example, you have
+local memory and remote memory as well. Disk is often divided into multiple layers with different access speeds as well.</p>
+</div>
+<div class="paragraph">
+<p>In general, regardless of how you store the data, there are usually huge difference in cost vs. size vs. speed between layers. It takes a nanosecond to read a value from
+the L1 cache, but 100 nanoseconds to read the same value from RAM. It takes 16 micro seconds to read a value from SSD, and far longer from an HDD. In general, the bigger
+the storage, you can assume that the more expensive it is. And the economic realities means that you are going to have to deal with memory hierarchies.</p>
+</div>
+<div class="paragraph">
+<p>You <em>can</em> get machines with many TB of RAM, mind you. That still doesn&#8217;t mean that you can ignore the memory hierarchy. I looked at AWS and found <code>u-24tb1.metal</code>, which is
+a bare metal server with 24 TB of RAM. This has 8 separate NUMA nodes to take into account. It has 448 cores running <code>Intel Xeon 8280L</code>. These chips has
+1.75MB of L1 cache, 28MB L2 cache and 38.5 MB L3 cache. Even in this case, you have to juggle the memory hierarchy and the different latencies between them.</p>
+</div>
+<div class="paragraph">
+<p>B+Tree works in pages which allows us to take advantage of locality of reference. That was initially meant for reducing disk access, but it turns out that they work great
+for reducing costs in any memory hierarchy. A good discussion on the topic is also on the <a href="https://queue.acm.org/detail.cfm?id=1814327">You Are Doing It Wrong</a> paper.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This is meant to be a practical book, not a theoretical discussion on implementation decisions. For that, read the
+<a href="https://w6113.github.io/files/papers/btreesurvey-graefe.pdf">Modern B+Tree Techniques</a> paper does a great job covering the full details of the history of design and
+implementation of B+Trees.
+I&#8217;m going to outline my approach for implementing the B+Tree for Gavran and explain what I&#8217;m doing, without going too deeply into alternatives or divergent design.</p>
+</div>
+<div class="paragraph">
+<p>We previously built an extendible hash table and we simplified our model by limiting the data structure to be <code>map&lt;uint64_t, uint64_t&gt;</code>. In the same manner, we are
+going to implement a B+Tree that would behave like a <code>sorted_map&lt;span_t, uint64_t&gt;</code>. In other words, we&#8217;re going to have the API shown in <a href="#btree_api"><code>gavran/db.h</code> - API for working with B+Trees in Gavran</a>.</p>
+</div>
+<div id="btree_api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - API for working with B+Trees in Gavran</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct btree_val {
+  uint64_t tree_id;
+  span_t key;
+  uint64_t val;
+  int16_t position;
+  int8_t last_match;
+  bool has_val;
+  uint8_t flags;
+  uint8_t padding[3];
+} btree_val_t;
+
+result_t btree_create(txn_t *tx, uint64_t *tree_id);
+result_t btree_drop(txn_t *tx, uint64_t tree_id);
+
+result_t btree_set(txn_t *tx, btree_val_t *set, btree_val_t *old);
+result_t btree_get(txn_t *tx, btree_val_t *kvp);
+result_t btree_del(txn_t *tx, btree_val_t *del);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see that the API is very similar to the one we have built for hash tables. For now, I&#8217;m omitting the API for iterating over the B+Tree, we&#8217;ll discuss this
+later on in this chapter. Because B+Trees are ordered, this means that the iteration API is more complex, for now I want to focus on the Read / Write / Delete operations.
+Let&#8217;s look at the actual implementation and see how that works.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">The <code>flags</code> fields</div>
+<div class="paragraph">
+<p>Like the hash table, the B+Tree has a <code>flags</code> field that is used to provide additional context for the value that is persisted for a given key. I&#8217;m going to show
+how what this field is used for in the next chapter.</p>
+</div>
+<div class="paragraph">
+<p>For now, you can treat it as just another piece of data that we need to persist in the B+Tree. Note that this has an important implication on the B+Tree design.
+The <code>flags</code> are stored <em>only</em> on the leaf pages. A branch page has no need for a <code>flags</code>, after all.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_btree">Creating a B+Tree</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">B+Trees can be complex beasts</div>
+<div class="paragraph">
+<p>In terms of line of code, the B+Tree implementation in Gavran is about 1.26 times larger than the Extendible Hash Table or the Containers we previous looked at.
+In terms of complexity, however, I find the B+Tree code to be far more complex.</p>
+</div>
+<div class="paragraph">
+<p>Conceptually, the idea of a B+Tree is fairly simple and obvious, but the implementation tends to be quite tricky. One of the most common issues is that any modification
+to the tree may have repercussions higher up the tree. When dealing with variable length values, that can make the code more complex and expose several edge cases that
+you have to handle.</p>
+</div>
+<div class="paragraph">
+<p>To manage that complexity, we have the <code>btree.debug.c</code> file, which has API to dump a textual representation of the tree that you can inspect by hand. That can be
+quite important to understand how the B+Tree is mutated by your changes. It can be invaluable for understanding and debugging issues. When writing Voron, I actually had
+the engine output HTML trees that would allow inspection of the B+Tree structure of the data.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>A B+Tree is composed of two types of pages, we have a <em>branch</em> page, which points to other pages, and we have <em>leaf</em> pages, which hold the actual value. In both cases,
+they are structured in the exact same manner, since the only value we allow in our trees are <code>uint64_t</code> and that is the value what we need to store in the branch pages
+to point to the leaf pages. As such, the process of creating a B+Tree is simple, as you can see in <a href="#btree_create"><code>btree.c</code> - Creating a new B+Tree with a single leaf page</a>.</p>
+</div>
+<div id="btree_create" class="listingblock">
+<div class="title"><code>btree.c</code> - Creating a new B+Tree with a single leaf page</div>
+<div class="content">
+<pre class="highlight"><code>static void btree_init_metadata(
+    page_metadata_t* m, page_flags_t page_flags) {
+  m-&gt;tree.page_flags = page_flags;
+  m-&gt;tree.floor      = 0;
+  m-&gt;tree.ceiling    = PAGE_SIZE;
+  m-&gt;tree.free_space = PAGE_SIZE;
+}
+result_t btree_create(txn_t* tx, uint64_t* tree_id) {
+  page_t p = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;p, 0));
+  btree_init_metadata(p.metadata, page_flags_tree_leaf);
+  *tree_id = p.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There isn&#8217;t much going on in <code>btree_create()</code>, is there? We simply allocate a page and setup its metadata. You can see that like the container pages, we have the notion
+of <code>floor</code> and <code>ceiling</code> values for the page. Indeed, much of the same techniques are reused between the two data structures.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_to_the_a_btree">Writing to the a B+Tree</h3>
+<div class="paragraph">
+<p>Writing a value to a B+Tree is done using the <code>btree_set()</code> method. It accepts a <code>btree_val_t</code> which has the key and the <code>uint64_t</code> value and may optionally return the
+old value of the key. In the container, we were able to simply able to append the new value to the page wherever we had room, but in the case of the tree, we cannot do
+that. One of the key aspects of a B+Tree is that it is sorted, after all.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Keys in the B+Tree</div>
+<div class="paragraph">
+<p>The B+Tree we will use is going to use binary data as keys. The key is of type <code>span_t</code>, so the key <em>data</em> is just any arbitrary memory of some size. We are going to limit
+the key size to 512 bytes. It simplify our lives and there is rarely the need for larger keys.</p>
+</div>
+<div class="paragraph">
+<p>If the keys are arbitrary data, how can we sort on them? We are going to use the <code>memcmp()</code> function as the sorting function. It means that the keys you&#8217;ll generate should
+be sortable in lexical order using their raw binary value. It would be simple to provide a comparison function to the B+Tree to allow for more complex comparisons, but
+I find that it is usually only make things more complex to the implementor and the user alike.</p>
+</div>
+<div class="paragraph">
+<p>The fact that the keys are opaque bytes has some interesting implications on sorting when using numbers, for examples. That is why we used the <code>bytekey</code> format when we
+decided how to structure our <code>varint</code>. They are lexically sorted in their encoded state.</p>
+</div>
+<div class="paragraph">
+<p>We ensure that all our keys fit the required criteria using the code in <a href="#btree_validate_key"><code>btree.c</code> - Validating that the provided key is valid (1 .. 512 in size and not pointing to <code>NULL</code>).</a>.</p>
+</div>
+<div id="btree_validate_key" class="listingblock">
+<div class="title"><code>btree.c</code> - Validating that the provided key is valid (1 .. 512 in size and not pointing to <code>NULL</code>).</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_validate_key(span_t* key) {
+  ensure(key-&gt;size &gt; 0);
+  ensure(key-&gt;size &lt;= 512);
+  ensure(key-&gt;address, msg("Key cannot have a NULL address"));
+  return success();
+}</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The structure of a page in the a B+Tree is shown in <a href="#btree_page">The structure of a single B+Tree page</a>, you can see the metadata on the left, with the ceiling and floor markers. Then we have the values.
+The bottom of the page is also used to store the indexes of the values in the page, and the positions of the <em>values</em> in the page doesn&#8217;t matter. It is stored on a first
+come, first served basis.</p>
+</div>
+<div class="paragraph">
+<p>The order of the <em>positions</em> on the page, on the other hand, matters greatly. If you&#8217;ll look at the bottom of the page in <a href="#btree_page">The structure of a single B+Tree page</a> you can see that the positions
+themselves are sorted, using the key.</p>
+</div>
+<div id="btree_page" class="imageblock">
+<div class="content">
+<img src="../imgs/btree_page.png" alt="btree page">
+</div>
+<div class="title">Figure 2. The structure of a single B+Tree page</div>
+</div>
+<div class="paragraph">
+<p>In other words, when we need to insert a new item into a B+Tree page, we&#8217;ll append the actual value to the top of the <code>ceiling</code>, lowering it along the way.
+This is just like we do with the container pages.
+But instead of just recording the index of the value in an arbitrary location, we&#8217;ll sort the <code>positions</code> array at the bottom of the page according to the sort order of
+the key.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that this means that we&#8217;ll have to move far less memory, which is more efficient in general and will also play really well with our WAL format. As a reminder,
+we use a diff based WAL format, which means that the less changes we can make to a page, the less we have to write to disk.</p>
+</div>
+<div class="paragraph">
+<p>In <a href="#btree_page">The structure of a single B+Tree page</a> you can see that the leftmost entry in the top page (which is a branch page) is the empty symbol: <code>∅</code>. The leftmost key in branch pages can be empty, and
+has the meaning of "smaller than anything on my right". This approach allows us to add smaller value than the current minimum on the page without having to update the
+entire tree with the new smallest value.</p>
+</div>
+<div class="sect3">
+<h4 id="_searching_a_key_in_a_page">Searching a key in a page</h4>
+<div class="paragraph">
+<p>Let&#8217;s look first at what is probably <em>the</em> most important piece of code for our B+Tree, the sort routine shown in <a href="#btree_search_pos_in_page"><code>btree.c</code> - Searching for the right position of a key inside a B+Tree page</a>.</p>
+</div>
+<div id="btree_search_pos_in_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Searching for the right position of a key inside a B+Tree page</div>
+<div class="content">
+<pre class="highlight"><code>static void btree_search_pos_in_page(page_t* p, btree_val_t* kvp) {
+  assert(kvp-&gt;key.size &amp;&amp; kvp-&gt;key.address);
+  int16_t max_pos =
+      (int16_t)(p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t));
+  int16_t high = max_pos - 1, low = 0;
+  uint16_t* positions = p-&gt;address;
+  kvp-&gt;position       = 0;  // to handle empty pages (after split)
+  kvp-&gt;last_match     = 0;
+  while (low &lt;= high) {
+    kvp-&gt;position = (low + high) &gt;&gt; 1;
+    uint64_t ks;
+    uint8_t* cur =
+        varint_decode(p-&gt;address + positions[kvp-&gt;position], &amp;ks);
+    int match;
+    if (!ks) {  // the leftmost key can be empty, smaller than all
+      assert(kvp-&gt;position == 0 &amp;&amp;
+             p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_branch);
+      match = 1;
+    } else {
+      match = memcmp(kvp-&gt;key.address, cur, MIN(kvp-&gt;key.size, ks));
+    }
+    if (match == 0) {
+      kvp-&gt;last_match = 0;
+      return;  // found it
+    }
+    if (match &gt; 0) {
+      low             = kvp-&gt;position + 1;
+      kvp-&gt;last_match = 1;
+    } else {
+      high            = kvp-&gt;position - 1;
+      kvp-&gt;last_match = -1;
+    }
+  }
+  if (kvp-&gt;last_match &gt; 0) {
+    kvp-&gt;position++;  // adjust position to where we _should_ be
+  }
+  kvp-&gt;position = ~kvp-&gt;position;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#btree_search_pos_in_page"><code>btree.c</code> - Searching for the right position of a key inside a B+Tree page</a> is a simple binary search. It turns out that most binary search implementation have a bad bug in them, which you can read in
+<a href="https://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html">Nearly All Binary Searches and Mergesorts are Broken</a>.
+Our code has the fix for this, but it wouldn&#8217;t matter anyway for our purposes, we are dealing with much smaller range of values.</p>
+</div>
+<div class="paragraph">
+<p>We are doing a binary search through the page&#8217;s entries. Using the <code>positions</code> array to get to the stored key and compare it to the one what was supplied to the function.
+We start at the middle of the <code>positions</code> array and we split the remaining range in half each time we find a greater or lesser value. If we find an exact match, we can
+return the position immediately.</p>
+</div>
+<div class="paragraph">
+<p>If we <em>don&#8217;t</em> have a match, we have to return where the value <em>should</em> go. If the <code>last_match</code> we had was smaller than the current value, then the value needs to be on the
+<em>following</em> position, so we increment it. Finally, we can return the bitwise complement to the position, to indicate a missing value. The ~ operator allows
+us to distinguish between a value that was found in the page or not. But why not return <code>-1</code> or something similar?</p>
+</div>
+<div class="paragraph">
+<p>We are going to use <code>btree_search_pos_in_page()</code> to tell us where we should be <em>placing</em> a value in the page, not just where it <em>is</em>. Using bitwise complement (~)
+allows us to do the work of searching in the page just once. Why does this matter? We&#8217;ll be calling to <code>btree_search_pos_in_page()</code>  a <em>lot</em>.
+If you&#8217;ll run the B+Tree code under a profiler, you are very likely to find this function in your hot spots. Any optimization in the search is going to have a big impact on
+our B+Tree performance.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Empty keys behavior for <code>btree_search_pos_in_page()</code></div>
+<div class="paragraph">
+<p>The leftmost key (marked as <code>∅</code> in the <a href="#btree_page">The structure of a single B+Tree page</a>) in the leftmost branch page on each level is always empty and is treated as smaller than anything else. We handle this
+scenario explicitly in <code>btree_search_pos_in_page()</code>, as you can see in <a href="#btree_search_pos_in_page"><code>btree.c</code> - Searching for the right position of a key inside a B+Tree page</a>. An empty key can only appear as the leftmost key in a branch page.</p>
+</div>
+<div class="paragraph">
+<p>This is useful when we are adding items that are smaller than the smallest key in the tree. We can simply walk to the leftmost entry along the tree until we reach the
+location we&#8217;ll place the new key. If we didn&#8217;t use the empty key, we&#8217;ll need to update the leftmost entry of the tree each time we added the minimum value. On large
+trees, that means that we have to update the entire hierarchy. By using an empty key, we can handle that implicitly.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_finding_where_to_make_the_write">Finding <em>where</em> to make the write</h4>
+<div class="paragraph">
+<p>The <code>btree_set()</code> function is shown in <a href="#btree_set"><code>btree.c</code> - Setting a value in the B+Tree</a> and isn&#8217;t really that interesting. All it does is find the appropriate page to set the value on and then set the value
+on that page.</p>
+</div>
+<div id="btree_set" class="listingblock">
+<div class="title"><code>btree.c</code> - Setting a value in the B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_set(txn_t* tx, btree_val_t* set, btree_val_t* old) {
+  assert(btree_validate_key(&amp;set-&gt;key));
+  page_t p;
+  ensure(btree_get_leaf_page_for(tx, set, &amp;p));
+  ensure(btree_set_in_page(tx, p.page_num, set, old));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The work in <code>btree_set()</code> can be divided into finding the right page to set the value using <code>btree_get_leaf_page_for()</code> and actually setting the value in <code>btree_set_in_page()</code>.
+Both of them are far more complex under the covers than you might expect. Let&#8217;s start with the first step, finding the leaf page. Why do we even need that?</p>
+</div>
+<div class="paragraph">
+<p>A B+Tree is composed of branches and leaves. The actual values for the keys we store in the B+Tree are held only on the leaves. On the branches, we simply hold pointers to the
+leave pages. So in order to actually set the key and value on the B+Tree, we find need to find the appropriate leaf page to add the value to. Let&#8217;s look at
+<a href="#btree_get_leaf_page_for"><code>btree.c</code> - Finding the appropriate leaf page for a given key</a> to see how this is done.</p>
+</div>
+<div id="btree_get_leaf_page_for" class="listingblock">
+<div class="title"><code>btree.c</code> - Finding the appropriate leaf page for a given key</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_get_leaf_page_for(
+    txn_t* tx, btree_val_t* kvp, page_t* p) {
+  p-&gt;page_num = kvp-&gt;tree_id;
+  ensure(txn_get_page(tx, p));
+  assert(p-&gt;metadata-&gt;common.page_flags == page_flags_tree_branch ||
+         p-&gt;metadata-&gt;common.page_flags == page_flags_tree_leaf);
+  btree_stack_clear(&amp;tx-&gt;state-&gt;tmp.stack);
+  while (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_branch) {
+    btree_search_pos_in_page(p, kvp);
+    if (kvp-&gt;position &lt; 0) kvp-&gt;position = ~kvp-&gt;position;
+    if (kvp-&gt;last_match) kvp-&gt;position--;  // went too far
+    ensure(btree_stack_push(
+        &amp;tx-&gt;state-&gt;tmp.stack, p-&gt;page_num, kvp-&gt;position));
+    uint16_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+    uint16_t pos     = MIN(max_pos - 1, (uint16_t)kvp-&gt;position);
+    p-&gt;page_num      = btree_get_val_at(p, pos);
+    ensure(txn_get_page(tx, p));
+  }
+  assert(p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_leaf);
+  btree_search_pos_in_page(p, kvp);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Starting from the root page, we search for the given key using <code>btree_search_pos_in_page()</code>. If we are on a branch page, we use the position from the search to go down the tree
+toward the appropriate leaf page. If you&#8217;ll look back in <a href="#btree_page">The structure of a single B+Tree page</a> you&#8217;ll see that the branch page don&#8217;t hold all the keys of the leaf pages. Instead, it hold the a key
+that is less than or equal to the first key in the page that it points to. That means that when scanning branch pages, we&#8217;ll very often see searches that haven&#8217;t got an exact
+match. For that reason, we have to do a fixup to find the right location to do the next search.</p>
+</div>
+<div class="paragraph">
+<p>We first use bitwise complement to invert the behavior of <code>btree_search_pos_in_page()</code> when an exact match isn&#8217;t found and we decrement the value if the last match was too
+big for us. The idea is that the keys in the branch page represent a <em>range</em> of values. Looking at the tree in <a href="#btree_page">The structure of a single B+Tree page</a>, we have the <code>∅ .. 2</code> as the first range, <code>3 .. 7</code>
+as the second, <code>8 .. 11</code> as the third and the final range is <code>12 .. ∞</code> (where <code>∞</code> is infinity, so any larger value).
+We determine the range as the equals or greater than that the key entry in the branch and smaller than the <em>next</em> key in the branch page.</p>
+</div>
+<div class="paragraph">
+<p>Once we found the next position to go through, we get the child page that is pointed to and continue the process until we get to a leaf page. Because of the size of the branch
+pages, the number of branch pages is usually very small. Even if you have a billion items in the B+Tree, you&#8217;ll only need three steps to get to the leaf page. Once we go to the
+leaf, we run <code>btree_search_pos_in_page()</code> <em>again</em>. This time, we need to find the position of the key <em>inside</em> the leaf.</p>
+</div>
+<div class="paragraph">
+<p>If the key doesn&#8217;t exists, <code>btree_search_pos_in_page()</code> will set the <code>position</code> to a negative value. A bitwise complement to where the value <em>should</em> go. That is very useful in
+both searches and when we need to insert a new value to the leaf page.
+Right now, we only have a single page in the B+Tree, the root page we created in <code>btree_create()</code>. When we create the B+Tree, we create a single leaf page, so as it currently
+stands, we&#8217;ll not get to the <code>while</code> loop and only do a search directly inside the leaf page.</p>
+</div>
+<div class="paragraph">
+<p>We looked into how <code>btree_get_leaf_page_for()</code> find the right page to work with, but there is another thing that is is responsible for. The current working stack. In the code
+you can see that inside the transaction&#8217;s state, we have the <code>tmp_stack</code> that we use to track where we are in the B+Tree.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_traversing_paths_in_the_btree">Traversing paths in the B+Tree</h4>
+<div class="paragraph">
+<p>When we search inside the B+Tree, we start at the root and go downward toward the leaf page that contains the actual values that we are interested in. If we are interested in
+simply searching to the value, we don&#8217;t care about the path we walked through to get there. But when we want to <em>modify</em> the data, the path to the leaf page is very important.
+If we need to split the page (or merge it), we need to know what the <em>parent</em> page is.</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ll notice, the <code>tree_page_t</code> struct hold no information about the parent page, so we can&#8217;t go up the tree, only down. The stack is used to allow us to climb up back the
+tree. In the <em>vast</em> majority of the cases, the depth of the tree (and the size of the stack) is going to be very shallow. I would be shocked to see if hit double digits.
+In fact, we can compute that. If we can put merely 10 entries per page, we&#8217;ll have a tree depth of 9 with a billion items in the tree. Note that usually an 8KB page will contain
+hundreds of entries, so the depth of the tree (and the size of the stack) is far less.</p>
+</div>
+<div class="paragraph">
+<p>The stack we use to store the traversal path in the B+Tree is about as simple as you can get. The API is shown in <a href="#btree_stack_t"><code>gavran/db.h</code> and <code>gavran/internal.h</code> - API for using the B+Trees stacks to manage the path traversal</a>.</p>
+</div>
+<div id="btree_stack_t" class="listingblock">
+<div class="title"><code>gavran/db.h</code> and <code>gavran/internal.h</code> - API for using the B+Trees stacks to manage the path traversal</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct btree_stack {
+  uint64_t *pages;
+  int16_t *positions;
+  size_t size;
+  size_t index;
+} btree_stack_t;
+
+void btree_stack_clear(btree_stack_t *s);
+result_t btree_stack_push(
+    btree_stack_t *s, uint64_t page_num, int16_t pos);
+result_t btree_stack_pop(
+    btree_stack_t *s, uint64_t *page_num, int16_t *pos);
+result_t btree_stack_peek(
+    btree_stack_t *s, uint64_t *page_num, int16_t *pos);
+result_t btree_stack_free(btree_stack_t *s);
+enable_defer(btree_stack_free);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The stack is basically just two parallel arrays that are used to store the page number and the position within this page. I used a struct of array instead of array of struct
+to get better density of data and avoid alignment issues. You can see the <code>btree_stack_push()</code> and <code>btree_stack_pop()</code> implementation in <a href="#btree_stack"><code>btree.stack.c</code> - Pushing and popping values from the B+Tree stack</a>.</p>
+</div>
+<div id="btree_stack" class="listingblock">
+<div class="title"><code>btree.stack.c</code> - Pushing and popping values from the B+Tree stack</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_increase_size(btree_stack_t* s) {
+  size_t size = next_power_of_two(s-&gt;size + 1);
+  ensure(mem_realloc((void*)&amp;s-&gt;pages, size * sizeof(uint64_t)));
+  ensure(mem_realloc((void*)&amp;s-&gt;positions, size * sizeof(uint16_t)));
+  s-&gt;size = size;
+  return success();
+}
+result_t btree_stack_push(
+    btree_stack_t* s, uint64_t page_num, int16_t pos) {
+  if (s-&gt;index == s-&gt;size) {
+    ensure(btree_increase_size(s));
+  }
+  s-&gt;pages[s-&gt;index]     = page_num;
+  s-&gt;positions[s-&gt;index] = pos;
+  s-&gt;index++;
+  return success();
+}
+result_t btree_stack_pop(
+    btree_stack_t* s, uint64_t* page_num, int16_t* pos) {
+  ensure(s-&gt;index != 0, msg("The stack is empty, cannot pop"));
+  s-&gt;index--;
+  *page_num = s-&gt;pages[s-&gt;index];
+  *pos      = s-&gt;positions[s-&gt;index];
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As I mentioned, the depth of the stack is <em>very</em> unlikely to grow very big. And the <em>push</em> and <em>pop</em> operations are quite cheap. We&#8217;re going to be using the stack each and
+every time we search the B+Tree, which means that making this efficient is a priority. The cost of the stack usage is negligible, but the cost of memory allocation and
+de-allocation is very high.</p>
+</div>
+<div class="paragraph">
+<p>To handle these costs, we aren&#8217;t going to allocate and free the stack every time that we traverse the B+Tree. Instead, we have added a field to the <code>txn_state_t</code> structure
+named <code>tmp_stack</code>. This is initialized by the first B+Tree search we run (using <code>btree_increase_size()</code>) and then reused each time. We&#8217;ll cleanup the allocated <code>tmp_stack</code>
+when we call <code>txn_close()</code> on the transaction. The remaining functions for the stack implementation are shown in <a href="#btree_stack_utils"><code>btree.stack.c</code> - Peeking, freeing and clearing the B+Tree stack</a>.</p>
+</div>
+<div id="btree_stack_utils" class="listingblock">
+<div class="title"><code>btree.stack.c</code> - Peeking, freeing and clearing the B+Tree stack</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_stack_peek(
+    btree_stack_t* s, uint64_t* page_num, int16_t* pos) {
+  ensure(s-&gt;index != 0, msg("The stack is empty, cannot pop"));
+  *page_num = s-&gt;pages[s-&gt;index - 1];
+  *pos      = s-&gt;positions[s-&gt;index - 1];
+  return success();
+}
+result_t btree_stack_free(btree_stack_t* s) {
+  free(s-&gt;positions);
+  free(s-&gt;pages);
+  memset(s, 0, sizeof(btree_stack_t));
+  return success();
+}
+void btree_stack_clear(btree_stack_t* s) {
+  if (s-&gt;index == 0) return;
+  memset(s-&gt;positions, 0, s-&gt;index * sizeof(int16_t));
+  memset(s-&gt;pages, 0, s-&gt;index * sizeof(uint64_t));
+  s-&gt;index = 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The main reason we need this stack is to store the traversal path in the tree, but why is this required? This is useful when we need to modify the structure of the tree
+itself, for example, when a page grows too large and we need to split it. Let&#8217;s look into how we manage the space inside a B+Tree page.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_space_allocation_and_usage_in_a_btree_page">Space allocation and usage in a B+Tree page.</h4>
+<div class="paragraph">
+<p>In <code>btree_set()</code> there are two main operations. The first, which we looked at, is finding the right page to work with using <code>btree_get_leaf_page_for()</code>. The second part
+is writing the actual entry to the page in <code>btree_set_in_page()</code>, which we&#8217;ll look at now.</p>
+</div>
+<div class="paragraph">
+<p>The structure of a B+Tree page in Gavran is very similar to the container pages we looked at in the previous chapter. We write the data to the page from the <code>ceiling</code> and
+write the position of the entry to the <code>positions</code> array from the <code>floor</code>. Unlike container pages, however, we don&#8217;t use arbitrary order but require that the items in the
+<code>positions</code> array will be sorted. Note that there is no such requirement for the entries' data. That allows us to save on a lot of memory moves when we are adding a new
+item to a B+Tree page, since we only have to shift a (much smaller) amount of <code>uint16_t</code> offsets.</p>
+</div>
+<div class="paragraph">
+<p>The bulk of the work of writing an entry to a page isn&#8217;t actually done by <code>btree_set_in_page()</code>. Instead, this function is charged with making sure that there is enough
+space in the page to accommodate the new entry. Let&#8217;s look at the code <a href="#btree_set_in_page"><code>btree.c</code> - Setting an entry on the page, updating in place if possible</a> and then we&#8217;ll discuss what is going on in detail.</p>
+</div>
+<div id="btree_set_in_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Setting an entry on the page, updating in place if possible</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_set_in_page(txn_t* tx, uint64_t page_num,
+    btree_val_t* set, btree_val_t* old) {
+  page_t p = {.page_num = page_num};
+  ensure(txn_modify_page(tx, &amp;p));
+  size_t req_size = varint_get_length(set-&gt;key.size) + set-&gt;key.size +
+                    varint_get_length(set-&gt;val) + 1 /*flags*/;
+  if (set-&gt;position &gt;= 0) {  // update
+    bool updated = false;
+    ensure(
+        btree_try_update_in_place(&amp;p, req_size, set, old, &amp;updated));
+    if (updated) return success();
+    // need to insert this again...
+  } else {  // insert
+    if (old) old-&gt;has_val = false;
+  }
+  ensure(btree_append_to_page(tx, &amp;p, req_size, set));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#btree_set_in_page"><code>btree.c</code> - Setting an entry on the page, updating in place if possible</a> first check if we are inserting a new value or updating an existing one. This is done using the <code>set-&gt;position</code> value, which was set by
+calling the <code>btree_search_pos_in_page()</code> call in <code>btree_get_leaf_page_for()</code>. If we are updating an existing value, we&#8217;ll try to update it in place. If we are successful,
+we are done. This is simple, because we just have to update the data in the page and not change its structure.</p>
+</div>
+<div class="paragraph">
+<p>But if we can&#8217;t do an in place update, or if we are inserting a new entry, we will need to append the new entry to the page. This is more complex, because we have to deal
+with quite a few edge cases. Let&#8217;s look at the in place update first, shown on <a href="#btree_try_update_in_place"><code>btree.c</code> - Trying to do an in place update when updating the value of an existing entry</a>.</p>
+</div>
+<div id="btree_try_update_in_place" class="listingblock">
+<div class="title"><code>btree.c</code> - Trying to do an in place update when updating the value of an existing entry</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_try_update_in_place(page_t* p, size_t req_size,
+    btree_val_t* set, btree_val_t* old, bool* updated) {
+  span_t key, entry;
+  uint8_t flags;
+  uint64_t old_val;
+  btree_get_entry_at(
+      p, (uint16_t)set-&gt;position, &amp;key, &amp;old_val, &amp;entry, &amp;flags);
+  if (old) {
+    old-&gt;has_val = true;
+    old-&gt;val     = old_val;
+    old-&gt;flags   = flags;
+  }
+  if (req_size &lt;= entry.size) {  // can fit old location
+    uint8_t* val_end =
+        varint_encode(set-&gt;val, key.address + key.size);
+    if (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_leaf) {
+      *val_end++ = set-&gt;flags;
+    }
+    size_t diff =
+        (size_t)(((uint8_t*)entry.address + entry.size) - val_end);
+    memset(val_end, 0, diff);
+    p-&gt;metadata-&gt;tree.free_space += (uint16_t)diff;
+    *updated = true;
+  } else {
+    memset(entry.address, 0, entry.size);  // reset value
+    p-&gt;metadata-&gt;tree.free_space -= (uint16_t)entry.size;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_try_update_in_place()</code> get the existing entry and see if the size of the entry already on the page can fit the new value. If so, we write the new value
+at the end of the key and then zero the rest of the memory (if the new value is smaller than the old one).
+If there isn&#8217;t enough space, we&#8217;ll zero the entire entry and try to append the entry to the page as a new item (but keeping the same position). This is shown in
+<a href="#btree_append_to_page"><code>btree.c</code> - Write a new entry to the B+Tree page, making sure that we have enough space to do so</a>. What is interesting is that in <code>btree_append_to_page()</code> we aren&#8217;t actually doing much appending, what the function is doing is make sure that there
+is enough space <em>to</em> append the entry.</p>
+</div>
+<div id="btree_append_to_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Write a new entry to the B+Tree page, making sure that we have enough space to do so</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_append_to_page(
+    txn_t* tx, page_t* p, size_t req_size, btree_val_t* set) {
+  if (req_size + sizeof(uint16_t) &gt;  // not enough space?
+      (p-&gt;metadata-&gt;tree.ceiling - p-&gt;metadata-&gt;tree.floor)) {
+    if (req_size + sizeof(uint16_t) &lt; p-&gt;metadata-&gt;tree.free_space) {
+      ensure(btree_defrag(tx, p));  // let's see if this helps
+    }
+    if (req_size + sizeof(uint16_t) &gt;  // check again, defrag helped?
+        (p-&gt;metadata-&gt;tree.ceiling - p-&gt;metadata-&gt;tree.floor)) {
+      if (set-&gt;position &gt;= 0) {  // remove existing entry in page
+        uint16_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+        p-&gt;metadata-&gt;tree.floor -= sizeof(uint16_t);
+        uint16_t pos        = (uint16_t)(~set-&gt;position);
+        uint16_t* positions = p-&gt;address;
+        memmove(positions + pos, positions + pos + 1,
+            ((max_pos - pos - 1) * sizeof(uint16_t)));
+        positions[max_pos - 1] = 0;
+      }
+      ensure(btree_split_page(tx, p, set));
+      btree_search_pos_in_page(p, set);  // adjust pos
+    }
+  }
+  void* dst =
+      btree_insert_to_page(p, set-&gt;position, (uint16_t)req_size);
+  uint8_t* key_start = varint_encode(set-&gt;key.size, dst);
+  memcpy(key_start, set-&gt;key.address, set-&gt;key.size);
+  uint8_t* end = varint_encode(set-&gt;val, key_start + set-&gt;key.size);
+  if (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_leaf) {
+    *end = set-&gt;flags;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>btree_append_to_page()</code> we start by checking how much available space we have (the distance between the <code>ceiling</code> and the <code>floor</code>). We write entries to the B+Tree page
+from the <code>ceiling</code> down, toward the <code>floor</code>. This is identical to how we did things in the container pages in the previous chapter. There are two scenarios that may occur if
+the space between the <code>ceiling</code> and <code>floor</code> is too small. It is possible that there is enough free space in the page, but it is not available on a continuous basis. We handle
+this scenario using the <code>bree_defrag()</code> function. The other scenario is that the page is full and there is no more space for it.
+In that case, we&#8217;ll need to split the page. But before we can split the page, there is some bookkeeping that we have to deal with.</p>
+</div>
+<div class="paragraph">
+<p>When we are updating an existing entry and we get to the <code>btree_append_to_page()</code> function, we know that the entry has already been zeroed on the page, but there is still the
+allocate <code>position</code> entry for the entry. Before we can split the page, we need to remove the remains of the entry and only then we can split the page.
+Before getting to the details of page splits, let&#8217;s look at how we are defragging a B+Tree page.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_defragging_a_btree_page_to_recover_space">Defragging a B+Tree page to recover space</h4>
+<div class="paragraph">
+<p>In the previous chapter, we also implemented de-fragmentation on the container pages. The implementation for B+Tree pages is very similar, but has some important differences.
+Unlike container pages, we aren&#8217;t forced to keep the <code>position</code> in the same location for all time. We will routinely move the actual <code>position</code> of an entry in a page around.
+On the other hand, on a B+Tree page, the <em>reason</em> we move an entry around is that we need to maintain the sorting order. Defragging a B+Tree page means that we are already
+working on a sorted entry, so we just need to reshuffle the entries, not the positions. You can see what we do in <a href="#btree_defrag"><code>btree.c</code> - Recovering from internal fragmentation in the B+Tree</a>.</p>
+</div>
+<div id="btree_defrag" class="listingblock">
+<div class="title"><code>btree.c</code> - Recovering from internal fragmentation in the B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_defrag(txn_t* tx, page_t* p) {
+  void* buffer;
+  ensure(txn_alloc_temp(tx, PAGE_SIZE, &amp;buffer));
+  memcpy(buffer, p-&gt;address, PAGE_SIZE);
+  memset(p-&gt;address + p-&gt;metadata-&gt;tree.floor, 0,
+      PAGE_SIZE - p-&gt;metadata-&gt;tree.floor);
+  p-&gt;metadata-&gt;tree.ceiling = PAGE_SIZE;
+  uint16_t* positions       = p-&gt;address;
+  size_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  for (size_t i = 0; i &lt; max_pos; i++) {
+    uint64_t size;
+    uint16_t cur_pos = positions[i];
+    void* end        = varint_decode(
+        varint_decode(buffer + cur_pos, &amp;size) + size, &amp;size);
+    if (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_leaf) {
+      end++;  // flags
+    }
+    uint16_t entry_size = (uint16_t)(end - (buffer + cur_pos));
+    p-&gt;metadata-&gt;tree.ceiling -= entry_size;
+    positions[i] = p-&gt;metadata-&gt;tree.ceiling;
+    memcpy(p-&gt;address + p-&gt;metadata-&gt;tree.ceiling, buffer + cur_pos,
+        entry_size);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We allocate a temporary buffer to hold a copy of the page data and then we zero the page&#8217;s data (but we are skipping the <code>positions</code> array at the bottom of the page). Then
+we can simply run through the entires and copy the actual entry data from the temporary buffer back to the page, layering them one at a time on top of the <code>ceiling</code> and updating
+the offset of the <code>position</code> in the page. This is pretty simple code and it ends up with us being in an optimal shape and without any wasted space.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_page_splits_in_the_btree">Page splits in the B+Tree</h4>
+<div class="paragraph">
+<p>The real complexity we have in a B+Tree is all around page splits and page merges. A page split occurs when we try to write an entry that should go to a page that is full. At
+this point, we have to split the page into two. That means that we have to take the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Allocate a new page.</p>
+</li>
+<li>
+<p>Divide the entries between the current page and the new one.</p>
+</li>
+<li>
+<p>Insert a reference to the newly allocated page to the <em>parent</em> page.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is the last action that is causing the complexity. When we insert a new item to the parent page, it is possible that the <em>parent</em> will be full. That requires us that we&#8217;ll
+split the parent page as well. And maybe the <em>grandparent</em> as well, etc. This means that we have to be careful about working with the B+Tree because any modification can change
+the shape of the tree. In practice, it doesn&#8217;t happen very often (once every few hundreds inserts, usually), but it is the cause of significant complexity.</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ll look at <code>btree_append_to_page()</code> you&#8217;ll see that after we call to <code>btree_split_page()</code> we also call to <code>btree_search_pos_in_page()</code>. This is done because we changed
+the entries in the page, so we need to find the new position for the entry.</p>
+</div>
+<div class="paragraph">
+<p>You can see the start of the splitting process in <a href="#btree_split_page"><code>btree.c</code> - Splitting a B+Tree page into two separate pages and re-balancing the entries</a>. This is just the start because the process is somewhat involved, so I&#8217;ve split it into multiple
+functions.</p>
+</div>
+<div id="btree_split_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Splitting a B+Tree page into two separate pages and re-balancing the entries</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_split_page(
+    txn_t* tx, page_t* p, btree_val_t* set) {
+  btree_stack_t* stack = &amp;tx-&gt;state-&gt;tmp.stack;
+  if (stack-&gt;index == 0) {  // at root
+    ensure(btree_create_root_page(tx, p));
+  }
+  page_t other = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;other, p-&gt;page_num));
+  btree_init_metadata(other.metadata, p-&gt;metadata-&gt;tree.page_flags);
+  uint16_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  bool seq_write_up =
+      max_pos == (uint16_t)(~set-&gt;position) &amp;&amp; set-&gt;last_match &gt; 0;
+  bool seq_write_down = (~set-&gt;position == 0) &amp;&amp; set-&gt;last_match &lt; 0;
+  btree_val_t ref = {.tree_id = set-&gt;tree_id, .val = other.page_num};
+  if (seq_write_up) {  // optimization: no split req
+    ref.key = set-&gt;key;
+    memcpy(p, &amp;other, sizeof(page_t));
+  } else if (seq_write_down) {
+    memcpy(other.address, p-&gt;address, PAGE_SIZE);
+    memset(p-&gt;address, 0, PAGE_SIZE);
+    memcpy(other.metadata, p-&gt;metadata, sizeof(page_metadata_t));
+    btree_init_metadata(p-&gt;metadata, other.metadata-&gt;tree.page_flags);
+    ensure(btree_get_leftmost_key(tx, &amp;other, &amp;ref.key));
+  } else {
+    ensure(btree_split_page_in_half(p, &amp;other, &amp;ref, set, max_pos));
+  }
+  ensure(btree_append_to_parent(tx, stack, &amp;ref));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>btree_split_page()</code> is called when the current page is out of space. That can be the first (leaf) page in the tree or any other page in the tree. The first thing we
+check is if we go to the top of the tree and we need to create a new root page. This is the first time that we actually make use of the traversal path stack in our code.
+If we need to split a page and it is at the top of the tree, we&#8217;ll introduce a new root page using <code>btree_create_root_page()</code>. We&#8217;ll look into that function in a bit, for
+now, let&#8217;s focus on what is actually happening in on the code in <a href="#btree_split_page"><code>btree.c</code> - Splitting a B+Tree page into two separate pages and re-balancing the entries</a>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">The cost of splitting a page</div>
+<div class="paragraph">
+<p>One of the interesting properties of B+Tree is that the patterns of writes can have a significant impact on the performance of the system. When we deal with the
+Extendible Hash Table, there was no real difference with how you structured your keys or in what manners you read data from the hash table. With B+Tree, the situation is
+very different.</p>
+</div>
+<div class="paragraph">
+<p>When we insert data in a sequential manner, we are able to fill up a page completely before we need to split it. That means that the internal fragmentation of the pages is
+low and the <em>depth</em> of the tree is optimal. If we write the same data, but in a random fashion, then we are likely to have to split the pages much earlier and leave unused
+space in the pages.</p>
+</div>
+<div class="paragraph">
+<p>The extra page splits will cause us to have a greater tree depth, and that is is leading cause of additional costs in a B+Tree. The B+Tree implementation in Gavran
+is going to try to reduce the number of page splits by as much as possible. One of the way we do that is to avoid storing any actual data in the B+tree, we only store
+a <code>uint64_t</code> value. Voron&#8217;s B+Tree, on the other hand, may contain arbitrary sized data, which complicates the implementation significantly.</p>
+</div>
+<div class="paragraph">
+<p>The <em>user</em> of the B+Tree is also encouraged to take the access patterns into account. Storing the data in sorted order is <em>much</em> better all around.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>btree_split_page()</code> function make a distinction between three separate scenarios for a page split:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The page is split because of a new entry whose key is <em>higher</em> than the last entry in the page. This will commonly happen when you are using ascending keys, such as
+incrementing numeric values, etc.</p>
+</li>
+<li>
+<p>The page is split because of an entry whose key is <em>lower</em> than the first entry in the page. This happens when you are writing in descending order. Usually because
+you are writing data from another source which is already sorted. There are actually very few scenario where this will happen, though.</p>
+</li>
+<li>
+<p>The page is split because of an entry whose key falls somewhere in the <em>middle</em> of the page.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The reason we have to deal with all three scenarios is to get the optimal behavior. In the first two cases, we don&#8217;t <em>need</em> to split the page. Instead, we can simply
+allocate a new (empty) page in the tree, wire it up to the parent page and call it a day. The new write will go to the new page and we get the optimal density of the
+data.
+If we have a write to the middle of the page, we have to actually split the page <em>and</em> split the data, leading to potentially wasted space inside the pages. You can
+see the three options in the <a href="#btree_split_page"><code>btree.c</code> - Splitting a B+Tree page into two separate pages and re-balancing the entries</a>.</p>
+</div>
+<div class="paragraph">
+<p>We use the <code>ref.key</code> to hold the key that will be inserted to the parent page and will contain the newly allocated page. That key will be used to find the entries
+in the new page.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">You can make a <strong>single</strong> change to the tree at a time</div>
+<div class="paragraph">
+<p>An interesting implication of the fact that an insert to a page can cause a page split is that we have a hard time to do multiple operations on the page at the same
+time. For example, if we wanted to modify two keys in the parent page, we might run into a case where the first key would cause a page split in the parent page, which
+will cause the <em>next</em> key to go to another page.</p>
+</div>
+<div class="paragraph">
+<p>We <em>could</em> handle it, but it is easier to accept a limit of a single modification to the parent page and avoid that complexity.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If <code>seq_write_up</code> is true, we are looking and a sequential write. In this case, we set the new page&#8217;s initial key to be the new key that we are now inserting to the
+tree. We also change what page the entry will be written to. If we have a sequential write, we&#8217;re changing the destination page to the newly allocated page.
+The new page is currently empty, but we&#8217;ll fill it with the new value as soon as we return from the <code>btree_split_page()</code>.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, if <code>seq_write_down</code> is true, that means that we have a descending write. A write that is less than the first item in the page represents an interesting
+problem for us. The issue is that we&#8217;ll need to place the new page <em>before</em> the current page. That is easy enough to do in most cases, except if the current page
+is the leftmost page (smallest value) in the parent page. Why is that a problem?</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ll look at <a href="#btree">A B+Tree has multiple pointers from each node to its children</a>, you&#8217;ll see that the leftmost key in the branch page is an empty value, which we marked it as <code>∅</code>. If the current page is already using the key
+that means "smaller than anything", how can we write a value to the page that will mean smaller still?
+We could update <em>both</em> pages keys, but that has its own problem. Each write to the page may split it, so if we make multiple writes to the page we&#8217;ll need to handle the
+possible split for each write. That is complex to do and opens us up to various edge cases.</p>
+</div>
+<div class="paragraph">
+<p>Instead, we go the other way around. We <em>move</em> all the entries from the current page to the new one, and reset the current page. We then insert the <em>new</em> page to the tree
+using the smallest value in that page (or its children, done using <code>btree_get_leftmost_key()</code>). The actual write that will happen after the call returns will happen in
+the current page, which is now empty and ready to accept more writes that are smaller still.
+In this case, even though we moved the whole page, we are still in a very good place, in terms of information density. We didn&#8217;t have to actually split the entires, just
+move where they reside.</p>
+</div>
+<div class="paragraph">
+<p>To find the smallest key to write to the parent page, we call to <code>btree_get_leftmost_key()</code>. Why do we need to do that? Because the current page we move may be a branch
+page with the leftmost key is empty (<code>∅</code>). In order to find what is the <em>actual</em> smallest key for a page, we may need to go down the leftmost path until we reach a leaf page.
+You can see how this is done in <a href="#btree_get_leftmost_key"><code>btree.c</code> - Getting the smallest key from a page (or its children)</a>.</p>
+</div>
+<div id="btree_get_leftmost_key" class="listingblock">
+<div class="title"><code>btree.c</code> - Getting the smallest key from a page (or its children)</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_get_leftmost_key(
+    txn_t* tx, page_t* p, span_t* leftmost_key) {
+  while (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_branch) {
+    p-&gt;page_num = btree_get_val_at(p, 0);
+    ensure(txn_get_page(tx, p));
+  }
+  span_t entry;
+  uint64_t val;
+  uint8_t flags;
+  btree_get_entry_at(p, 0, leftmost_key, &amp;val, &amp;entry, &amp;flags);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that we understand how we deal with writes that are greater than the entire page or smaller than the page, let&#8217;s talk about writes to the middle of the page. This is the
+case where we are actually splitting the page and dividing the entires between the two parts. This is done in the <code>btree_split_page_in_half()</code> function, shown in
+<a href="#btree_split_page_in_half"><code>btree.c</code> - Moving half the entires in a page to the newly allocate page.</a>.</p>
+</div>
+<div id="btree_split_page_in_half" class="listingblock">
+<div class="title"><code>btree.c</code> - Moving half the entires in a page to the newly allocate page.</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_split_page_in_half(page_t* p, page_t* other,
+    btree_val_t* ref, btree_val_t* set, uint16_t max_pos) {
+  uint16_t* positions   = p-&gt;address;
+  uint16_t* o_positions = other-&gt;address;
+  uint64_t val;
+  uint8_t flags;
+  span_t key, entry;
+  for (uint16_t idx = max_pos / 2, o_idx = 0; idx &lt; max_pos;
+       idx++, o_idx++) {
+    btree_get_entry_at(p, idx, &amp;key, &amp;val, &amp;entry, &amp;flags);
+    other-&gt;metadata-&gt;tree.ceiling -= entry.size;
+    memcpy(other-&gt;address + other-&gt;metadata-&gt;tree.ceiling,
+        entry.address, entry.size);
+    o_positions[o_idx] = other-&gt;metadata-&gt;tree.ceiling;
+    other-&gt;metadata-&gt;tree.floor += sizeof(uint16_t);
+    other-&gt;metadata-&gt;tree.free_space -= sizeof(uint16_t) + entry.size;
+    memset(entry.address, 0, entry.size);
+    p-&gt;metadata-&gt;tree.free_space += sizeof(uint16_t) + entry.size;
+  }
+  size_t removed = (max_pos - (max_pos / 2));
+  memset(positions + (max_pos / 2), 0, removed * sizeof(uint16_t));
+  p-&gt;metadata-&gt;tree.floor -= removed * sizeof(uint16_t);
+  btree_get_entry_at(other, 0, &amp;ref-&gt;key, &amp;val, &amp;entry, &amp;flags);
+  if (memcmp(ref-&gt;key.address, set-&gt;key.address,
+          MIN(set-&gt;key.size, ref-&gt;key.size)) &lt; 0) {
+    memcpy(p, other, sizeof(page_t));
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We are doing a few interesting things in <a href="#btree_split_page_in_half"><code>btree.c</code> - Moving half the entires in a page to the newly allocate page.</a>. First, we take all the entires in the 2nd half of the current page and move them to the new page.
+The new page will always get the larger half of the entries. The first entry in the new page will be the reference key for the new page to the parent page. You can see
+how we determine that in <code>btree_split_page_in_half()</code> by setting the `ref-&gt;key&#8217;s value to the first entry&#8217;s key that we process.</p>
+</div>
+<div class="paragraph">
+<p>One we are done copying half the entries to the new page, we&#8217;ll zero out the entries we copied on the original page. We end up with two pages, each with half of the
+entries of the original page. The last thing tha we need to handle on this function is deciding what page we&#8217;ll write the value to. This is why we pass the <code>set</code> to
+the function.</p>
+</div>
+<div class="paragraph">
+<p>Because we split the page in half, the <code>set-&gt;key</code> may belong to either page. This function will check whatever we should be writing it to the current page or whatever
+it belongs in the newly allocated page. If the key on <code>set</code> belongs to the newly allocated page, we&#8217;ll set it as the destination for the next write in the set operation.
+This is similar to what we do in <code>btree_split_page()</code> when we have a sequential write and just allocate a new page for the new data.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">We aren&#8217;t dealing with comparing against the empty key when splitting the page</div>
+<div class="paragraph">
+<p>In <code>btree_search_pos_in_page()</code> we had to deal explicitly with the empty key, but in <code>btree_split_page_in_half()</code>, we are calling <code>memcmp()</code> without special
+casing for the empty key. Why is that?</p>
+</div>
+<div class="paragraph">
+<p>In <code>btree_split_page_in_half()</code> we are comparing a key that is <em>not</em> the leftmost entry. This is because we compare against the entry at the half way mark from
+the original page, and we know that an empty key cannot reside there.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The last portion of splitting a page is calling to <code>btree_append_to_parent()</code>, shown in <a href="#btree_append_to_parent"><code>btree.c</code> - Adding the new page to the tree by writing the new key to the parent page.</a>. This is where we wire the new page to the tree using
+the appropriate key.</p>
+</div>
+<div id="btree_append_to_parent" class="listingblock">
+<div class="title"><code>btree.c</code> - Adding the new page to the tree by writing the new key to the parent page.</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_append_to_parent(
+    txn_t* tx, btree_stack_t* stack, btree_val_t* ref) {
+  page_t parent = {0};
+  int16_t _pos;
+  ensure(btree_stack_pop(stack, &amp;parent.page_num, &amp;_pos));
+  ensure(txn_modify_page(tx, &amp;parent));
+  btree_search_pos_in_page(&amp;parent, ref);
+  ensure(btree_set_in_page(tx, parent.page_num, ref, 0));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use the stack to get the parent&#8217;s page number and prepare the page for modifications. We then search the parent page using <code>btree_search_pos_in_page()</code> to find the
+appropriate location for the new entry. We conclude the process by calling to <code>btree_set_in_page()</code> to do the actual write.</p>
+</div>
+<div class="paragraph">
+<p>The last part is important, because if you&#8217;ll recall, <code>btree_append_to_parent()</code> is called from <code>btree_split_page()</code> which is called in turn from <code>btree_append_to_page()</code>
+which is called from <code>btree_set_in_page()</code>. In other words, we have now entered a recursive call. This time, we aren&#8217;t operating on the leaf page but on its parent branch
+page.</p>
+</div>
+<div class="paragraph">
+<p>An addition to the page may trigger another page split, which will go upward in the tree (using the stack) all the way to the root. Once we get to the root, we&#8217;ll need to
+allocate a new page for the root. This is shown in <a href="#btree_create_root_page"><code>btree.c</code> - Creating a new root page for the tree.</a>.</p>
+</div>
+<div id="btree_create_root_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Creating a new root page for the tree.</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_create_root_page(txn_t* tx, page_t* p) {
+  page_t new = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;new, p-&gt;page_num));
+  memcpy(new.address, p-&gt;address, PAGE_SIZE);
+  memcpy(new.metadata, p-&gt;metadata, sizeof(page_metadata_t));
+
+  memset(p-&gt;address, 0, PAGE_SIZE);
+  btree_init_metadata(p-&gt;metadata, page_flags_tree_branch);
+
+  size_t req_size =
+      varint_get_length(0) + 0 + varint_get_length(new.page_num);
+  uint8_t* val_p = btree_insert_to_page(p, 0, (uint16_t)req_size);
+  varint_encode(new.page_num, varint_encode(0, val_p));
+  ensure(btree_stack_push(&amp;tx-&gt;state-&gt;tmp.stack, p-&gt;page_num, 0));
+
+  memcpy(p, &amp;new, sizeof(page_t));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The new root page is always a branch page which has an empty leftmost key pointing to the current root page. When doing similar things with the Extendible Hash Table, we
+had to change the <code>hash_id</code> of the table whenever we grew the directory. That is something that I would like to avoid doing for B+Tree, so you&#8217;ll note that I&#8217;m allocating
+a new page in <code>btree_create_root_page()</code>, but that isn&#8217;t used for the <em>root</em> of the tree. Instead, I&#8217;m moving the old root page to the new page and setting the <em>original</em>
+page as the root page again. In this manner, the <code>tree_id</code> of the B+Tree is constant and will never change.
+The final act of the <code>btree_create_root_page()</code> function is to register the new root tree in the stack, so we&#8217;ll be able to later use the new root page as the parent page.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">The empty (<code>∅</code>) key marker</div>
+<div class="paragraph">
+<p>The root page is always created with a single entry using an empty key. This is used to refer to "smaller than anything" value. At each level, the leftmost branch page will
+have its leftmost key set to an empty key.</p>
+</div>
+<div class="paragraph">
+<p>Other branch pages may have a leftmost key with an actual value or have an empty key. That depends on the exact series of operations that were applied to the tree. It doesn&#8217;t
+matter much if the leftmost key on anything but the leftmost branch page has an empty key.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The final piece of adding an entry to page is <code>btree_insert_to_page()</code>, shown on <a href="#btree_insert_to_page"><code>btree.c</code> - Prepare the page for a new inserted entry.</a>.</p>
+</div>
+<div id="btree_insert_to_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Prepare the page for a new inserted entry.</div>
+<div class="content">
+<pre class="highlight"><code>static void* btree_insert_to_page(
+    page_t* p, int16_t pos, uint16_t req_size) {
+  uint16_t* positions = p-&gt;address;
+  size_t max_pos      = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  p-&gt;metadata-&gt;tree.floor += sizeof(uint16_t);
+  p-&gt;metadata-&gt;tree.free_space -= sizeof(uint16_t);
+  if (pos &lt; 0) {  // need to allocate space in positions
+    pos = ~pos;
+    memmove(positions + pos + 1, positions + pos,
+        ((max_pos - (size_t)pos) * sizeof(uint16_t)));
+  }
+  p-&gt;metadata-&gt;tree.ceiling -= req_size;
+  p-&gt;metadata-&gt;tree.free_space -= req_size;
+  positions[pos] = p-&gt;metadata-&gt;tree.ceiling;
+  return p-&gt;address + p-&gt;metadata-&gt;tree.ceiling;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>btree_insert_to_page()</code> function doesn&#8217;t handle the actual insertion. Instead, it prepares the space in the page for the insertion and returns the location to write the
+new entry. Mostly it is about updating the page metadata, but note the different behavior of this function if the <code>position</code> specified is positive or negative.</p>
+</div>
+<div class="paragraph">
+<p>If we are passed a positive <code>position</code>, we are <em>updating</em> an existing entry, so we don&#8217;t need to touch the <code>positions</code> array. But if we are passed a negative position we know
+that we have to allocate space for the new entry&#8217;s <code>position</code>. We call <code>memmove()</code> to do the heavy lifting of creating the appropriate space in the <code>positions</code> array to fit
+the new entry&#8217;s offset in the page.</p>
+</div>
+<div class="paragraph">
+<p>As you can see, adding an item to the B+Tree isn&#8217;t a trivial operation. Not so much because of what happens during normal operations but because of the number of edge cases
+that we have to deal with. The fact that we ensured that the maximum size of an entry can be up to <code>KeyLenSize(2) + KeySize(512) + ValSize(9) + Flags(1) = MaxEntry(524)</code> actually
+simplify a lot of things. Given that the size of a page is 8KB, we don&#8217;t need to worry about not being able to double split (splitting the page once, and still not having
+enough room for the value we want to insert) or have to balance the size of entries along with their number, etc.</p>
+</div>
+<div class="paragraph">
+<p>Now that we know how we set values into the B+Tree, let&#8217;s see how we can <em>read</em> data from the tree.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reading_from_the_btree">Reading from the B+Tree</h3>
+<div class="paragraph">
+<p>We actually have most of the functionality for reading already explored. Let&#8217;s look at how <code>btree_get()</code> is implemented in <a href="#btree_get"><code>btree.c</code> - Getting a value from the tree by key</a>.</p>
+</div>
+<div id="btree_get" class="listingblock">
+<div class="title"><code>btree.c</code> - Getting a value from the tree by key</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_get(txn_t* tx, btree_val_t* kvp) {
+  assert(btree_validate_key(&amp;kvp-&gt;key));
+  page_t p;
+  ensure(btree_get_leaf_page_for(tx, kvp, &amp;p));
+  if (kvp-&gt;last_match != 0) {
+    kvp-&gt;has_val = false;
+    return success();
+  }
+  span_t key, entry;
+  btree_get_entry_at(&amp;p, (uint16_t)kvp-&gt;position, &amp;key, &amp;kvp-&gt;val,
+      &amp;entry, &amp;kvp-&gt;flags);
+  kvp-&gt;has_val = true;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We already saw how <code>btree_get_leaf_page_for()</code> works in <a href="#btree_get_leaf_page_for"><code>btree.c</code> - Finding the appropriate leaf page for a given key</a>. It searches through the tree to find the appropriate leaf page for the key we are searching
+for. If the <code>kvp-&gt;last_match</code> is not set to <code>0</code>, that means that we didn&#8217;t have an exact match and can immediately tell that we don&#8217;t have the key in the tree. If we the last
+match is zero, we can use the <code>kvp-&gt;position</code> to get the actual value from the page. This is handled by <code>btree_get_entry_at()</code>, which is shown in <a href="#btree_get_entry_at"><code>btree.c</code> - Get the entry by index from a B+Tree page</a>.</p>
+</div>
+<div id="btree_get_entry_at" class="listingblock">
+<div class="title"><code>btree.c</code> - Get the entry by index from a B+Tree page</div>
+<div class="content">
+<pre class="highlight"><code>static void btree_get_entry_at(page_t* p, uint16_t pos, span_t* key,
+    uint64_t* val, span_t* entry, uint8_t* flags) {
+  uint16_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  assert(pos &lt; max_pos);
+  uint16_t* positions = p-&gt;address;
+  entry-&gt;address      = p-&gt;address + positions[pos];
+  key-&gt;address        = varint_decode(entry-&gt;address, &amp;key-&gt;size);
+  uint8_t* end        = varint_decode(key-&gt;address + key-&gt;size, val);
+  if (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_leaf) {
+    *flags = *end++;
+  }
+  entry-&gt;size = (size_t)(end - (uint8_t*)entry-&gt;address);
+}
+static uint64_t btree_get_val_at(page_t* p, uint16_t pos) {
+  span_t key, entry;
+  uint64_t val;
+  uint8_t flags;
+  btree_get_entry_at(p, pos, &amp;key, &amp;val, &amp;entry, &amp;flags);
+  return val;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We are simply reversing the entry write process and unpacking the data from the entry. Note that we could probably come up with a entry format that might be cheaper to unpack
+and process, but this is very space efficient and simple and provide us with the great sets of behaviors (can read &amp; write independent of any other values, easy to write and parse,
+easy to debug, etc). There is also the convenience function <code>btree_get_val_at()</code> which make it easier to get just the value, something that we often need to do.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Reading is easy and simple in B+Tree</div>
+<div class="content">
+<div class="paragraph">
+<p>You might have noticed that the reading portion of the B+Tree is shorter, simpler and much easier to understand and run that the write part. This is not really a true reflection of
+how such things really behave, to be fair. Most of the code and complexity in writing to a B+Tree comes from the edge cases, when we need to split a page. The process of writing to
+the B+Tree when we <em>don&#8217;t</em> need to split the page is very straightforward. Almost identical to the reading workflow.</p>
+</div>
+<div class="paragraph">
+<p>The good thing about the reads being simpler is that they are also <em>cheap</em>. And in most scenarios, you are going to be reading a lot more than you&#8217;ll be writing. Even when we have a
+lot of writes, though. We&#8217;ll pay the extra cost of page splits only once every few <em>hundreds</em> operations, so it is highly amortized cost.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dropping_the_btree">Dropping the B+Tree</h3>
+<div class="paragraph">
+<p>The order of sections in this chapter may appear strange to you. We started by showing how to create the B+Tree, spend a <em>lot</em> of time working through the intricacies of writing to
+the B+Tree and then moved to seeing how we read from the tree. Now we are dropping the tree entirely? We are actually missing a few important features, namely deleting items and
+iterating over the tree.
+I&#8217;m trying to manage the amount of complexity that I&#8217;m throwing all at once by putting some of the easier pieces in the middle.</p>
+</div>
+<div class="paragraph">
+<p>Dropping a B+Tree means that we need to free all the pages and resources associated with it. That task turns out to be fairly simple, as you can see in <a href="#btree_drop"><code>btree.c</code> - Dropping a B+Tree by recursively freeing all of its pages</a>.</p>
+</div>
+<div id="btree_drop" class="listingblock">
+<div class="title"><code>btree.c</code> - Dropping a B+Tree by recursively freeing all of its pages</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_free_page_recursive(
+    txn_t* tx, uint64_t page_num) {
+  page_t p = {.page_num = page_num};
+  ensure(txn_get_page(tx, &amp;p));
+  if (p.metadata-&gt;tree.page_flags != page_flags_tree_leaf) {
+    uint16_t max_pos = p.metadata-&gt;tree.floor / sizeof(uint16_t);
+    for (uint16_t i = 0; i &lt; max_pos; i++) {
+      uint64_t child = btree_get_val_at(&amp;p, i);
+      ensure(btree_free_page_recursive(tx, child));
+    }
+  }
+  ensure(txn_free_page(tx, &amp;p));
+  return success();
+}
+result_t btree_drop(txn_t* tx, uint64_t tree_id) {
+  return btree_free_page_recursive(tx, tree_id);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#btree_drop"><code>btree.c</code> - Dropping a B+Tree by recursively freeing all of its pages</a> runs over the entries in a branch page and recurse into each of them. Whenever we hit a leaf page, we free it and then we go up the tree. This is a simple
+depth first search that will end up freeing all the pages in the tree. I like the simplicity, because we can ignore the <em>contents</em> of the pages or their structure. We can just follow
+the links and free the pages that we no longer need.</p>
+</div>
+<div class="paragraph">
+<p>With this brief respite, let&#8217;s move back to one of the more complex aspects of B+Tree, deleting entries.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_from_the_btree">Deleting from the B+Tree</h3>
+<div class="paragraph">
+<p>You might have gathered that deleting items from the B+Tree is not a trivial task. This is only partially correct. Deleting items from the B+Tree is actually very easy, the complexity
+starts when we need to merge pages. A page split happens when a page is too full and we can&#8217;t add any more entries to it. A page merge happens when an entry is deleted from a page and
+we take advantage of the additional space to merge two adjacent pages together. Why do we want to do that, if this is so complex?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Merging pages reduce the amount of pages that the B+Tree takes, reducing the disk size we need.</p>
+</li>
+<li>
+<p>Merging pages can reduce the <em>depth</em> of the B+Tree, which means that we can do less work to find and work with the tree.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The deletion process starts in <code>btree_del()</code>, shown in <a href="#btree_del"><code>btree.c</code> - Deleting an entry by key from the B+Tree</a>.</p>
+</div>
+<div id="btree_del" class="listingblock">
+<div class="title"><code>btree.c</code> - Deleting an entry by key from the B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_del(txn_t* tx, btree_val_t* del) {
+  assert(btree_validate_key(&amp;del-&gt;key));
+  page_t p;
+  ensure(btree_get_leaf_page_for(tx, del, &amp;p));
+  if (del-&gt;last_match != 0) {
+    del-&gt;has_val = false;
+    return success();
+  }
+  del-&gt;has_val = true;
+  ensure(txn_modify_page(tx, &amp;p));
+  del-&gt;val = btree_remove_entry(&amp;p, (uint16_t)del-&gt;position);
+  ensure(btree_maybe_merge_pages(tx, &amp;p));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our good friend <code>btree_get_leaf_page_for()</code> is there, finding up the right leaf page to start working on. If we <code>del-&gt;last_match</code> isn&#8217;t zeroed, we don&#8217;t have an exact match and can stop
+the process. If there is an exact match, we call to <code>btree_remove_entry()</code> to do the actual removal of the entry. Finally, in <code>btree_maybe_merge_pages()</code> we do the actual page merging, if
+we can.
+Let&#8217;s look first at what it takes to remove an entry from a page, this is shown in <a href="#btree_remove_entry"><code>btree.c</code> - Removing an entry from a page</a>.</p>
+</div>
+<div id="btree_remove_entry" class="listingblock">
+<div class="title"><code>btree.c</code> - Removing an entry from a page</div>
+<div class="content">
+<pre class="highlight"><code>static uint64_t btree_remove_entry(page_t* p, uint16_t pos) {
+  span_t key, entry;
+  uint64_t val;
+  uint8_t flags;
+  btree_get_entry_at(p, pos, &amp;key, &amp;val, &amp;entry, &amp;flags);
+  memset(entry.address, 0, entry.size);
+  uint16_t* positions = p-&gt;address;
+  memmove(positions + pos, positions + pos + 1,
+      p-&gt;metadata-&gt;tree.floor - (pos + 1) * sizeof(uint16_t));
+  p-&gt;metadata-&gt;tree.floor -= (uint16_t)sizeof(uint16_t);
+  positions[p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t)] = 0;
+  p-&gt;metadata-&gt;tree.free_space += sizeof(uint16_t) + entry.size;
+  return val;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There isn&#8217;t much going on in <code>btree_remove_entry()</code>, we zero the relevant entry, shift the <code>positions</code> array to remove the <code>position</code> we are removing from the page and updating the page&#8217;s
+metadata. Removing an entry from a page is not a big deal, but the problem is how do we recover the space when a page is completely empty, or how do we re-balance the load between pages
+as data is written and deleted.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Data access patterns considerations</div>
+<div class="paragraph">
+<p>One of the things that we have to take into account when building the B+Tree is what kind of access patterns should we expect and optimize for.
+A good example is building good support for writing data in a sequential manner. You saw in the <code>btree_split()</code> that we have taken that into account and optimize the process of adding a
+splitting a page where the value is always growing (or decreasing).</p>
+</div>
+<div class="paragraph">
+<p>When <em>deleting</em> items, we have to consider one of the following options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A queue like system. New entries written the end of the B+Tree and remove them from the front.</p>
+</li>
+<li>
+<p>A stack like system. Writing entries to the end of the B+Tree and remove them from the end.</p>
+</li>
+<li>
+<p>Random deletes - may happen everywhere in the tree.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In this case, I&#8217;m referring to the start and the end of the B+Tree in terms of the sorted values, mind. As much as possible, we want to avoid merging those pages if we can. The reason
+for that is that they tend to be very commonly used as the targets of deletes.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a queue like structure, we&#8217;ll be appending to the end and removing from the front. Merging the first page will just cause us to do more work. For that reason, we only
+merge adjacent pages if they are in the middle of their branch page.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The page merge process starts at <code>btree_maybe_merge_pages()</code>, which is shown on <a href="#btree_maybe_merge_pages"><code>btree.c</code> - Deciding whatever we should merge the current page with its next sibling</a>.</p>
+</div>
+<div id="btree_maybe_merge_pages" class="listingblock">
+<div class="title"><code>btree.c</code> - Deciding whatever we should merge the current page with its next sibling</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_maybe_merge_pages(txn_t* tx, page_t* p) {
+  // if page is over 2/3 full, we'll do nothing
+  if (p-&gt;metadata-&gt;tree.free_space &lt; (PAGE_SIZE / 3) * 2 ||
+      tx-&gt;state-&gt;tmp.stack.index == 0)  // nothing to merge with
+    return success();
+  int16_t cur_pos;
+  page_t parent = {0};
+  ensure(btree_stack_pop(
+      &amp;tx-&gt;state-&gt;tmp.stack, &amp;parent.page_num, &amp;cur_pos));
+  ensure(txn_get_page(tx, &amp;parent));
+  uint16_t max_pos = parent.metadata-&gt;tree.floor / sizeof(uint16_t);
+  if (cur_pos == 0 || cur_pos == max_pos - 1) {
+    return btree_maybe_free_empty_page(  // not merging at start / end
+        tx, p, &amp;parent, (uint16_t)cur_pos);
+  }
+  uint16_t sibling_pos = (uint16_t)cur_pos + 1;
+  page_t sibling       = {
+      .page_num = btree_get_val_at(&amp;parent, sibling_pos)};
+  ensure(txn_get_page(tx, &amp;sibling));
+  if (sibling.metadata-&gt;tree.page_flags !=
+      p-&gt;metadata-&gt;tree.page_flags) {
+    return btree_maybe_free_empty_page(  // cannot merge leaf &amp; branch
+        tx, p, &amp;parent, (uint16_t)cur_pos);
+  }
+  ensure(btree_merge_pages(tx, p, &amp;parent, &amp;sibling, sibling_pos));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_maybe_merge_pages()</code> is mostly concerned with deciding whatever we <em>should</em> merge the page with its sibling. We filter out pages that don&#8217;t have enough free space, we
+bail out early if we are already at the root page or if the current page is at the first or last position in its parent page (see the sidebar discussion on that). We also check that
+the pages we merge have the same type. We cannot merge branch and leaf pages together, after all.</p>
+</div>
+<div class="paragraph">
+<p>If we passed all of these checks, we proceed to the <code>btree_merge_pages()</code> to do the actual merging. The code for page merges is shown in <a href="#btree_merge_pages"><code>btree.c</code> - Merging two sibling pages (or re-balancing their entries)</a> but I want to focus on
+something quite important first. The whole <em>point</em> of <code>btree_maybe_merge_pages()</code> is to avoid or delay, as much as possible, the process of page merging. We are trying to avoid page
+splits because they are expensive, the increase the depth of the tree (which requires additional searches), they use more disk space, etc. Why would we want to reduce page merges, though?
+With page merges, we are <em>reducing</em> the depth of the tree, so that is a <em>good</em> thing, no?</p>
+</div>
+<div class="paragraph">
+<p>The issue is, again, related to the expected access patterns that we are likely to see and <a href="https://en.wikichip.org/wiki/schlemiel_the_painter%27s_algorithm">Schlemiel&#8217;s Algorithm</a>.
+The issue is that deletes tend to either be completely random and come in clumps. We want to avoid doing merge work on each delete, because that can cause a delete of N items to cause
+us to do <code>O(N<sub>2</sub>)</code> work. For that reason, we attempt to delay the merges as much as possible.</p>
+</div>
+<div class="paragraph">
+<p>You can see the same line of thinking in <a href="#btree_merge_pages"><code>btree.c</code> - Merging two sibling pages (or re-balancing their entries)</a> as well, since we do work to delay the <em>next</em> call as much as we can. There is an important assumption we can make in
+<code>btree_merge_pages()</code>, we are getting two pages and they are <em>in order</em>. In other words, the <code>p2</code> data entries all come after the entries in <code>p2</code>. That turns out to be very helpful in
+reducing the overall complexity.</p>
+</div>
+<div id="btree_merge_pages" class="listingblock">
+<div class="title"><code>btree.c</code> - Merging two sibling pages (or re-balancing their entries)</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_merge_pages(txn_t* tx, page_t* p,
+    page_t* parent, page_t* sibling, uint16_t sibling_pos) {
+  ensure(txn_modify_page(tx, sibling));
+
+  ensure(btree_balance_entries(tx, p, sibling));
+
+  if (sibling-&gt;metadata-&gt;tree.floor ==
+      0) {  // completely emptied sibling
+    ensure(
+        btree_remove_from_parent(tx, parent, sibling, sibling_pos));
+    return success();
+  }
+  uint64_t val;
+  span_t entry;
+  btree_val_t ref = {.val = sibling-&gt;page_num};
+  uint8_t flags;
+  ensure(txn_modify_page(tx, parent));
+
+  btree_remove_entry(parent, sibling_pos);
+  btree_get_entry_at(sibling, 0, &amp;ref.key, &amp;val, &amp;entry, &amp;flags);
+  btree_search_pos_in_page(parent, &amp;ref);
+  ensure(btree_set_in_page(tx, parent-&gt;page_num, &amp;ref, 0));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_merge_pages()</code> is straightforward, we make sure that the <code>sibling</code> and is ready for modifications and then  call to <code>btree_balance_entries()</code> to re-balance
+the entries and then either remove the empty <code>sibling</code> page (if we emptied it from all its entries) or update the <code>parent</code> if there are still entries in the <code>sibling</code> page.
+I think we should first look at <code>btree_balance_entries()</code> ,shown in <a href="#btree_balance_entries"><code>btree.c</code> - Moving as many entries from <code>p2</code> to <code>p1</code> as can be fitted.</a>, to understand how it works and then we can discuss the way page merging works with
+better understanding of how the whole machinery works.</p>
+</div>
+<div id="btree_balance_entries" class="listingblock">
+<div class="title"><code>btree.c</code> - Moving as many entries from <code>p2</code> to <code>p1</code> as can be fitted.</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_balance_entries(
+    txn_t* tx, page_t* p1, page_t* p2) {
+  uint64_t val;
+  uint16_t p1_base    = p1-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  uint16_t max_p2_pos = p2-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+  uint16_t p2_pos     = 0;
+  size_t total_moved  = 0;
+  for (; p2_pos &lt; max_p2_pos; p2_pos++) {
+    span_t key, entry;
+    uint8_t flags;
+    btree_get_entry_at(p2, p2_pos, &amp;key, &amp;val, &amp;entry, &amp;flags);
+    if (p1-&gt;metadata-&gt;tree.free_space &lt;
+        entry.size + sizeof(uint16_t)) {
+      break;  // no more room
+    }
+    if (entry.size + sizeof(uint16_t) &gt;
+        p1-&gt;metadata-&gt;tree.ceiling - p1-&gt;metadata-&gt;tree.floor) {
+      ensure(btree_defrag(tx, p1));
+      if (entry.size + sizeof(uint16_t) &gt;
+          p1-&gt;metadata-&gt;tree.ceiling - p1-&gt;metadata-&gt;tree.floor)
+        break;  // still can't find room? abort
+    }
+    void* dst = btree_insert_to_page(
+        p1, (int16_t)(p2_pos + p1_base), (uint16_t)entry.size);
+    memcpy(dst, entry.address, entry.size);
+    memset(entry.address, 0, entry.size);
+    total_moved += entry.size + sizeof(uint16_t);
+  }
+  p2-&gt;metadata-&gt;tree.free_space += total_moved;
+  p2-&gt;metadata-&gt;tree.floor -= p2_pos * sizeof(uint16_t);
+  memmove(p2-&gt;address, p2-&gt;address + p2_pos * sizeof(uint16_t),
+      (max_p2_pos - p2_pos) * sizeof(uint16_t));
+  memset(p2-&gt;address + p2-&gt;metadata-&gt;tree.floor * sizeof(uint16_t), 0,
+      (max_p2_pos - p2-&gt;metadata-&gt;tree.floor) * sizeof(uint16_t));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>btree_balance_entries()</code> we copy the entries from the <code>p2</code> page to <code>p1</code>. If you&#8217;ll recall, we know that all the entries in <code>p2</code> are greater than the ones in <code>p1</code>, so we can
+simply copy the entries from the start of <code>p2</code> to the end of <code>p1</code> without needing to do anything else to maintain the sort order.
+We are copying from the <code>p2</code> page until we run out of either entries on <code>p2</code> to copy or space to copy to in <code>p1</code>. Once that is done, we can remove all the entires that we copied
+from <code>p2</code> in one shot. We are using this approach to avoid the cost of removing one item at a time, which can lead to <code>O(N<sub>2</sub>)</code> complexity.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Why am I so careful about zeroing the memory?</div>
+<div class="paragraph">
+<p>I&#8217;m not sure if you noticed, but I&#8217;m trying to be very careful about zeroing out any memory that we have cleared. This isn&#8217;t actually required, we don&#8217;t rely on the contents of
+bytes on the page that aren&#8217;t actively being used. But I&#8217;m making sure that whenever we delete an entry from the page, we&#8217;ll immediately zero it. Why go to the trouble?</p>
+</div>
+<div class="paragraph">
+<p>One side of this is about security, if we zero the old data immediately (which will be written to disk) we can be sure that deleted records are not hanging around after they are
+no longer wanted. This is a minor concern, to be honest. If you care about the security of your system, encryption is where you want to go, not zeroing the memory. You can probably
+<em>still</em> recover the data from the disk after we overwrote it with zeros, if you try hard enough.</p>
+</div>
+<div class="paragraph">
+<p>The more practical reason is that it make it very easy to avoid accidentally using the space after it has been freed. By making sure that it is freed, we can catch such issues
+much earlier.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that you saw how the key components of the page merge process work, let&#8217;s talk about the implications of this design. We&#8217;ll only consider a page to be a merge candidate if it
+has at least 2.7KB of free space. Given that the maximum size of an entry is 524 bytes (and most are <em>much</em> smaller), that means that when we consider a merge between pages, we&#8217;ll
+copy quite a few entries all at once.</p>
+</div>
+<div class="paragraph">
+<p>We always copy down, so when we need to merge a page, we&#8217;ll look at the <em>following</em> page (with larger entries) to supply us with additional entries to fill the page. A better
+might test the previous and next pages and see if we can find a good candidate, but that complicates the code and doesn&#8217;t usually end up being very beneficial for real world scenarios.
+We are avoiding the top and bottom pages in a branch page as starting points for page merges, that is to optimize common behaviors of deleting from start / end in a sequential manner.</p>
+</div>
+<div class="paragraph">
+<p>We are also being conservative with the merge process. When we merge, we merge a <em>single</em> page at a time and we don&#8217;t attempt to probe additional pages to see if we can merge them.</p>
+</div>
+<div class="paragraph">
+<p>The final step in the merge process is updating the parent page. This is done in <code>btree_merge_pages()</code> by removing the old entry of the <code>sibling</code> page from the parent and inserting
+the new first key in the <code>sibling</code> page. An interesting issue that may arise in this case is that the act of changing the key pointing to the <code>sibling</code> page may actually cause us
+to split the <em>parent</em> page. This is already handled by the code, so we don&#8217;t have to take any action, but it is important to understand the potential cascading affects that we have
+in the B+Tree.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a last look at <a href="#btree_maybe_free_empty_page"><code>btree.c</code> - Removing an empty page from the tree</a> where you can see how we handle reducing the depth of the tree. In <code>btree_maybe_free_empty_page()</code> we check if the page
+we are working with was completely emptied. This can happen if the page we removed items from was the first or last in the parent page (since we aren&#8217;t merging these) or if the
+page was a leaf page adjacent to a branch page, etc.</p>
+</div>
+<div id="btree_maybe_free_empty_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Removing an empty page from the tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_maybe_free_empty_page(
+    txn_t* tx, page_t* p, page_t* parent, uint16_t position) {
+  if (p-&gt;metadata-&gt;tree.floor != 0) return success();
+  ensure(txn_modify_page(tx, parent));  // emptied the page
+  ensure(btree_remove_from_parent(tx, parent, p, position));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When we remove a page, we have to update the parent page, this is done in <code>btree_remove_from_parent()</code>. This is also where the merge process turn recursive and we check if we
+need to merge the parent page (and in turn, the grandparent, etc). You can see how that works in <a href="#btree_remove_from_parent"><code>btree.c</code> - Remove a page from the parent page, fixup the tree if needed</a>.</p>
+</div>
+<div id="btree_remove_from_parent" class="listingblock">
+<div class="title"><code>btree.c</code> - Remove a page from the parent page, fixup the tree if needed</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_remove_from_parent(
+    txn_t* tx, page_t* parent, page_t* remove, uint16_t remove_pos) {
+  ensure(txn_free_page(tx, remove));
+  btree_remove_entry(parent, remove_pos);
+  if (remove_pos == 0) {  // ensure leftmost branch key is empty
+    uint64_t val = btree_get_val_at(parent, 0);
+    btree_remove_entry(parent, 0);
+    uint8_t* dst = btree_insert_to_page(parent, ~0 /*insert new*/,
+        (uint16_t)(1 + varint_get_length(val)));
+    *dst++       = 0;  // empty key size
+    varint_encode(val, dst);
+  }
+  ensure(btree_maybe_merge_pages(tx, parent));
+  if (parent-&gt;metadata-&gt;tree.floor != sizeof(uint16_t))
+    return success();
+  page_t p = {// only remaining item, replace the parent page
+      .page_num = btree_get_val_at(parent, 0)};
+  ensure(txn_get_page(tx, &amp;p));
+  memcpy(parent-&gt;metadata, p.metadata, sizeof(page_metadata_t));
+  memcpy(parent-&gt;address, p.address, PAGE_SIZE);
+  ensure(txn_free_page(tx, &amp;p));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_remove_from_parent()</code> is doing a whole bunch of things all at once, so let&#8217;s try to list them in order. We start from just removing the entry from the parent
+page. Here we have to be careful about structure of the tree. If we removed the leftmost entry, we will replace the new leftmost entry with an empty key (which we represent using
+the <code>∅</code> sign). The idea is that the leftmost key in a branch page should be the <code>∅</code> (smaller than anything) and we maintain that during the merge process. This is important since
+deleting entries from the start will lead us to repeatedly remove the leftmost page. By ensuring that the leftmost entry is always the empty key, we can keep the tree ready for
+new writes at the start of the tree.</p>
+</div>
+<div class="paragraph">
+<p>The next step is to recursively call to <code>btree_maybe_merge_pages()</code> to see if we can merge the parent page as well. Once that is done, we check if the parent hsa a single entry
+in the page. If this is the case, we can simply copy the child page to the parent page and remove the child. This is the stage where we are actually reducing the depth of the
+tree.</p>
+</div>
+<div class="paragraph">
+<p>This concludes the merging process for pages on delete and we are nearly done with understanding how B+Tree works. There is just one last thing we need to go over, iteration
+over the B+Tree data&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iterating_over_the_btree_entries">Iterating over the B+Tree entries</h3>
+<div class="paragraph">
+<p>We have done all the work that is required to allow reads, writes and deletes on the B+Tree. I think that you can agree that comparing the complexity to the Extendible Hash
+Table we implemented previously, the B+Tree is a lot more complex. But in terms of the functionality we have so far, it isn&#8217;t really that interesting. We can also do
+writes, reads and deletes using the hash table, and it is a lot less complex. What is the <em>point</em> of using a B+Tree?</p>
+</div>
+<div class="paragraph">
+<p>The most important property of a B+Tree is that it is sorted. That means that when we search a key in the B+Tree, the cost is <code>O(<sub>log</sub>N)</code>. More important, it means that we
+can iterate through the entires in the B+Tree in sort order. The API we have for iteration on the B+Tree is shown in <a href="#btree_cursor_api"><code>gavran/db.h</code> - API for iterating over the entries in a B+Tree</a>.</p>
+</div>
+<div id="btree_cursor_api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - API for iterating over the entries in a B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct btree_cursor {
+  txn_t *tx;
+  uint64_t tree_id;
+  btree_stack_t stack;
+  span_t key;
+  uint64_t val;
+  bool has_val;
+  uint8_t flags;
+  bool is_uniquifier_search;
+  uint8_t padding[5];
+} btree_cursor_t;
+
+result_t btree_cursor_at_start(btree_cursor_t *cursor);
+result_t btree_cursor_at_end(btree_cursor_t *cursor);
+result_t btree_cursor_search(btree_cursor_t *cursor);
+result_t btree_get_next(btree_cursor_t *cursor);
+result_t btree_get_prev(btree_cursor_t *cursor);
+result_t btree_free_cursor(btree_cursor_t *cursor);
+enable_defer(btree_free_cursor);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can learn quite a lot from the API in <a href="#btree_cursor_api"><code>gavran/db.h</code> - API for iterating over the entries in a B+Tree</a>. Unlike our previous iteration API, we now have a dedicated structure for iteration on the B+Tree. This is
+required because we need to maintain the state of the iteration between calls. The API allows us to start the iteration from the start or end of the tree and iterate
+in ascending and descending order.
+We also have the option of starting the iteration from a given key using <code>btree_cursor_search()</code>.
+It is also important to note that once we are done using the cursor, we <em>must</em> free it using <code>btree_free_cursor()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Before we dive into the implementation of iteration on the B+Tree, I think a usage example would be a better idea. Take a look at <a href="#get_last_hour_entries">[get_last_hour_entries]</a>, where we are
+showing off how we can scan a B+Tree from a particular value forward.</p>
+</div>
+<div id="get_last_entries" class="listingblock">
+<div class="title"><code>test.c</code> - Iterating a B+Tree from a particular point in time</div>
+<div class="content">
+<pre class="highlight"><code>typedef void (*callback_t)(uint64_t v, void* state);
+
+static void count_items(uint64_t v, void* state) {
+  (void)v;
+  (*((uint32_t*)state))++;
+}
+
+static result_t get_last_entries(db_t* db, uint64_t tree_id,
+    time_t time, callback_t callback, void* state) {
+  txn_t tx;
+  ensure(txn_create(db, TX_READ, &amp;tx));
+  defer(txn_close, tx);
+  uint8_t buffer[10];
+  // <b class="conum">(1)</b>
+  uint64_t start = (uint64_t)time;
+  varint_encode(start, buffer);
+  btree_cursor_t cursor = {
+      .key = {.address = buffer, .size = varint_get_length(start)},
+      .tree_id = tree_id,
+      .tx      = &amp;tx,
+  };
+  // <b class="conum">(2)</b>
+  ensure(btree_cursor_search(&amp;cursor));
+  // <b class="conum">(3)</b>
+  defer(btree_free_cursor, cursor);
+  while (true) {
+    // <b class="conum">(4)</b>
+    ensure(btree_get_next(&amp;cursor));
+    // <b class="conum">(5)</b>
+    if (cursor.has_val == false) break;
+    callback(cursor.val, state);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Using <code>varint_encode()</code> to encode the start value in a manner that would sort lexically and setting up the cursor search.</p>
+</li>
+<li>
+<p>Initializing the cursor and pointing it to the value we search (or immediately afterward, if the value doesn&#8217;t exists).</p>
+</li>
+<li>
+<p>Setting up a defered <code>btree_free_cursor()</code> for the cursor at the end of the scope.</p>
+</li>
+<li>
+<p>Moving to the next element (matching to the key we searched for the first time).</p>
+</li>
+<li>
+<p>Checking if we found a value using <code>has_val</code> and getting the actual value using <code>val</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#get_last_entries"><code>test.c</code> - Iterating a B+Tree from a particular point in time</a> has a bit of scaffolding, but I want to focus on the actual search and the scan in the end. We first setup the cursor with the key we want to start
+the scan process from. Then we start calling <code>btree_get_next()</code> in a loop, moving between the entries of the tree in sorted order.</p>
+</div>
+<div class="paragraph">
+<p>The fact that we can do that gives us a tremendous amount of power and flexibility. In this case, the keys for the B+Tree are actually <code>time_t</code> values and we search the tree for
+all entries after a particular moment in time. With forward and backward iteration, you can build very sophisticated operations on top of Gavran&#8217;s B+Trees.
+I&#8217;m also demonstrating how to use the <code>varint</code> encoding we talked about in the Extendible Hash Table chapter for sorting.</p>
+</div>
+<div class="paragraph">
+<p>Now that we understand the API, let&#8217;s see how that is actually implemented, shall we? Take a look at <a href="#btree_cursor_search"><code>btree.c</code> - Setting up the cursor to search from a particular key</a> which setup the cursor to start the search on the
+provided key.</p>
+</div>
+<div id="btree_cursor_search" class="listingblock">
+<div class="title"><code>btree.c</code> - Setting up the cursor to search from a particular key</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_cursor_search(btree_cursor_t* c) {
+  assert(btree_validate_key(&amp;c-&gt;key));
+  btree_val_t kvp = {.key = c-&gt;key, .tree_id = c-&gt;tree_id};
+  // handle cursor reuse for multiple queries
+  ensure(btree_free_cursor(c));
+  page_t p;
+  ensure(btree_get_leaf_page_for(c-&gt;tx, &amp;kvp, &amp;p));
+  ensure(btree_stack_push(
+      &amp;c-&gt;tx-&gt;state-&gt;tmp.stack, p.page_num, kvp.position));
+
+  // <b class="conum">(1)</b>
+  memcpy(&amp;c-&gt;stack, &amp;c-&gt;tx-&gt;state-&gt;tmp.stack, sizeof(btree_stack_t));
+  memset(&amp;c-&gt;tx-&gt;state-&gt;tmp.stack, 0, sizeof(btree_stack_t));
+
+  return success();
+}
+result_t btree_get_next(btree_cursor_t* cursor) {
+  return btree_iterate(cursor, 1);
+}
+result_t btree_get_prev(btree_cursor_t* cursor) {
+  return btree_iterate(cursor, -1);
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Moving the ownership of the path traversal stack from the transaction to the cursor.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_cursor_search()</code> is interesting, because most of it is already familiar to us. We start by issuing the usual search in the tree using <code>btree_get_leaf_page_for()</code>
+and push the current page to the transaction&#8217;s stack as well. Then we do something quite strange. We <em>move</em> the stack from the transaction to the cursor.
+Why are we doing this?</p>
+</div>
+<div class="paragraph">
+<p>Remember when I said that frequent memory allocations are a usual source for hot spots in your programs? We can avoid allocating and freeing the stack for the cursor in most
+cases if we simply move the stack&#8217;s ownership from the transaction to the cursor. The <code>btree_get_leaf_page_for()</code> is already writing to the transaction&#8217;s path stack as it works
+and we can simply move that to the cursor and use that. You can also see in <a href="#btree_cursor_search"><code>btree.c</code> - Setting up the cursor to search from a particular key</a> that the actual implementation of iterating over the tree is done using the
+<code>btree_iterate()</code> function, which accepts the direction in which it should go. You can see how that looks like in <a href="#btree_iterate"><code>btree.c</code> - Moving from one entry to the next while iterating on the tree</a>.</p>
+</div>
+<div id="btree_iterate" class="listingblock">
+<div class="title"><code>btree.c</code> - Moving from one entry to the next while iterating on the tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_iterate(btree_cursor_t* c, int8_t step) {
+  int16_t pos;
+  page_t p = {0};
+  ensure(btree_stack_pop(&amp;c-&gt;stack, &amp;p.page_num, &amp;pos));
+  ensure(txn_get_page(c-&gt;tx, &amp;p));
+  while (true) {
+    assert(p.metadata-&gt;tree.page_flags == page_flags_tree_leaf);
+    uint16_t* positions = p.address;
+    uint16_t max_pos    = p.metadata-&gt;tree.floor / sizeof(uint16_t);
+    if (pos &lt; 0) {
+      pos = ~pos;
+      if (step &lt; 0) pos--;  // moving to prev, but was on &gt; item
+    }
+    if (pos &gt;= 0 &amp;&amp; pos &lt; max_pos) {  // still same page
+      c-&gt;key.address =
+          varint_decode(p.address + positions[pos], &amp;c-&gt;key.size);
+      uint8_t* end =
+          varint_decode(c-&gt;key.address + c-&gt;key.size, &amp;c-&gt;val);
+      c-&gt;flags   = *end++;
+      c-&gt;has_val = true;
+      ensure(btree_stack_push(&amp;c-&gt;stack, p.page_num, pos + step));
+      return success();
+    }
+    bool d = false;
+    ensure(btree_iterate_next_page(c, &amp;p, &amp;pos, step, &amp;d));
+    if (d) {
+      c-&gt;has_val = false;
+      break;
+    }
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>btree_iterate()</code> is called repeatedly to get the next (or previous) item in the tree. It keeps its state between calls in the cursor&#8217;s stack. Most importantly, the current
+page and the position of the next item to yield. We take advantage of the way <code>btree_search_pos_in_page()</code> works when dealing with missing values. The <code>btree_search_pos_in_page()</code>
+will always point to an entry that is <em>equals or greater</em> than the provided key. That means that if we don&#8217;t have a match key, we&#8217;ll use bitwise complement to point to where the
+next greater value should go.</p>
+</div>
+<div class="paragraph">
+<p>When iterating over the tree, we&#8217;ll flip the negative <code>pos</code> value to know where we should start. Note that if we are iterating in reverse and the value is negative, it means
+that we are actually pointing to an element <em>past</em> the key that we want, so we go back one step and only then yield.
+Before we return to the caller, we setup the <em>next</em> call on the following position. This continue in this manner as long as there are entries in the page to return.</p>
+</div>
+<div class="paragraph">
+<p>When we run out of entries in the page, it is time to go to the <em>next</em> page, which is the responsibility of <code>btree_iterate_next_page()</code>, shown on <a href="#btree_iterate_next_page"><code>btree.c</code> - Finding the next page to continue the iteration from</a>.</p>
+</div>
+<div id="btree_iterate_next_page" class="listingblock">
+<div class="title"><code>btree.c</code> - Finding the next page to continue the iteration from</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_iterate_next_page(btree_cursor_t* c, page_t* p,
+    int16_t* pos, int16_t step, bool* done) {
+  while (c-&gt;stack.index &gt; 0) {
+    ensure(btree_stack_pop(&amp;c-&gt;stack, &amp;p-&gt;page_num, pos));
+    ensure(txn_get_page(c-&gt;tx, p));
+    assert(p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_branch);
+    uint16_t max_pos = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+    *pos += step;
+    if (*pos &lt; 0 || *pos &gt;= max_pos) continue;  // go up...
+    ensure(btree_stack_push(&amp;c-&gt;stack, p-&gt;page_num, *pos));
+    p-&gt;page_num = btree_get_val_at(p, (uint16_t)*pos);
+    ensure(txn_get_page(c-&gt;tx, p));
+    // go down all branches
+    while (p-&gt;metadata-&gt;tree.page_flags == page_flags_tree_branch) {
+      max_pos       = p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t);
+      uint16_t next = step &gt; 0 ? 0 : (max_pos - 1);
+      ensure(btree_stack_push(&amp;c-&gt;stack, p-&gt;page_num, (int16_t)next));
+      p-&gt;page_num = btree_get_val_at(p, next);
+      ensure(txn_get_page(c-&gt;tx, p));
+    }
+    if (step &gt; 0) {
+      *pos = ~0;
+    } else {
+      *pos = ~(int16_t)(p-&gt;metadata-&gt;tree.floor / sizeof(uint16_t));
+    }
+    return success();
+  }
+  *done = true;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The work of the <code>btree_iterate_next_page()</code> is very similar to how we handle page splits and merges. It runs through the cursor stack, which represents the traversal path in
+the tree and use that to find the next page to scan for entries. Because the pages in the tree are sorted, that means that we can easily go forward and backward through the
+tree with minimal amount of work required.</p>
+</div>
+<div class="paragraph">
+<p>The function will go up to the parent page and then down to the next page, borrowing down until it reaches a leaf page. It might be easier to think about this approach as a
+breadth first scan of the pages tree.</p>
+</div>
+<div class="paragraph">
+<p>Iterating from a known key works quite nicely when we <em>have</em> a key, but it turns out that it is <em>really</em> common to want to start the iteration process at the start or end of
+the tree. Gavran provides dedicated API for this common scenario. You can see how that works in <a href="#btree_cursor_at"><code>btree.c</code> - Setting the starting point of the iteration at the start or the end of the tree</a>.</p>
+</div>
+<div id="btree_cursor_at" class="listingblock">
+<div class="title"><code>btree.c</code> - Setting the starting point of the iteration at the start or the end of the tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t btree_cursor_at(btree_cursor_t* c, bool start) {
+  page_t p             = {.page_num = c-&gt;tree_id};
+  btree_stack_t* stack = &amp;c-&gt;tx-&gt;state-&gt;tmp.stack;
+  ensure(txn_get_page(c-&gt;tx, &amp;p));
+  btree_stack_clear(stack);
+  while (p.metadata-&gt;tree.page_flags == page_flags_tree_branch) {
+    uint16_t max_pos = p.metadata-&gt;tree.floor / sizeof(uint16_t);
+    int16_t pos      = start ? 0 : (int16_t)max_pos - 1;
+    ensure(btree_stack_push(stack, p.page_num, pos));
+    uint16_t* positions = p.address;
+    size_t key_size;
+    uint8_t* entry     = p.address + positions[pos];
+    uint8_t* val_start = varint_decode(entry, &amp;key_size) + key_size;
+    varint_decode(val_start, &amp;p.page_num);
+    ensure(txn_get_page(c-&gt;tx, &amp;p));
+  }
+  assert(p.metadata-&gt;tree.page_flags == page_flags_tree_leaf);
+  int16_t leaf_max_pos = p.metadata-&gt;tree.floor / sizeof(uint16_t);
+  ensure(btree_stack_push(&amp;c-&gt;tx-&gt;state-&gt;tmp.stack, p.page_num,
+      ~(start ? 0 : leaf_max_pos)));
+
+  memcpy(&amp;c-&gt;stack, stack, sizeof(btree_stack_t));
+  memset(stack, 0, sizeof(btree_stack_t));
+  return success();
+}
+result_t btree_cursor_at_start(btree_cursor_t* cursor) {
+  return btree_cursor_at(cursor, true);
+}
+result_t btree_cursor_at_end(btree_cursor_t* cursor) {
+  return btree_cursor_at(cursor, false);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>btree_cursor_at()</code> function will simply go to the leftmost or rightmost page on each branch, until it hit a leaf page, storing the path in the transaction&#8217;s stack. Then
+we move the stack to the cursor and we can call <code>btree_get_next()</code> or <code>btree_get_prev()</code> to do the actual iteration.</p>
+</div>
+<div class="paragraph">
+<p>The final topic to discuss with regards to iterations and cursor is how to <em>free</em> a cursor. This is shown in <a href="#btree_free_cursor"><code>btree.c</code> - Freeing a cursor and returning its memory to the transaction</a>.</p>
+</div>
+<div id="btree_free_cursor" class="listingblock">
+<div class="title"><code>btree.c</code> - Freeing a cursor and returning its memory to the transaction</div>
+<div class="content">
+<pre class="highlight"><code>result_t btree_free_cursor(btree_cursor_t* cursor) {
+  if (cursor-&gt;tx-&gt;state-&gt;tmp.stack.size == 0) {
+    // can reuse memory
+    memcpy(&amp;cursor-&gt;tx-&gt;state-&gt;tmp.stack, &amp;cursor-&gt;stack,
+        sizeof(btree_stack_t));
+    return success();
+  }
+  return btree_stack_free(&amp;cursor-&gt;stack);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <code>btree_free_cursor()</code> isn&#8217;t actually freeing the cursor&#8217;s memory in most cases. If you are using a single cursor at a time, the <code>btree_cursor_search()</code> will move the
+ownership of the stack from the transaction to the cursor. The <code>btree_free_cursor()</code> will check if there isn&#8217;t a new stack on the transaction and if there isn&#8217;t, will move the
+ownership back to the transaction.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that we enable two key scenarios:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you have just a single cursor at a time, we can avoid allocating an additional stack.</p>
+</li>
+<li>
+<p>If you have interleaved operations (multiple cursors at once, searching items while iterating, etc), a new stack will be created on the transaction and freeing the cursor will
+actually free the memory of the stack.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This is <em>it</em>, we have a fully fleshed out B+Tree implementation that is capable of doing quite a lot for us. We still need to bring all the pieces together so you can see how they
+all fit to a cohesive hole, but I hope that you are starting to see how each one of the pieces fit together.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">Unit tests</h3>
+<div class="paragraph">
+<p>When testing B+Trees, we need to try to hit each one of the possible edge cases in the system. You can see that the tests write data in ascending and descending orders, delete items
+from the middle of the tree and use various sizes for the keys (to affect the depth of the tree). There are <em>many</em> more tests that can be written, but I want to give you just enough
+tests to understand the API and its usage and not try to turn this into an exhaustive list of options.</p>
+</div>
+<div id="tests16" class="listingblock">
+<div class="title"><code>test.c</code> - Testing the behavior of the B+Tree</div>
+<div class="content">
+<pre class="highlight"><code>static result_t create_btree(db_t* db, uint64_t* tree_id) {
+  txn_t w;
+  ensure(txn_create(db, TX_WRITE, &amp;w));
+  defer(txn_close, w);
+  ensure(btree_create(&amp;w, tree_id));
+  ensure(txn_commit(&amp;w));
+  return success();
+}
+
+describe(btree) {
+  before_each() {
+    errors_clear();
+    system("mkdir -p /tmp/db");
+    system("rm -f /tmp/db/*");
+  }
+
+  it("records over time") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+    time_t yesterday = (time(0) - 24 * 60 * 60);
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      uint8_t buffer[10];
+
+      for (size_t i = 0; i &lt; 24; i++) {
+        uint64_t t = ((uint64_t)yesterday + (60 * 60 * i));
+        varint_encode(t, buffer);
+        btree_val_t set = {.tree_id = tree_id,
+            .key = {.address = buffer, .size = varint_get_length(t)},
+            .val = (uint64_t)i};
+        assert(btree_set(&amp;w, &amp;set, 0));
+      }
+
+      assert(txn_commit(&amp;w));
+    }
+    uint32_t count         = 0;
+    time_t three_hours_ago = yesterday + (21 * 60 * 60);
+    assert(get_last_entries(
+        &amp;db, tree_id, three_hours_ago, count_items, &amp;count));
+    assert(count == 3);
+  }
+
+  it("set out of order") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      char buffer[5];
+      for (int i = 2048 - 1; i &gt;= 0; i--) {
+        sprintf(buffer, "%04d", i);
+        btree_val_t set = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 4},
+            .val                    = (uint64_t)i};
+        assert(btree_set(&amp;w, &amp;set, 0));
+        tree_id = set.tree_id;
+      }
+
+      {
+        memset(buffer, 0, 5);
+        btree_cursor_t it = {
+            .tree_id = tree_id,
+            .tx      = &amp;w,
+        };
+        assert(btree_cursor_at_start(&amp;it));
+        defer(btree_free_cursor, it);
+        for (uint32_t j = 0; j &lt; 2048; j++) {
+          sprintf(buffer, "%04d", j);
+          assert(btree_get_next(&amp;it));
+          assert(it.has_val);
+          assert(it.val == j);
+          assert(memcmp(it.key.address, buffer, 4) == 0);
+        }
+      }
+    }
+  }
+
+  it("work with deep trees") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    const int size = 2048;
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      for (uint32_t i = 0; i &lt; size; i++) {
+        char buffer[256];
+        sprintf(buffer, "%0255d", i);
+        btree_val_t set = {.tree_id = tree_id,
+            .key = {.address = buffer, .size = 255},
+            .val = i};
+
+        assert(btree_set(&amp;w, &amp;set, 0));
+
+        tree_id = set.tree_id;
+      }
+      assert(txn_commit(&amp;w));
+    }
+    {
+      txn_t r;
+      assert(txn_create(&amp;db, TX_READ, &amp;r));
+      defer(txn_close, r);
+
+      uint32_t cur = size - 1;
+      char buffer[256];
+      btree_cursor_t c = {.tree_id = tree_id, .tx = &amp;r};
+      assert(btree_cursor_at_end(&amp;c));
+      defer(btree_free_cursor, c);
+      uint32_t count = 0;
+      while (true) {
+        assert(btree_get_prev(&amp;c));
+        if (c.has_val == false) break;
+        count++;
+        assert(c.val == cur);
+        sprintf(buffer, "%0255d", cur--);
+        assert(memcmp(buffer, c.key.address, c.key.size) == 0);
+      }
+      assert(count == size);
+    }
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      for (uint32_t i = 0; i &lt; size; i++) {
+        char buffer[256];
+        sprintf(buffer, "%0255d", i);
+        btree_val_t del = {.tree_id = tree_id,
+            .key = {.address = buffer, .size = 255}};
+        assert(btree_del(&amp;w, &amp;del));
+        assert(del.has_val);
+        assert(del.val == i);
+      }
+      assert(txn_commit(&amp;w));
+    }
+  }
+
+  it("can set and get item from tree") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      char* msg       = "John";
+      btree_val_t set = {.tree_id = tree_id,
+          .key = {.address = msg, .size = strlen(msg)},
+          .val = 5};
+      assert(btree_set(&amp;w, &amp;set, 0));
+
+      btree_val_t get = {.tree_id = tree_id,
+          .key = {.address = msg, .size = strlen(msg)}};
+
+      assert(btree_get(&amp;w, &amp;get));
+      assert(get.has_val);
+      assert(get.val == 5);
+    }
+  }
+
+  it("write enough to split page") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      char buffer[5];
+      for (uint32_t i = 0; i &lt; 10 * 1000; i++) {
+        sprintf(buffer, "%04d", i);
+        btree_val_t set = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 4},
+            .val                    = i};
+        assert(btree_set(&amp;w, &amp;set, 0));
+        tree_id = set.tree_id;
+      }
+
+      for (uint32_t j = 0; j &lt; 10 * 1000; j++) {
+        sprintf(buffer, "%04d", j);
+        btree_val_t get = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 4},
+            .val                    = j};
+        assert(btree_get(&amp;w, &amp;get));
+        if (!get.has_val) {
+          assert(btree_get(&amp;w, &amp;get));
+        }
+        assert(get.has_val);
+        assert(get.val == j);
+      }
+
+      {
+        memset(buffer, 0, 5);
+        btree_cursor_t it = {.tree_id = tree_id,
+            .tx                       = &amp;w,
+            .key = {.address = "0000", .size = 4}};
+        assert(btree_cursor_search(&amp;it));
+        defer(btree_free_cursor, it);
+        for (uint32_t j = 0; j &lt; 10 * 1000; j++) {
+          sprintf(buffer, "%04d", j);
+          assert(btree_get_next(&amp;it));
+          assert(it.has_val);
+          assert(it.val == j);
+          assert(memcmp(it.key.address, buffer, 4) == 0);
+        }
+      }
+    }
+  }
+
+  it("read, write, del") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      char buffer[6];
+      for (uint32_t i = 0; i &lt; 10 * 1000; i++) {
+        sprintf(buffer, "%05d", i * 2);
+
+        btree_val_t set = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 5},
+            .val                    = i * 2};
+        assert(btree_set(&amp;w, &amp;set, 0));
+        tree_id = set.tree_id;
+      }
+
+      for (uint32_t i = 0; i &lt; 10 * 1000; i++) {
+        sprintf(buffer, "%05d", i * 2 + 1);
+        btree_val_t set = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 5},
+            .val                    = i * 2 + 1};
+
+        assert(btree_set(&amp;w, &amp;set, 0));
+        tree_id = set.tree_id;
+
+        btree_val_t get = {
+            .tree_id = tree_id, {.address = buffer, .size = 5}};
+        assert(btree_get(&amp;w, &amp;get));
+        assert(get.has_val);
+        assert(get.val == set.val);
+      }
+
+      for (uint32_t j = 5000; j &lt; 15 * 1000; j++) {
+        sprintf(buffer, "%05d", j);
+        btree_val_t del = {
+            .tree_id = tree_id,
+            .key     = {.address = buffer, .size = 5},
+        };
+        assert(btree_del(&amp;w, &amp;del));
+        assert(del.has_val);
+        assert(del.val == j);
+      }
+
+      {
+        btree_cursor_t it = {// start of everything
+            .tree_id = tree_id,
+            .tx      = &amp;w};
+        assert(btree_cursor_at_start(&amp;it));
+        defer(btree_free_cursor, it);
+        for (uint32_t j = 0; j &lt; 5 * 1000; j++) {
+          sprintf(buffer, "%05d", j);
+          assert(btree_get_next(&amp;it));
+          assert(it.has_val);
+          assert(it.val == j);
+          assert(memcmp(it.key.address, buffer, 5) == 0);
+        }
+
+        for (uint32_t j = 15 * 1000; j &lt; 20 * 1000; j++) {
+          sprintf(buffer, "%04d", j);
+          assert(btree_get_next(&amp;it));
+          assert(it.has_val);
+          assert(it.val == j);
+          assert(memcmp(it.key.address, buffer, 4) == 0);
+        }
+      }
+    }
+  }
+
+  it("scan through data") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+    uint64_t tree_id;
+    assert(create_btree(&amp;db, &amp;tree_id));
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+
+      for (uint32_t i = 0; i &lt; 10; i++) {
+        char buffer[5];
+        sprintf(buffer, "%04d", i * 2);
+        btree_val_t set = {.tree_id = tree_id,
+            .key                    = {.address = buffer, .size = 4},
+            .val                    = i * 2};
+        assert(btree_set(&amp;w, &amp;set, 0));
+        tree_id = set.tree_id;
+      }
+
+      {
+        char buffer[5];
+        sprintf(buffer, "%04d", 5);
+        btree_cursor_t c = {.tree_id = tree_id,
+            .tx                      = &amp;w,
+            .key = {.address = buffer, .size = 4}};
+        assert(btree_cursor_search(&amp;c));
+        defer(btree_free_cursor, c);
+        uint64_t expected = 6;
+        for (size_t i = 0; i &lt; 7; i++) {
+          assert(btree_get_next(&amp;c));
+          assert(c.has_val);
+          assert(c.val == expected + i * 2);
+        }
+        assert(btree_get_next(&amp;c));
+        assert(c.has_val == false);  // at end
+        c.key.address = buffer;
+        c.key.size    = 4;
+        assert(btree_cursor_search(&amp;c));
+        assert(c.has_val == false);
+        expected = 4;
+        for (size_t i = 0; i &lt; 3; i++) {
+          assert(btree_get_prev(&amp;c));
+          assert(c.has_val);
+          assert(c.val == expected - i * 2);
+        }
+        assert(btree_get_prev(&amp;c));
+        assert(c.has_val == false);  // at start
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+  <ul style="list-style-type: none;">
+    <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+    <li><a class="footer-text" href="./ch15.html">Previous chapter</a></li>
+    <li><a class="footer-text" href="./ch17.html">Next chapter</a></li>
+  </ul>
+</div>
+</body>
+</html>

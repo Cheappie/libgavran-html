@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Persistent data structures</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+.footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+.footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Persistent data structures</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have spent <em>quite</em> a bit of time on the foundation of Gavran, how we put bits to the disk in the proper manner, implementing transactions, ensuring that Gavran meets all
+the ACID properties, etc. We also dealt with some fairly advanced features, from supporting Transparent Data Encryption to implementing log shipping. Having a solid foundation
+is critical for a storage engine and I made the conscious choice to have a strong separation between the data structures that Gavran will offer and <em>how</em> it is implemented.</p>
+</div>
+<div class="paragraph">
+<p>In some cases, storage engines make no distinction between the layers or have strong correlation between the external interface offered and the internal details of the data store.
+LevelDB, for example, offers a single data structure, a key/value store, which is the only thing that it <em>can</em> really offer, given how it is implemented. Gavran is built to be
+more generic in nature. That meant that we had to spend a lot more time building infrastructure, but now that we have a robust core, we can move forward with things.</p>
+</div>
+<div class="paragraph">
+<p>As I&#8217;m writing this, the Gavran code base hovers just under 2,500 lines of code (excluding tests), which isn&#8217;t bad at all, given what we have implemented.
+Even with just the foundation, there are critical functionalities that are missing. Multi threading support, cross platform support and performance work are just some of the items
+that pops to mind when I think about the remaining work. Nevertheless, we are going to shift our focus a bit and start building persistent data structures for Gavran.</p>
+</div>
+<div class="paragraph">
+<p>So far we have dealt strictly with pages and aside from the free space bitmap we didn&#8217;t really do anything interesting with them. This part of the book aims to change that. We are
+going to implement data storage containers as well as support for hash indexes and B+Trees. These terms may not mean much to you right now, but they will shortly become much
+clearer.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll start with the most basic of tasks, storing and retrieving data from the database. What we have done so far is store data in pages and then get them back. That <em>works</em>, but
+only as long as we work with page size data. We need better tooling to be able to actually store and retrieve data properly.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m going to introduce and implement a few very important data structures:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Persistent hash tables - using extendible hashing for storing data on disk.</p>
+</li>
+<li>
+<p>Raw data containers - allowing to store raw data and retrieve is by an opaque handle.</p>
+</li>
+<li>
+<p>B+Tree - allowing to do point, range and prefix queries.</p>
+</li>
+<li>
+<p>Indexed tables - using all three previous items, we&#8217;ll create a table and allow to run indexed queries on our data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You might have noticed that I&#8217;m talking about the B+Trees last, which is quite odd. B+Trees are the bread and butter of databases and storage engines. B+Trees are often standing at
+the very core of persistent technologies. There are <em>many</em> variants of B+Trees, optimized for specific scenarios. If you are interested in learning more about B+Trees, I would
+recommend reading the <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.219.7269&amp;rep=rep1&amp;type=pdf">Modern B+Trees</a>, it does an awesome job covering the state of the art in
+regards to B+Trees.</p>
+</div>
+<div class="paragraph">
+<p>Why am I keeping B+Trees for last, in that case? The answer is that I want to build Gavran in an incremental fashion and starting with persistent hashing gives me the chance to
+do a very gradual slope. Another reason is that I personally find persistent hash table to be an extremely elegant data structure.</p>
+</div>
+<div class="paragraph">
+<p>Raw data containers are a way to store some data to the disk and get an opaque handle that we can later use to retrieve it. That doesn&#8217;t sound very useful, but together with
+persistent hashing and B+Trees, they allow us to create a feature that is much larger than the sum of its parts. The last chapter in this part will combine all other aspects
+together and create a table with indexes.</p>
+</div>
+<div class="paragraph">
+<p>Even if you&#8217;ll never make use of Gavran, I think that reading through the process of building all the elements that are required to build such a feature would be tremendously
+useful. And now, without further ado, let&#8217;s get hashing, persistently.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_persistent_hash_table">Persistent hash table</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash table (extendible)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup cost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O(1), exact match only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key: <code>uint64_t</code>, Value: <code>uint64_t</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Roughly 32 TB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iteration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arbitrary order (unrelated to key values)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We already implemented a hash table in this book. The <code>pages_map_t</code> is a hash table for storing <code>page_t</code> values using the <code>page_num</code> as the key. When talking about <em>persistent</em>
+hash tables, on the other hand, we have to deal with something that is quite different. The typical manner in which hash tables are implemented in memory is to create an
+array to hold the values. When the load factor become too high, we&#8217;ll re-hash the table to a greater array.
+The <code>pages_map_t</code> API does just that, the <code>pagesmap_expand_table()</code> function does just that, and we spent a lot of Chapter 4 implementing it.</p>
+</div>
+<div class="paragraph">
+<p>What is the problem in applying the same approach when we are writing to disk? We can allocate a page to hold the values and double the size whenever the load factor is too
+high, no? That would <em>work</em>, if you don&#8217;t care about performance.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Extendible hashing is a magic term</div>
+<div class="paragraph">
+<p>If you are familiar with the term extendible hashing, it is very easy to find a <em>lot</em> of resources on it. If you are trying to find details about on disk hashing structure,
+on the other hand, you&#8217;re going to be sent into many wild goose chases.
+Persistent hash table is a term reserved for immutable in memory hash table, for example. And file based hashing will yield results about MD5 and SHA1.</p>
+</div>
+<div class="paragraph">
+<p>It was very frustrating to realize that in order to find information about the topic, you need to know what is the right term for it to even show up in searches.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Consider what would be the impact of extending a hash table that is 4 GB in size, for example? Using typical rehashing techniques, we&#8217;ll need to write a <em>lot</em> of data, which is
+a pretty bad idea, all around. The solution is presented in the <a href="http://cgi.di.uoa.gr/~ad/M149/p315-fagin.pdf">Extendible Hashing-A Fast Access Method for Dynamic Files</a> paper
+from 1979 (although similar solutions date back to 1971, it seems).</p>
+</div>
+<div class="sect2">
+<h3 id="_extendible_hashing">Extendible Hashing</h3>
+<div class="paragraph">
+<p>The idea is that instead of trying to have a single flat array to hold all the data, we&#8217;ll have a two tier structure. There is the directory, which we&#8217;ll first look at to find
+the possible location of a value and then there is the page which contain that value. If you are familiar with B+Trees, this may sound very similar to how they are implemented,
+but unlike B+Trees, there is no possibility of multiple levels, there is only ever the <em>directory</em> and the data.</p>
+</div>
+<div class="paragraph">
+<p>As usual with data structures, is is much better to look an image to make things clearer. <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a> shows the structure of an extendible hash.</p>
+</div>
+<div id="ehash" class="imageblock">
+<div class="content">
+<img src="../imgs/ehash.png" alt="ehash">
+</div>
+<div class="title">Figure 1. An extendible hash structure, showing the directory and 3 pages of values</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a> you can see directory on the left. That is the key for this data structure. We have a directory that contains 4 elements and points to data that is
+found in three separate pages. You&#8217;ll note that both the directory and the pages has this strange <code>depth</code> notation, what is that about?
+Like any hashing system, we start by taking a key and translating that into a number. We use that number to then lookup the location of the actual value. With extendible
+hashing, we use the binary nature of the number for our advantage.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say that we want to lookup the key <code>"abc"</code> in <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a>. We&#8217;ll first need to turn that into a number, let&#8217;s say that the <code>hash("abc") = 11</code>, in binary, that means that
+we have a value of <code>10 11</code>. With this number, we need to identify the location of the value. The <code>depth</code> value on the directory is <code>2</code>, which means that we can use the
+two rightmost bits of the value to find it. In other words, we compute: <code>num &amp; ((1 &lt;&lt; depth) -1)</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you aren&#8217;t familiar with bit fiddling tricks, this is a way to say: give me the rightmost <code>depth</code> bits from <code>num</code>. Let&#8217;s say that we have <code>depth = 2</code> and <code>num = 9</code>.
+The binary representation of <code>9</code> is <code>10 01</code>. Applying the formula above, we&#8217;ll get the rightmost bits and have <code>01</code> in binary representation, or the number <code>1</code>.
+If you&#8217;ll look at <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a> you&#8217;ll see that the the entry at position <code>1</code> points to a page. We can go into that page
+and find all the value whose hash number have the same rightmost significant bits. And inside that page, we can look for the value using more straightforward means.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, if you&#8217;ll look at the first and second entries on <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a>, both of them point to a page that has a <code>depth</code> of <code>1</code>. Why the difference?</p>
+</div>
+<div class="paragraph">
+<p>Extendible hashing works in the following manner. We start with a directory that has a depth of <code>1</code> and two branching pages. One for all the values whose hash number is even
+and one for all  the values whose hash number is odd. In other words, one of the pages is for the hash number that ends with <code>0</code> and the other for those that end with <code>1</code>.
+At this point, the directory and the two pages are all going to be marked with a <code>depth</code> of <code>1</code>.</p>
+</div>
+<div class="paragraph">
+<p>At some point, we&#8217;ll write enough values to a page that we will fill it to bursting. There is no more <em>space</em> to write. At this point, we&#8217;ll <em>double</em> the size of the directory
+and <em>split</em> the full page. This is what happened on <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a>. The page with the odd numbers (ending with <code>1</code>) became full first and the odd page was split into two. One of
+them for all the values that end with <code>01</code> and the other for all the values ending with <code>11</code>. The <code>depth</code> of the directory is set incremented to <code>2</code> and the <code>depth</code> of the
+split pages is also set to <code>2</code>.</p>
+</div>
+<div class="paragraph">
+<p>What will happen if the even numbers page become full? At this point, we&#8217;ll need to split this page (one with <code>00</code> and the other with <code>10</code>), but we&#8217;ll not need to double the
+size of the directory. This is because the <code>depth</code> of the page is less than the <code>depth</code> of the directory. <a href="https://en.wikipedia.org/wiki/Extendible_hashing">Wikipedia</a> has
+great coverage of the algorithm, but I found the Extendible Hashing paper to be very readable. You might also want to look at the
+<a href="http://www.csbio.unc.edu/mcmillan/Media/Comp521F14Lecture15.pdf">Hash Based Indexes</a> presentation, which explain this in detail, as well as some alternatives.</p>
+</div>
+<div class="paragraph">
+<p>Once I understood how it works, I was amazed how this seemingly simple idea translated the problem from very hard to obvious in retrospect.</p>
+</div>
+<div class="paragraph">
+<p>There are other persistent hashing algorithms. We can simply select a fixed number of buckets and proceed from there. That has issues down the road, but it is very similar to
+how an in memory hash table would work. This is also Linear Hashing, which I&#8217;m not going to discuss here. There is a good paper comparing Linear Hashing to Extendible Hashing,
+however: <a href="https://www.csd.uoc.gr/~hy460/pdf/Performance%20comparison%20of%20extendible%20hashing%20and%20linear%20hashing%20techniques.pdf">Performance comparison of extendible hashing and linear hashing techniques</a>.</p>
+</div>
+<div class="paragraph">
+<p>Extendible hashing is shown to be faster, but the size of the directory may be a limiting factor in the paper. This paper was written in 1990, so 30 years ago at the time of
+this writing. The authors recommended using Linear Hashing when main memory is at a premium. That is 30 years ago, I have to repeat again. This advise is no longer relevant.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s talk about the size of the directory for a bit.
+We are going to use <code>uint64_t</code> page numbers as the values in the directory, which means that a single 8KB page will be able to point to 1,024 pages, representing 8MB of data.
+That means that to compute the size of the directory using this model, we can simply reduce the size of the data by an order of magnitude. A hash table taking 64MB will use
+64KB directory, for example. A hash table with 128GB of data will use a directory with a size of 128MB, etc.</p>
+</div>
+<div class="paragraph">
+<p>That assumes that we have to think about the directory as an array of <code>uint64_t</code>, that isn&#8217;t necessarily the case. We can set the directory as an array of <code>uint16_t</code> values,
+where each directory page will have its own base for the values in it. That means that a 8KB directory page will be able to refer to 32MB of pages holding the actual value.
+It will force us to ensure that for each directory page, all its interior pages must reside within the same 512MB range (so they will share the same base page). Using the
+128GB example, that will reduce the directory size to only 32MB.
+Except&#8230;&#8203; the hash tables that I envision are not likely to hit these sizes.</p>
+</div>
+<div class="paragraph">
+<p>I talked about the generic data structure up to this point, but what I would like to implement is a lot more focused. I want to build what is essentially a
+<code>map&lt;uint64_t,uint64_t&gt;</code>. In other words, a way to lookup an <code>uint64_t</code> by another <code>uint64_t</code> key, that is all. We aren&#8217;t going to need to implement hashing of values, that
+is the responsibility of the caller, not the hash table. Two keys that map to the same hash cannot happen, since we are going to take <code>uint64_t</code> as the key and treat it as
+if it was already hashed.</p>
+</div>
+<div class="paragraph">
+<p>I expect that we&#8217;ll mostly store page numbers in the hash table, so using a simple <code>varint</code> encoding, so I would expect to be able to store about a thousand key/value pairs
+in a single page. In other words, with an 8KB directory and 8MB of data, we are actually going to hold about 8.2 million key/value pairs in the hash table. If we had a hash
+table that held a <em>billion</em> key/value pairs, we&#8217;ll need about 8.5 GB of data for the values and 8.5 MB for the directory. A hash table that deals with 100 million entries
+will have a directory that less than a MB in size.</p>
+</div>
+<div class="paragraph">
+<p>In short, I don&#8217;t <em>mind</em> the size of the directory. It is a very reasonable size even if I&#8217;m using <code>uint64_t</code> array as the internal data structure for the directory up to
+ridiculous number of entries in the table. And even when dealing with billions of records, a directory that is roughly the size of a single selfie isn&#8217;t that big of a deal
+in today&#8217;s world.</p>
+</div>
+<div class="paragraph">
+<p>Okay, that is enough theory and discussion, let&#8217;s settle down and start actually implementing the persistent hash table for Gavran.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implementing_a_persistent_hash_table">Implementing a persistent hash table</h3>
+<div class="paragraph">
+<p>The first thing that I want to discuss is the actual API that we&#8217;ll provide for working with persistent hash tables. You can see that in <a href="#hash-api"><code>gavran/db.h</code> - The API we&#8217;ll use to work with hash tables in Gavran</a>.</p>
+</div>
+<div id="hash-api" class="listingblock">
+<div class="title"><code>gavran/db.h</code> - The API we&#8217;ll use to work with hash tables in Gavran</div>
+<div class="content">
+<pre class="highlight"><code>typedef struct hash_val {
+  uint64_t hash_id;
+  uint64_t key;
+  uint64_t val;
+  struct {
+    uint32_t page_index;
+    uint16_t pos_in_page;
+    bool iterating_nested;
+    uint8_t padding;
+  } iter_state;
+  bool has_val;
+  uint8_t flags;
+  uint8_t padding[6];
+} hash_val_t;
+
+result_t hash_create(txn_t *tx, uint64_t *hash_id);
+result_t hash_drop(txn_t *tx, uint64_t hash_id);
+
+result_t hash_set(txn_t *tx, hash_val_t *set, hash_val_t *old);
+result_t hash_get(txn_t *tx, hash_val_t *kvp);
+result_t hash_del(txn_t *tx, hash_val_t *del);
+result_t hash_get_next(
+    txn_t *tx, pages_map_t **state, hash_val_t *it);
+result_t hash_get_entries_count(
+    txn_t *tx, uint64_t hash_id, uint64_t *number_of_entries);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are a few things that we need to discuss about this API. You can see that we&#8217;re going to allow to create and drop a hash table. You&#8217;ll usually only create such a hash
+table once and keep it for very long time. This is similar to tables in a relational database, you tend to <em>not</em> drop them on a whim. In order to reference a particular
+hash table, you&#8217;ll need its <code>hash_id</code>, which is passed via <code>hash_val_t</code> to all the operations that we can do on the hash.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">The <code>flags</code> field</div>
+<div class="paragraph">
+<p>The <code>hash_val_t</code> has three fields that are of particular interest to us. The <code>key</code>, <code>val</code> and <code>flags</code> fields are all set by the user and persisted to the table. In other words,
+the actual model for the hash table is <code>map&lt;uint64_t key, { uint64_t val, uint8_t flags}&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>The hash table simply persists the <code>flags</code> and <code>val</code> values. The idea is that callers can use the <code>flags</code> to provide some additional meaning about the <em>type</em> of value that is
+stored in the hash table. We&#8217;ll see how that is used in Chapter 17.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The rest of the API consists of the usual CRUd operations and not really interesting in terms of design.
+We&#8217;ll start by looking at how we create a new hash table, which you can see in <a href="#hash_create"><code>hash.c</code> - Creating a new hash table</a>.</p>
+</div>
+<div id="hash_create" class="listingblock">
+<div class="title"><code>hash.c</code> - Creating a new hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_create(txn_t* tx, uint64_t* hash_id) {
+  page_t p = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;p, 0));
+  p.metadata-&gt;hash.page_flags   = page_flags_hash;
+  p.metadata-&gt;hash.dir_page_num = p.page_num;
+  *hash_id                      = p.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There isn&#8217;t <em>much</em> being done in <a href="#hash_create"><code>hash.c</code> - Creating a new hash table</a>. We allocate a page, mark is as a hash page using <code>page_flags_hash</code> and set the <code>hash_id</code> to be the newly allocated page number.
+In other words, we use the page number of the allocated page as the <code>hash_id</code> of the hash table. We also create a hash <em>page</em>, and not a directory. But the whole <em>point</em> is to
+use a directory. What is going on here?</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">The structure of a hash page</div>
+<div class="paragraph">
+<p>An extendible hash table is composed of two aspects. The directory, which we&#8217;ll implement using an array of <code>uint64_t</code>. But what about the hash pages? These we are going to
+implement in a very different manner. For now, I&#8217;m going to hide their actual usage behind internal API, but I&#8217;ll discuss how they are built in detail later in the chapter.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>An extendible hash table requires a minimum of three pages (24KB) to work. One page for the directory, one for the even keys and one for the odd keys. That is at <code>depth</code> of <code>1</code>,
+of course. We expect to be able to fit about a thousand entires into a single page, and it seems a shame to waste three pages upfront. So I&#8217;m going to start the hash table as a
+single hash page. We&#8217;ll write to this page until we are no longer able to and then we&#8217;ll split it, turning the original page into the directory. You can see how we can read from
+the hash table in <a href="#hash_get"><code>hash.c</code> - Reading a value from the hash table</a></p>
+</div>
+<div id="hash_get" class="listingblock">
+<div class="title"><code>hash.c</code> - Reading a value from the hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_get(txn_t* tx, hash_val_t* kvp) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, kvp-&gt;hash_id, &amp;hash_root));
+  uint64_t hashed_key = hash_permute_key(kvp-&gt;key);
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    kvp-&gt;has_val = hash_get_from_page(&amp;hash_root, hashed_key, kvp);
+  } else {
+    uint64_t index =
+        KEY_TO_BUCKET(hashed_key, hash_root.metadata-&gt;hash_dir.depth);
+    assert(index &lt;= hash_root.metadata-&gt;hash_dir.number_of_buckets);
+    uint64_t* buckets = hash_root.address;
+    page_t hash_page  = {.page_num = buckets[index]};
+    ensure(txn_get_page(tx, &amp;hash_page));
+    kvp-&gt;has_val = hash_get_from_page(&amp;hash_page, hashed_key, kvp);
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If we have a single page, we&#8217;ll read it directly from the page. But if we have a directory, we&#8217;ll use <code>KEY_TO_BUCKET()</code> to get the index of the bucket where the page number of
+the key lives. Then we&#8217;ll just check this page for the value. The fact that we can find the exact page we need in a single check is the most important aspect of the hash table.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Why are we permuting the key?</div>
+<div class="paragraph">
+<p>In <a href="#hash_get"><code>hash.c</code> - Reading a value from the hash table</a> you can see that we call <code>hash_permute_key()</code> as one of our first steps. Why is that?
+The extendible hash is using the lowest bits in the key to find the relevant page. But what if we are storing values that have a pattern? Consider the case of storing
+offsets into a file that are 8KB apart. The keys we&#8217;ll use are <code>[0,8092,16384,24576]</code>. All of these values have <em>12</em> lower zero bits. Let&#8217;s assume that we have a whole
+lot of them. That means that we&#8217;ll need to split the directory 12 times before we can place them in different pages.</p>
+</div>
+<div class="paragraph">
+<p>In other words, if we&#8217;ll store a few thousand such values,
+which should be stored in just 3 pages (two for the hash pages, one for the directory). But because of the directory splitting, we&#8217;ll need to place them in no less than
+4096 separate pages. That is the difference between 24 KB and 32 MB.</p>
+</div>
+<div class="paragraph">
+<p>Using the <code>hash_permute_key()</code> will mix the bits in the key in such a way that such keys will lose their pattern and become uniformly distributed. Here are the permuted
+values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>0 &#8594; 0</p>
+</li>
+<li>
+<p>8192 &#8594; 7383475855875536826</p>
+</li>
+<li>
+<p>16384 &#8594; 14766951711751073653</p>
+</li>
+<li>
+<p>24576 &#8594; 17372031019375746200</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Just looking whatever the number is even or odd will tell you that we have good distribution of value in this case. I&#8217;ve taken the <code>hash_permute_key()</code> implementation
+from <a href="https://gist.github.com/degski/6e2069d6035ae04d5d6f64981c995ec2">this Gist</a>. You can read more about is in the
+<a href="https://nullprogram.com/blog/2018/07/31/">Prospecting for Hash Functions</a> post.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the vast majority of cases, the directory page is going to be cached in memory, so we&#8217;ll have at worst a single disk access. In practice, given the expected size of the table
+I&#8217;ll expect that the entire table will be in memory. That means that while we are working on a persistent data structure, we can usually consider the cost of an in memory mode.
+The costs we have here are fairly negligible. Permuting the hash key and then doing a single lookup into the directory before jumping directly to the relevant page. We&#8217;ll see
+how we deal with the data <em>inside</em> the page shortly.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_a_value_to_the_hash_table">Writing a value to the hash table</h3>
+<div class="paragraph">
+<p>I now want to turn to a much more complex scenario, how do we put an entry into the hash table? Let&#8217;s look at <a href="#hash_set"><code>hash.c</code> - Adding (or updating) a value in the hash table</a> to start investigating this process.</p>
+</div>
+<div id="hash_set" class="listingblock">
+<div class="title"><code>hash.c</code> - Adding (or updating) a value in the hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_set(txn_t* tx, hash_val_t* set, hash_val_t* old) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, set-&gt;hash_id, &amp;hash_root));
+  ensure(txn_modify_page(tx, &amp;hash_root));
+
+  uint64_t hashed_key = hash_permute_key(set-&gt;key);
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    // <b class="conum">(1)</b>
+    ensure(hash_set_small(tx, &amp;hash_root, hashed_key, set, old));
+    return success();
+  }
+  // <b class="conum">(2)</b>
+  uint64_t index =
+      KEY_TO_BUCKET(hashed_key, hash_root.metadata-&gt;hash_dir.depth);
+  assert(index &lt;= hash_root.metadata-&gt;hash_dir.number_of_buckets);
+  uint64_t* buckets = hash_root.address;
+  page_t hash_page  = {.page_num = buckets[index]};
+  ensure(txn_modify_page(tx, &amp;hash_page));
+  uint32_t old_entries = hash_page.metadata-&gt;hash.number_of_entries;
+  // <b class="conum">(3)</b>
+  if (hash_set_in_page(&amp;hash_page, hashed_key, set, old)) {
+    // <b class="conum">(4)</b>
+    if (old_entries != hash_page.metadata-&gt;hash.number_of_entries) {
+      hash_root.metadata-&gt;hash_dir.number_of_entries++;
+    }
+    return success();
+  }
+  // <b class="conum">(5)</b>
+  ensure(hash_split_page(tx, &amp;hash_page, &amp;hash_root, set));
+  ensure(hash_set(tx, set, old));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>If we are still working on a small hash table, we can use the <code>hash</code> page directly, without any directory.</p>
+</li>
+<li>
+<p>Find the page that we should be putting the new entry into using the directory.</p>
+</li>
+<li>
+<p>Add the new entry to the matching page. This can fail if the page is full.</p>
+</li>
+<li>
+<p>If we set the entry successfully, check if this is a new entry or an update to an existing one and update the global <code>number_of_entires</code> on the hash table.</p>
+</li>
+<li>
+<p>If we can&#8217;t set the entry, that means that the page is full and we need to split it.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_set"><code>hash.c</code> - Adding (or updating) a value in the hash table</a> we have to deal with a few different scenarios. If the hash table is small and can fit on a single page, we can use that directly, no additional work is required.
+If the hash table is big enough to have a directory, we find the page that would hold the new entry and place it there. If we were able to place the entry in its page, we check
+if this is an update or a new value, and set the <code>number_of_entries</code> on the hash table accordingly.</p>
+</div>
+<div class="paragraph">
+<p>We may fail to add the value to the page, however. This can be when the page is full. At this point, we need to <em>split</em> the page and increase the size of the hash table. As you
+can imagine, this is one of the more interesting pieces of the hash table. Before we get there, let&#8217;s see how the easy parts go. <a href="#hash_set_small"><code>hash.c</code> - Adding an item to a small hash table or creating a directory</a> shows how we add an item to
+a small hash table.</p>
+</div>
+<div id="hash_set_small" class="listingblock">
+<div class="title"><code>hash.c</code> - Adding an item to a small hash table or creating a directory</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_set_small(txn_t* tx, page_t* p,
+    uint64_t hashed_key, hash_val_t* set, hash_val_t* old) {
+  ensure(txn_modify_page(tx, p));
+  if (hash_set_in_page(p, hashed_key, set, old)) {
+    return success();
+  }
+  ensure(hash_create_directory(tx, p));
+  ensure(hash_set(tx, set, old));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>hash_set_small()</code> isn&#8217;t doing much, simply adding the item to the page using <code>hash_set_in_page()</code>. The interesting part is what happens when we have no more room in the page.
+At this point, we need to move from a single page to a real table, with a directory. This is done in <code>hash_create_directory()</code>, shown in <a href="#hash_create_directory"><code>hash.c</code> - Creating a directory from an existing page</a>.
+Once that directory is created, we call <code>hash_set()</code> again to add the value into the newly created directory.</p>
+</div>
+<div id="hash_create_directory" class="listingblock">
+<div class="title"><code>hash.c</code> - Creating a directory from an existing page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_create_directory(txn_t* tx, page_t* existing) {
+  page_t dir = {.number_of_pages = 1};
+  ensure(txn_allocate_page(tx, &amp;dir, existing-&gt;page_num));
+  dir.metadata-&gt;hash_dir.page_flags = page_flags_hash_directory;
+  dir.metadata-&gt;hash_dir.depth      = 1;
+  dir.metadata-&gt;hash_dir.number_of_buckets = 2;
+  dir.metadata-&gt;hash_dir.number_of_entries =
+      existing-&gt;metadata-&gt;hash.number_of_entries;
+
+  page_t right     = {.number_of_pages = 1};
+  page_t* pages[2] = {existing, &amp;right};
+  ensure(txn_allocate_page(tx, pages[1], existing-&gt;page_num));
+
+  void* buffer;
+  ensure(txn_alloc_temp(tx, PAGE_SIZE, &amp;buffer));
+  memcpy(buffer, existing-&gt;address, PAGE_SIZE);
+  memset(existing-&gt;address, 0, PAGE_SIZE);
+  memset(existing-&gt;metadata, 0, sizeof(page_metadata_t));
+  ensure(hash_split_page_entries(buffer, 1, pages));
+  uint64_t* dir_pages                   = dir.address;
+  dir_pages[0]                          = existing-&gt;page_num;
+  dir_pages[1]                          = right.page_num;
+  existing-&gt;metadata-&gt;hash.dir_page_num = dir.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The majority of the work in <code>hash_create_directory()</code> is done by <code>hash_split_page_entries()</code>, but there are some interesting pieces in it. When we split the current page, we are
+going to create two new pages that will have some of the data that was previously in the page. Then we allocate a new page and set it as a directory for the newly allocated pages.
+We <em>free</em> the existing page and then set the <code>hash_id</code> to point to the new directory page.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">The <code>hash_id</code> is not a stable value</div>
+<div class="paragraph">
+<p>Because the directory may need to grow and because we use <code>hash_id</code> currently as the page number of a single hash or a directory, that means that whenever we create or grow the
+directory, the <code>hash_id</code> will change.</p>
+</div>
+<div class="paragraph">
+<p>There are ways to avoid that, actually. We could add some indirection to the <code>hash_id</code> or attempt to reuse the pages and leave a marker pointer or any number of other alternatives.
+I chose to simply allow the <code>hash_id</code> to change whenever the directory is touched because that is the simplest mode for writing the hash table. This is going to make <em>working</em>
+with the hash table harder, however.</p>
+</div>
+<div class="paragraph">
+<p>We are still at a <em>very</em> low level point in the API and we&#8217;ll provide a much nicer interface down the line, so I&#8217;m not going to worry too much about the ergonomics of the API at
+this point.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look into how we split a hash page into two separate pages. This is a fundamental operation for the extendible hash table and what allows us to easily expand the size of
+the hash table without expensive operations. The idea is that given a single page, we&#8217;ll end up with two pages that contain some of its entries. So the amount of changes when we
+hit a page full is bounded. You can see how this works in <a href="#hash_split_page_entries"><code>hash.c</code> - Splitting a hash page</a>.</p>
+</div>
+<div id="hash_split_page_entries" class="listingblock">
+<div class="title"><code>hash.c</code> - Splitting a hash page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_split_page_entries(
+    void* address, uint8_t depth, page_t* pages[2]) {
+  hash_val_t it                       = {0};
+  uint64_t mask                       = 1 &lt;&lt; (depth - 1);
+  pages[0]-&gt;metadata-&gt;hash.page_flags = page_flags_hash;
+  pages[0]-&gt;metadata-&gt;hash.depth      = depth;
+  memcpy(pages[1]-&gt;metadata, pages[0]-&gt;metadata,
+      sizeof(page_metadata_t));
+  while (hash_page_get_next(address, &amp;it)) {
+    uint64_t hashed_key = hash_permute_key(it.key);
+    if (hashed_key &amp; mask) {
+      ensure(hash_set_in_page(pages[1], hashed_key, &amp;it, 0));
+    } else {
+      ensure(hash_set_in_page(pages[0], hashed_key, &amp;it, 0));
+    }
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We allocate two pages in <a href="#hash_split_page_entries"><code>hash.c</code> - Splitting a hash page</a> and set them as <code>hash</code> pages with the provided depth. Then we iterate over the existing page and send the entries to the left
+or right pages, depending on the relevant bit. This is important, because assuming we have uniform distribution (which is the point of <code>hash_permute_key()</code>), we can assume that
+about half the entires will go left and half will go right.
+We don&#8217;t <em>rely</em> on that. This is why after the <code>hash_create_directory()</code> we call to <code>hash_set()</code> again, which may split the table <em>again</em> if the destination page is still too full.</p>
+</div>
+<div class="paragraph">
+<p>Finally, we set the page numbers in the <code>pages</code> array. When called from <code>hash_create_directory()</code>, we simply pass the buffer that we have for the directory directly. So the call
+to <code>hash_split_page_entries()</code> modify it directly. This is possible because there is nothing in the directory. We&#8217;ll need to do better than that when we split a page on a full
+directory.</p>
+</div>
+<div class="paragraph">
+<p>We already saw where this happen, in <code>hash_set()</code> if we have a directory already but the page we want to add to is too full. At this point, we&#8217;ll call to <code>hash_split_page()</code> to
+split the page (and potentially increase the size of the directory). We can see how this works in <a href="#hash_split_page"><code>hash.c</code> - Splitting a hash page</a>.</p>
+</div>
+<div id="hash_split_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Splitting a hash page</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_split_page(
+    txn_t* tx, page_t* page, page_t* dir, hash_val_t* set) {
+  if (page-&gt;metadata-&gt;hash.depth == dir-&gt;metadata-&gt;hash.depth) {
+    ensure(hash_expand_directory(tx, dir));
+  }
+  uint32_t bit = 1 &lt;&lt; page-&gt;metadata-&gt;hash.depth;
+
+  page_t new_page      = {.number_of_pages = 1};
+  page_t* pages_ptr[2] = {page, &amp;new_page};
+  ensure(txn_allocate_page(tx, &amp;new_page, page-&gt;page_num));
+  uint8_t new_depth = page-&gt;metadata-&gt;hash.depth + 1;
+
+  void* buffer;
+  ensure(txn_alloc_temp(tx, PAGE_SIZE, &amp;buffer));
+  memcpy(buffer, page-&gt;address, PAGE_SIZE);
+  memset(page-&gt;address, 0, PAGE_SIZE);
+  memset(page-&gt;metadata, 0, sizeof(page_metadata_t));
+
+  ensure(hash_split_page_entries(buffer, new_depth, pages_ptr));
+  uint64_t* buckets = dir-&gt;address;
+  for (size_t i = 0; i &lt; dir-&gt;metadata-&gt;hash_dir.number_of_buckets;
+       i++) {
+    if (buckets[i] == page-&gt;page_num) buckets[i] = 0;
+  }
+
+  for (size_t i = hash_permute_key(set-&gt;key) &amp; (bit - 1);
+       i &lt; dir-&gt;metadata-&gt;hash_dir.number_of_buckets; i += bit) {
+    buckets[i] = pages_ptr[(i &amp; bit) == bit]-&gt;page_num;
+  }
+
+  page_metadata_t* hash_metadata;
+  ensure(txn_modify_metadata(tx, set-&gt;hash_id, &amp;hash_metadata));
+  hash_metadata-&gt;hash.dir_page_num = dir-&gt;page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>hash_split_page()</code> function starts by testing if the page we want to split has the same depth as the directory. If that is the case, we&#8217;ll need to double the size of the
+directory. But if the depth of the page we are splitting is smaller than the depth of the directory, it means that we can simply update the pointers in the directory and we
+don&#8217;t need to change the directory size.</p>
+</div>
+<div class="paragraph">
+<p>The most interesting piece of code in <a href="#hash_split_page"><code>hash.c</code> - Splitting a hash page</a> is the way we update the directory pointers. We first call to <code>hash_split_page_entries()</code> and pass it the page we
+want to split as well as a small array to hold the ids of the new pages. The code in the <code>for</code> loop find all the locations that we need to update in the directory, but it
+may not be obvious what is going on there.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s assume that we have a directory with a depth of 4, so the size of the directory is 16. We now need to split a page whose <code>depth</code> used to be 1. We compute the <code>bit</code>, which
+is simply the size of the directory at that particular depth. However, the directory right now is of size 16, so we need to update multiple locations in the directory. We start
+from the lowest location that the key can be placed on and then jump <code>bit</code> positions each time. When the <code>depth</code> started as 1, then <code>bit</code> will be <code>4</code> (1 &lt;&lt; (1+1) == 4). That
+means that we&#8217;ll update the entries from the first possible location of the key to any of the locations.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s assume that our key is <code>16384</code> and the result of <code>hash_permute_key()</code> is <code>14766951711751073653</code>. Masking that with <code>(bit-1)</code> gives us a value of 1. So we&#8217;ll then scan
+through the directory and update the following locations: 1, 5, 11, 15.
+On each position in the directory we update, we need to check which page we should place there, whatever it should be the left or right pages from the <code>hash_split_page_entries()</code>
+call. We determine that by checking the relevant <code>depth</code> bit in the index.
+I think I mentioned before how <em>elegant</em> extendible hash table are, didn&#8217;t it? It doesn&#8217;t take a lot of code but it result in an amazing behavior.</p>
+</div>
+<div class="paragraph">
+<p>The final stage in <code>hash_split_page()</code> is to free the page we split and we are ready for a new call to <code>hash_set()</code> that will use the modified directory. Again, in some pathological
+cases, we may need multiple <code>hash_split_page()</code> rounds to make sure that we have enough space for a new value, but those should be <em>very</em> rare.</p>
+</div>
+<div class="paragraph">
+<p>The last part that we still need to look at with <code>hash_set()</code> is how we expand the size of the directory. This is done by <code>hash_expand_directory()</code> and is shown in
+<a href="#hash_expand_directory"><code>hash.c</code> - Doubling the size of the directory</a>.</p>
+</div>
+<div id="hash_expand_directory" class="listingblock">
+<div class="title"><code>hash.c</code> - Doubling the size of the directory</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_expand_directory(txn_t* tx, page_t* dir) {
+  uint32_t cur_buckets = dir-&gt;metadata-&gt;hash_dir.number_of_buckets;
+  page_t new           = {.number_of_pages =
+                    TO_PAGES(cur_buckets * 2 * sizeof(uint64_t))};
+  ensure(txn_allocate_page(tx, &amp;new, dir-&gt;page_num));
+  // copy the current directory *twice*
+  memcpy(new.address, dir-&gt;address, cur_buckets * sizeof(uint64_t));
+  memcpy(new.address + cur_buckets * sizeof(uint64_t), dir-&gt;address,
+      cur_buckets * sizeof(uint64_t));
+
+  memcpy(new.metadata, dir-&gt;metadata, sizeof(page_metadata_t));
+  new.metadata-&gt;hash_dir.depth++;
+  new.metadata-&gt;hash_dir.number_of_buckets *= 2;
+  ensure(txn_free_page(tx, dir));
+  memcpy(dir, &amp;new, sizeof(page_t));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>hash_expand_directory()</code> we start by allocating a new directory, twice as large (in pages) as the old one. And then we copy the old directory to the new buffer <em>twice</em>.
+This means that we doubled the size of the directory, but we didn&#8217;t modify any of the mapping. That part is left for the caller in <code>hash_split_page()</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">We <em>always</em> allocate a new directory</div>
+<div class="paragraph">
+<p>We&#8217;ll always allocate a new directory in <code>hash_expand_directory()</code>. There are many cases (until the hash table reach 8MB in size) that we could simply
+expand the table in place, since we already have the space in the page allocated to the hash table.</p>
+</div>
+<div class="paragraph">
+<p>I chose not to do that to ensure that we&#8217;ll always change the <code>hash_id</code>. If this is something that happens often, we&#8217;ll know that we need to deal with it. Otherwise,
+we may accidentally assume that the <code>hash_id</code> is stable after calls, which will be <em>usually</em> true, until we had a bad bug. Start as you mean to continue, basically.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We have now explored all the pieces of adding a value to the hash table, let&#8217;s look at the other side now, how can we <em>delete</em> a value from the table?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_a_value_from_the_hash_table">Deleting a value from the hash table</h3>
+<div class="paragraph">
+<p>Deleting a value from the hash table is very similar in concept to adding one. When adding a new value, we had to handle a full page, which meant that we had to split it.
+When deleting an item, we need to consider how to <em>merge</em> pages. We don&#8217;t want to be too eager about it, otherwise certain workloads will cause us to do splits and merges
+often. On the other hand, we want to be able to merge the pages (and reduce the depth of the directory) when we delete data to release the space we allocated to the table.</p>
+</div>
+<div class="paragraph">
+<p>Deleting a value from the hash table stats in <code>hash_del()</code>, shown in <a href="#hash_del"><code>hash.c</code> - Deleting an item from the hash table</a>.</p>
+</div>
+<div id="hash_del" class="listingblock">
+<div class="title"><code>hash.c</code> - Deleting an item from the hash table</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_del(txn_t* tx, hash_val_t* del) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, del-&gt;hash_id, &amp;hash_root));
+  uint64_t hashed_key = hash_permute_key(del-&gt;key);
+  ensure(txn_modify_page(tx, &amp;hash_root));
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    hash_remove_from_page(&amp;hash_root, hashed_key, del);
+    return success();
+  }
+  uint64_t index =
+      KEY_TO_BUCKET(hashed_key, hash_root.metadata-&gt;hash_dir.depth);
+  assert(index &lt;= hash_root.metadata-&gt;hash_dir.number_of_buckets);
+  uint64_t* buckets = hash_root.address;
+  page_t hash_page  = {.page_num = buckets[index]};
+  ensure(txn_modify_page(tx, &amp;hash_page));
+  if (!hash_remove_from_page(&amp;hash_page, hashed_key, del)) {
+    return success();  // entry does not exists
+  }
+  hash_root.metadata-&gt;hash_dir.number_of_entries--;
+  ensure(
+      hash_maybe_merge_pages(tx, index, &amp;hash_page, &amp;hash_root, del));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The structure of the code in <a href="#hash_del"><code>hash.c</code> - Deleting an item from the hash table</a> should be familiar by now. We have one part that handles the case where we have a single page in the hash table and we have the
+other case where we have a directory in place. In the first case, we can remove the value directly using <code>hash_remove_from_page()</code> while in the later case, we have to
+first find the appropriate hash page and then call <code>hash_remove_from_page()</code> on it.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Does the single page <code>hash</code> page optimization pay off?</div>
+<div class="content">
+<div class="paragraph">
+<p>In each of the high level hash table functions so far, we have to deal with two cases. One where the hash table is on a single page and we skip using a directory and one
+where we have a directory and we need to jump to the actual <code>hash</code> page.
+That adds some non negligible amount of work and complexity to all of those function. The question is, is it worth it?</p>
+</div>
+<div class="paragraph">
+<p>I think that it is worthwhile to do so. A single hash table page should contain between 3,500 - 1,000 entries, depending on the exact values that we&#8217;ll store in the hash
+table. That is big enough that many use cases will be able to use just a single page and benefit from the simpler code structure and reduction in space usage.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The most interesting thing in <code>hash_del()</code> is the very last call, <code>hash_maybe_merge_pages()</code>. Just like we have to handle page splitting when we add an item to the table, we
+also have to deal with the other side, merging of pages when there isn&#8217;t enough data in them. You can see how that is implemented in <a href="#hash_maybe_merge_pages"><code>hash.c</code> - Checking if we can merge the page with its sibling after a delete</a>.</p>
+</div>
+<div id="hash_maybe_merge_pages" class="listingblock">
+<div class="title"><code>hash.c</code> - Checking if we can merge the page with its sibling after a delete</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_maybe_merge_pages(txn_t* tx, uint64_t index,
+    page_t* page, page_t* dir, hash_val_t* del) {
+  uint64_t sibling_index =
+      index ^ (1UL &lt;&lt; (page-&gt;metadata-&gt;hash.depth - 1));
+  uint64_t* buckets = dir-&gt;address;
+  page_t sibling    = {.page_num = buckets[sibling_index]};
+  ensure(txn_get_page(tx, &amp;sibling));
+  uint16_t joined_size = sibling.metadata-&gt;hash.bytes_used +
+                         page-&gt;metadata-&gt;hash.bytes_used;
+  // <b class="conum">(1)</b>
+  if (joined_size &gt; (PAGE_SIZE / 4) * 3) {  // no point in merging
+    return success();
+  }
+  // <b class="conum">(2)</b>
+  if (dir-&gt;metadata-&gt;hash_dir.number_of_buckets == 2) {
+    ensure(hash_convert_directory_to_hash(
+        tx, del, page, buckets[sibling_index], dir));
+    return success();
+  }
+  // <b class="conum">(3)</b>
+  ensure(hash_merge_pages(tx, del, page, &amp;sibling, dir));
+
+  // <b class="conum">(4)</b>
+  ensure(hash_maybe_shrink_directory(tx, dir, del));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>We check if the page we deleted from and its sibling (the page that is one bit off from the current page) <em>together</em> have will fill less than 75% of a single page.</p>
+</li>
+<li>
+<p>If we have just two pages in the hash table, we can drop down to a single <code>hash</code> page, instead of using a directory.</p>
+</li>
+<li>
+<p>Merge the two pages into a single one and update the directory.</p>
+</li>
+<li>
+<p>Shrink the directory if we can.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_maybe_merge_pages"><code>hash.c</code> - Checking if we can merge the page with its sibling after a delete</a> we start by checking the <em>sibling</em> page. That is the page that is off by one bit from the page we just deleted an entry from. The sibling page
+is the target for merging. We check the used size on the page and its sibling and if they are more than 75% of a single page, we do nothing. Splitting and merging pages is
+not something that we want to do casually, so we give ourselves some buffer before we&#8217;ll trigger a merge.</p>
+</div>
+<div class="paragraph">
+<p>Once we have determine that we have a good candidate for merging, we check the size of the hash table. If we are merging the last two pages, then we want to drop down to a
+single page <code>hash</code>, instead of using a directory. This is handled in <code>hash_convert_directory_to_hash()</code> and shown in <a href="#hash_convert_directory_to_hash"><code>hash.c</code> - Merging the last two pages in a directory into a single <code>hash</code> page</a>.</p>
+</div>
+<div id="hash_convert_directory_to_hash" class="listingblock">
+<div class="title"><code>hash.c</code> - Merging the last two pages in a directory into a single <code>hash</code> page</div>
+<div class="content">
+<pre class="highlight"><code>static bool hash_merge_pages_work(
+    page_t* p1, page_t* p2, page_t* dst, uint64_t* hashed_key) {
+  hash_val_t it = {0};
+  while (hash_page_get_next(p1-&gt;address, &amp;it)) {
+    *hashed_key = hash_permute_key(it.key);
+    if (!hash_set_in_page(dst, *hashed_key, &amp;it, 0)) return false;
+  }
+  memset(&amp;it, 0, sizeof(hash_val_t));
+  while (hash_page_get_next(p2-&gt;address, &amp;it)) {
+    *hashed_key = hash_permute_key(it.key);
+    if (!hash_set_in_page(dst, *hashed_key, &amp;it, 0)) return false;
+  }
+  return true;
+}
+static result_t hash_convert_directory_to_hash(txn_t* tx,
+    hash_val_t* kvp, page_t* page, uint64_t sibling_page_num,
+    page_t* dir) {
+  page_t sibling = {.page_num = sibling_page_num};
+  ensure(txn_modify_page(tx, &amp;sibling));
+  uint64_t hashed_key = 0;
+  void* buffer;
+  ensure(txn_alloc_temp(tx, PAGE_SIZE, &amp;buffer));
+  memset(buffer, 0, PAGE_SIZE);
+  page_metadata_t temp_metadata = {
+      .hash = {.page_flags = page_flags_hash,
+          .dir_page_num    = kvp-&gt;hash_id}};
+  page_t dst = {.address = buffer, .metadata = &amp;temp_metadata};
+  ensure(hash_merge_pages_work(page, &amp;sibling, &amp;dst, &amp;hashed_key));
+  ensure(txn_free_page(tx, dir));
+  if (page-&gt;page_num == kvp-&gt;hash_id) {
+    ensure(txn_free_page(tx, &amp;sibling));
+    memcpy(page-&gt;address, buffer, PAGE_SIZE);
+  } else {
+    ensure(txn_free_page(tx, page));
+    memcpy(sibling.address, buffer, PAGE_SIZE);
+  }
+  page_t hash_root = {.page_num = kvp-&gt;hash_id};
+  ensure(txn_modify_page(tx, &amp;hash_root));
+  memcpy(hash_root.metadata, &amp;temp_metadata, sizeof(page_metadata_t));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_convert_directory_to_hash"><code>hash.c</code> - Merging the last two pages in a directory into a single <code>hash</code> page</a> we wipe the directory page (and its metadata) and turn that into a <code>hash</code> page. Then we start iterating over both of the pages we want
+to merge and add them to the new <code>hash</code> page. We finish the function by freeing both pages while the directory page remains in use, but it is not have been recycled to be a
+<code>hash</code> page.
+In other words, we have implemented both grown and shrink on the table so we can grow from a single <code>hash</code> page to a directory and then shrink back to a single <code>hash</code>.
+The process for merging two pages while still using the directory is very similar and can be seen in <a href="#hash_merge_pages"><code>hash.c</code> - Merging two pages into a single one and updating the directory mapping</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Locality of reference in the hash table</div>
+<div class="paragraph">
+<p>Throughout this chapter, you might want to pay attention to the calls to <code>txn_allocate_page()</code>. In particular, the last argument we pass to it is a hint on where we would
+<em>like</em> to have this page. We talked about this when we built the function in Chapter 5 but now you can see it in action. Aside from the first call to <code>txn_allocate_page()</code>
+in <code>hash_create()</code>, we always ask the lower levels of the API to allocate a page nearby the directory page or the current <code>hash</code> page.</p>
+</div>
+<div class="paragraph">
+<p>That means that most of the time, the pages are going to be nearby and can benefit from coarser grained reads from disk as well as have the chance to trigger read ahead
+optimizations by the operating system.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="hash_merge_pages" class="listingblock">
+<div class="title"><code>hash.c</code> - Merging two pages into a single one and updating the directory mapping</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_merge_pages(txn_t* tx, hash_val_t* kvp,
+    page_t* page, page_t* sibling, page_t* dir) {
+  uint8_t new_depth =
+      MIN(page-&gt;metadata-&gt;hash.depth, sibling-&gt;metadata-&gt;hash.depth) -
+      1;
+  page_metadata_t merged_metadata = {
+      .hash = {.page_flags = page_flags_hash,
+          .depth           = new_depth,
+          .dir_page_num    = dir-&gt;page_num}};
+  void* buffer;
+  ensure(txn_alloc_temp(tx, PAGE_SIZE, &amp;buffer));
+  memset(buffer, 0, PAGE_SIZE);
+  page_t dst = {.address = buffer, .metadata = &amp;merged_metadata};
+  // <b class="conum">(1)</b>
+  uint64_t hashed_key;
+  ensure(hash_merge_pages_work(page, sibling, &amp;dst, &amp;hashed_key));
+  // <b class="conum">(2)</b>
+  uint64_t new_page_id;
+  if (kvp-&gt;hash_id == page-&gt;page_num) {
+    ensure(txn_free_page(tx, sibling));
+    memcpy(page-&gt;address, buffer, PAGE_SIZE);
+    memcpy(page-&gt;metadata, &amp;merged_metadata, sizeof(page_metadata_t));
+    new_page_id = page-&gt;page_num;
+  } else {
+    ensure(txn_free_page(tx, page));
+    memcpy(sibling-&gt;address, buffer, PAGE_SIZE);
+    memcpy(
+        sibling-&gt;metadata, &amp;merged_metadata, sizeof(page_metadata_t));
+    new_page_id = sibling-&gt;page_num;
+  }
+  // <b class="conum">(3)</b>
+  uint64_t* buckets = dir-&gt;address;
+  size_t bit        = 1UL &lt;&lt; merged_metadata.hash.depth;
+  for (size_t i = hashed_key &amp; (bit - 1);
+       i &lt; dir-&gt;metadata-&gt;hash_dir.number_of_buckets; i += bit) {
+    buckets[i] = new_page_id;
+  }
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The actual merge is done inside <code>hash_merge_pages_work()</code>.</p>
+</li>
+<li>
+<p>Update the indexes in the directory to point to the new page</p>
+</li>
+<li>
+<p>Release the old pages, now no longer needed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_merge_pages"><code>hash.c</code> - Merging two pages into a single one and updating the directory mapping</a> we allocate a new page to hold the combined entries from the pages we merge. Note that the <code>depth</code> of the new page is the <em>minimum</em> <code>depth</code> from both
+pages. We call to <code>hash_merge_pages_work()</code> to do the actual work of merging the value and then we need to update the references in the directory. This is just the inverse
+of the work we have done in <code>hash_split_page()</code> and follow the same principals.</p>
+</div>
+<div class="paragraph">
+<p>The only thing that we still need to discuss is how to handle the process of shrinking the hash table directory. Let&#8217;s look at the code in <a href="#hash_maybe_shrink_directory"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</a> and
+then we&#8217;ll talk about how it works.</p>
+</div>
+<div id="hash_maybe_shrink_directory" class="listingblock">
+<div class="title"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</div>
+<div class="content">
+<pre class="highlight"><code>static result_t hash_maybe_shrink_directory(
+    txn_t* tx, page_t* dir, hash_val_t* del) {
+  uint64_t* buckets = dir-&gt;address;
+  uint32_t depth    = dir-&gt;metadata-&gt;hash_dir.depth;
+  for (size_t i = 0; i &lt; dir-&gt;metadata-&gt;hash_dir.number_of_buckets;
+       i++) {
+    page_metadata_t* bucket_metadata;
+    ensure(txn_get_metadata(tx, buckets[i], &amp;bucket_metadata));
+    // <b class="conum">(1)</b>
+    if (bucket_metadata-&gt;hash.depth == depth) {
+      return success();  // the depth is needed, cannot shrink
+    }
+  }
+  uint32_t bucket_count =
+      dir-&gt;metadata-&gt;hash_dir.number_of_buckets / 2;
+  page_t new_dir = {
+      .number_of_pages = TO_PAGES(bucket_count * sizeof(uint64_t))};
+  ensure(txn_allocate_page(tx, &amp;new_dir, dir-&gt;page_num));
+  memcpy(new_dir.metadata, dir-&gt;metadata, sizeof(page_metadata_t));
+  new_dir.metadata-&gt;hash_dir.number_of_buckets /= 2;
+  new_dir.metadata-&gt;hash_dir.depth--;
+  memcpy(
+      new_dir.address, dir-&gt;address, sizeof(uint64_t) * bucket_count);
+  ensure(txn_free_page(tx, dir));
+  page_metadata_t* hash_metadata;
+  ensure(txn_modify_metadata(tx, del-&gt;hash_id, &amp;hash_metadata));
+  hash_metadata-&gt;hash.dir_page_num = new_dir.page_num;
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Early exit if we found a <code>hash</code> page whose <code>depth</code> equals to the current global <code>depth</code>, indicating that we can&#8217;t shrink the directory.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_maybe_shrink_directory"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</a> we start by scanning the metadata of all the pages in the directory. Note that we only touch the <em>metadata</em> of the pages and that we have
+set things up so it is <em>very</em> likely that the pages are clustered together and reading a single metadata page will net us many metadata entries in a single read from the disk
+(if the page isn&#8217;t already in memory).</p>
+</div>
+<div class="paragraph">
+<p>We check the <code>depth</code> of all the pages in the hash table and if <em>all</em> of them are below the global <code>depth</code> (which is stored in the <em>directory</em> metadata), we can shrink the table.
+That is done by allocating a new directory page and copying just half of the directory over to the new page. The <code>hash_merge_pages()</code> call has already set things up so both halves of
+the directory are identical at this point.</p>
+</div>
+<div class="paragraph">
+<p>We <em>could</em> try to avoid allocating a new page on the directory shrinking, but the same logic that made me do it always on expansion holds here as well. I want to make sure that
+calling code is ready for the <code>hash_id</code> to change.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iterating_over_the_entries">Iterating over the entries</h3>
+<div class="paragraph">
+<p>Iteration over the the hash table turns out to be surprisingly tricky. If we have a single page, we already saw that it is a simple matter of calling to <code>hash_page_get_next()</code>,
+even if we didn&#8217;t look into how that is implemented yet. But when we have a directory, we have to deal with a problem. The directory can contain multiple references to the same
+page. If you&#8217;ll look at <a href="#ehash">An extendible hash structure, showing the directory and 3 pages of values</a>, you can visualize the problem easily. We want to get every entry in the hash table <em>once</em>, but if we simply scan through the directory we&#8217;ll
+encounter some pages more than once and may return duplicated results. In order to handle this, the <code>hash_get_next()</code> function accepts a <code>pages_map_t</code> argument that will hold
+the pages that were visited in previous calls to the function. You can see how that looks in <a href="#hash_get_next"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</a>.</p>
+</div>
+<div id="hash_get_next" class="listingblock">
+<div class="title"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_get_next(
+    txn_t* tx, pages_map_t** state, hash_val_t* it) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, it-&gt;hash_id, &amp;hash_root));
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    it-&gt;has_val = hash_page_get_next(hash_root.address, it);
+    return success();
+  }
+  uint64_t* buckets = hash_root.address;
+  do {
+    page_t hash_page = {
+        .page_num = buckets[it-&gt;iter_state.page_index]};
+    ensure(txn_get_page(tx, &amp;hash_page));
+    if (hash_page_get_next(hash_page.address, it)) return success();
+    ensure(pagesmap_put_new(state, &amp;hash_page));
+    it-&gt;iter_state.pos_in_page = 0;
+    do {
+      if (++it-&gt;iter_state.page_index &gt;=
+          hash_root.metadata-&gt;hash_dir.number_of_buckets) {
+        it-&gt;has_val = false;
+        return success();
+      }
+      hash_page.page_num = buckets[it-&gt;iter_state.page_index];
+      if (pagesmap_lookup(*state, &amp;hash_page) == false)
+        break;  // didn't see this page, yet
+    } while (true);
+  } while (true);
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Iterating over a single <code>hash</code> page is easy enough. We&#8217;ll see exactly how that works later in this chapter. The most interesting parts of this function is how we handle iteration
+in the directory. Between invocations of <code>hash_get_next()</code> we remember the page that we were last iterating using the <code>it-&gt;key</code>.</p>
+</div>
+<div class="paragraph">
+<p>There is a small trick here. We require that the  <code>hash_val_t</code> we accept in this method will be zeroed on the first call (except for the <code>hash_id</code>, of course).
+When we permute a zero, we&#8217;ll accept a zero. So the first call will always go to index <code>0</code>, which is exactly what we want. There is also the <code>iter_state</code> we have in <code>hash_val_t</code>,
+which is used to remember the iteration position between calls to the <code>hash_get_next()</code> function.</p>
+</div>
+<div class="paragraph">
+<p>Once we are done scanning a page, we&#8217;ll add it to the <code>state</code> pages map and run through the directory, finding the next page that we haven&#8217;t seen. It is the caller&#8217;s responsibility
+to create and destroy the page map for the call.</p>
+</div>
+<div class="paragraph">
+<p>This is almost all of it, we have implemented an extendible hash table that can manage to store <code>uint64_t</code> keys and values. It knows how to expand and contract and will allow us
+to find values with an <code>O(1)</code> complexity. We are able to iterate over the values, delete, create and set them. What we are missing, however, is everything about how we handle the
+data <em>inside</em> the page. So far we dealt exclusively with the directory and how the extendible hash table work. All the work about the page itself has been hidden behind our API.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_structure_of_a_hash_page">The structure of a <code>hash</code> page</h3>
+<div class="paragraph">
+<p>Up until now, we look at the hash table from a high vantage point. We looked at the directory and how we manage the pages inside the table. In this section, I want to dive into the
+structure of the data inside a <code>hash</code> page. The extendible hash table we build here hold entries of <code>uint64_t</code> keys and values. Using the most naive option, each entry would then
+cost us 16 bytes to hold. In other words, a single <code>hash</code> page would be able to store up to 512 entries.</p>
+</div>
+<div class="paragraph">
+<p>You might have noticed earlier in this chapter that I kept referring to the <code>hash</code> pages as capable of holding much more than that, but I didn&#8217;t give an exact number. This is because
+we aren&#8217;t going to store the entry data as is. We are going to use <code>varint</code> encoding for this purpose. There are <em>many</em> formats for <a href="https://github.com/stoklund/varint">varints</a>.
+The one that we are going to use was taken from the <a href="https://github.com/danburkert/bytekey/">bytekey repository</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>bytekey</code> format uses a 4 bit prefix to denote the length of the key, unlike the common 7 bit varint encoding such as the one used by
+<a href="https://developers.google.com/protocol-buffers/docs/encoding">Protocol Buffers</a>. Let&#8217;s compare the two options in terms of the size that they take, you can see the full details
+in <a href="#bytekey_vs_varint">Encoded size per numeric range for <code>bytekey</code> and <code>7 bits varint</code></a>.</p>
+</div>
+<table id="bytekey_vs_varint" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Encoded size per numeric range for <code>bytekey</code> and <code>7 bits varint</code></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bytekey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7 bits varint</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 .. 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 .. 127</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16 .. 4095</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">128 .. 16,383</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096 .. 1,048,575</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16,384 .. 2,097,151</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1,048,576 .. 268,435,455</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2,097,152 .. 268,435,456</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">268,435,456 .. 68,719,476,735</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">268,435,456 .. 34,359,738,367</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">68,719,476,736 .. 17,592,186,044,415</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">34,359,738,368 .. 4,398,046,511,103</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17,592,186,044,416 .. 4,503,599,627,370,495</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4,398,046,511,104 .. 562,949,953,421,311</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4,503,599,627,370,496 .. 1,152,921,504,606,846,975</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">562,949,953,421,312 .. 72,057,594,037,927,935</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1,152,921,504,606,846,976 .. 18,446,744,073,709,551,616</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">72,057,594,037,927,936 .. 9,223,372,036,854,775,807</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9,223,372,036,854,775,808 .. 18,446,744,073,709,551,616</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The maximum size of <code>bytekey</code> is 9 bytes, while <code>varint</code> is maxed at 10 bytes. However, for smaller values, the <code>varint</code> tends to be a bit cheaper. So why chose the <code>varint</code>
+encoding?</p>
+</div>
+<div class="paragraph">
+<p>The idea is that we can take a <code>uint64_t</code> value and encode it to a buffer. Both formats achieve this goal, but there is a very important distinction between them. If we compare
+the buffers of two values generated with <code>varint</code> using <code>memcmp()</code>, we&#8217;ll not get a result based on the values. This is because the <code>varint</code> output is not going to be ordered
+in the same manner as the values that it encodes.</p>
+</div>
+<div class="paragraph">
+<p>The <code>bytekey</code> format, on the other hand, allows us to directly compare the buffers using <code>memcmp()</code> and get result (less than, equals or greater than) that would match the actual
+encoded value. This doesn&#8217;t matter too much right now, but it will become much more important when we start working with B+Tree, where the sort order of the key <em>matters</em>.
+For that reason, I chose this format for Gavran.</p>
+</div>
+<div class="paragraph">
+<p>The API Gavran uses for working with them is shown in <a href="#varint_api"><code>gavran/internal.h</code> - Variable length integers API</a>.</p>
+</div>
+<div id="varint_api" class="listingblock">
+<div class="title"><code>gavran/internal.h</code> - Variable length integers API</div>
+<div class="content">
+<pre class="highlight"><code>uint32_t varint_get_length(uint64_t n);
+uint8_t *varint_encode(uint64_t n, uint8_t *buf);
+uint8_t *varint_decode(uint8_t *buf, uint64_t *value);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>varint_encode()</code> function return the pointer it received <em>after</em> the write of the number they got. The same is the case for <code>varint_decode()</code>. I&#8217;m not going to dive into
+the actual implementation. You can check the source code for that or read about the encoding format. What is important to understand about <code>varint</code> is that instead of taking 8 bytes
+to store an <code>uint64_t</code> we encode the data so it will take between 1 - 9 bytes. The size of the encoded <code>varint</code> depends on the value we encode. The bigger the value, the more bytes
+we need to encode the number. Note that we&#8217;ll only cross the 8 bytes threshold if the value is larger than <code>1,152,921,504,606,846,975</code> so up until that point, this is an absolute win.</p>
+</div>
+<div class="paragraph">
+<p>The <code>varint</code> encoding allows us to store the entries in a far more efficient manner, but it come with a different problem. Now that the size of the data isn&#8217;t fixed, how can we find
+where the relevant entry is. If we were storing the entries in the page as is, we could treat the page as an array with 512 elements and index into that directly using the provided
+key. We already saw how well that works when we built the <code>pages_map_t</code> API.  How would we deal with the problem when working with variable size data?
+Let&#8217;s take a look at <a href="#hash-page">The internal structure of a <code>hash</code> page</a> which shows the structure of a <code>hash</code> page.</p>
+</div>
+<div id="hash-page" class="imageblock">
+<div class="content">
+<img src="../imgs/" alt="hash page">
+</div>
+<div class="title">Figure 2. The internal structure of a <code>hash</code> page</div>
+</div>
+<div class="paragraph">
+<p>The <code>hash</code> page is divided into buckets that are 64 bytes each. For an 8KB page, that means that we have 128 buckets inside the page. For each page, we have 1 byte header and 63
+bytes that can hold data. we utilize the <code>hash_bucket_t</code> to work with each bucket, shown on <a href="#hash_page_decl"><code>hash.c</code> - Declarations used when working with the internal structure of a <code>hash</code> page</a>.</p>
+</div>
+<div id="hash_page_decl" class="listingblock">
+<div class="title"><code>hash.c</code> - Declarations used when working with the internal structure of a <code>hash</code> page</div>
+<div class="content">
+<pre class="highlight"><code>#define HASH_BUCKET_DATA_SIZE (63)
+#define HASH_OVERFLOW_CHAIN_SIZE (16)
+
+typedef struct hash_bucket {
+  // <b class="conum">(1)</b>
+  bool overflowed : 1;
+  // <b class="conum">(2)</b>
+  uint8_t bytes_used : 7;
+  uint8_t data[HASH_BUCKET_DATA_SIZE];
+} hash_bucket_t;
+static_assert(sizeof(hash_bucket_t) == 64, "Bad size");
+
+#define BUCKETS_IN_PAGE (PAGE_SIZE / sizeof(hash_bucket_t))</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Whatever this bucket is part of an overflow chain, using a single bit field.</p>
+</li>
+<li>
+<p>The number of bytes used in this bucket, stored as a 7 bits field number (range of 1 .. 128).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#hash_page_decl"><code>hash.c</code> - Declarations used when working with the internal structure of a <code>hash</code> page</a> is interesting because it is using bit fields. Those are instructions to the C compiler that the fields in the index take <em>less</em> than a single byte.
+We use this to make sure that the header will only use a single byte, leaving the <code>data</code> field with 63 bytes for us to work with.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Why use 64 bytes size for the hash buckets?</div>
+<div class="paragraph">
+<p>In most modern processors, the cache line size is going to be 64 bytes in size. I&#8217;m not going to go into details about cache lines but you might find this
+<a href="https://meribold.org/2017/10/20/survey-of-cpu-caches/">Survery of CPU Caches</a> to be an interesting read. What is important to understand about the CPU will not go to memory every
+time we need to read some data, it will load that into its cache (L1, L2, etc). The topic is <em>quite</em> complex, so I&#8217;ll leave it at that.</p>
+</div>
+<div class="paragraph">
+<p>The majority of the cost is fetching the data from RAM to the CPU cache, multiple accesses on the same cache line is going to be effectively free. For that reason, having a 64 bytes
+bucket (which is also aligned on 64 bytes boundary) means that each bucket is going to be its own cache line and multiple operations on that are going to enjoy very high speed.</p>
+</div>
+<div class="paragraph">
+<p>Beyond that, in some cases we will want to access the buckets in a sequential order (when we handle overflows). This will also benefit greatly from the read ahead optimizations
+done by the CPU because we use a very predictable pattern.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>I think that the best place to start showing how the data is stored in a <code>hash</code> page is to see how we <em>read</em> the data back. This is because the read doesn&#8217;t have to deal with
+any of the complexities we have to work with when writing an entry to the page. You can see how that works in <a href="#hash_get_from_page"><code>hash.c</code> - Get an entry from a <code>hash</code> page</a>.</p>
+</div>
+<div id="hash_get_from_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Get an entry from a <code>hash</code> page</div>
+<div class="content">
+<pre class="highlight"><code>static bool hash_get_from_page(
+    page_t* p, uint64_t hashed_key, hash_val_t* kvp) {
+  hash_bucket_t* buckets = p-&gt;address;
+  uint64_t location =
+      (hashed_key &gt;&gt; p-&gt;metadata-&gt;hash.depth) % BUCKETS_IN_PAGE;
+  for (size_t i = 0; i &lt; HASH_OVERFLOW_CHAIN_SIZE; i++) {
+    uint64_t idx = (location + i) % BUCKETS_IN_PAGE;
+    uint8_t* end = buckets[idx].data + buckets[idx].bytes_used;
+    uint8_t* cur = buckets[idx].data;
+    while (cur &lt; end) {
+      uint64_t k, v;
+      cur           = varint_decode(varint_decode(cur, &amp;k), &amp;v);
+      uint8_t flags = *cur++;
+      if (k == kvp-&gt;key) {
+        kvp-&gt;val   = v;
+        kvp-&gt;flags = flags;
+        return true;
+      }
+    }
+    if (buckets[idx].overflowed == false) break;
+  }
+  return false;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_get_from_page"><code>hash.c</code> - Get an entry from a <code>hash</code> page</a> we start by computing the initial bucket location. This is done by simply stripping <code>depth</code> bits from the <code>hashed_key</code> and using that to index into
+the <code>buckets&#8217; array. This is fairly standard behavior for a hash table and we saw very similar code in the page map. What is interesting is what we do in each bucket. We
+scan through the bucket&#8217;s data (from the start to `bytes_used</code>) and call <code>varint_decode()</code> twice. Once to get the entry&#8217;s key and once for the entry&#8217;s value. We compare the
+key from the entry to the expected key and decide we have a match or not.</p>
+</div>
+<div class="paragraph">
+<p>If we read all the entries from a bucket and didn&#8217;t find the key, we have to make a choice. Should we continue to scan the <em>next</em> bucket, to see if we had an overflow and had
+to move the entry from its native position to another one?
+If the bucket we scan is marked as an overflow one, we will go ahead and scan the next bucket in line. Note that the <code>idx</code> variable may wrap to the beginning of the <code>buckets</code>
+array if we are starting near the end of the array.</p>
+</div>
+<div class="paragraph">
+<p>Another important consideration is that we&#8217;ll only allow to scan up to <code>HASH_OVERFLOW_CHAIN_SIZE</code> buckets (which is set to 16). That means that we&#8217;ll scan at most 1KB in
+the page if we can&#8217;t find the value. The way we setup the structure of the <code>hash</code> page, we will compute the index from the <code>hashed_key</code> (excluding the <code>depth</code> bits, which are
+identical for all the entries in the page). That gives us the ideal location for the entry, but we allow it to be shifted by up to 16 buckets from that position. If the entry
+cannot be found within that range, it means that it isn&#8217;t on the page at all and we can say that the value isn&#8217;t in the hash table.</p>
+</div>
+<div class="paragraph">
+<p>Iterating over the values in the <code>hash</code> page also take advantage of the buckets in the page, as you can see in <a href="#hash_page_get_next"><code>hash.c</code> - Iterating over all the entries in the <code>hash</code> page</a>.</p>
+</div>
+<div id="hash_page_get_next" class="listingblock">
+<div class="title"><code>hash.c</code> - Iterating over all the entries in the <code>hash</code> page</div>
+<div class="content">
+<pre class="highlight"><code>implementation_detail bool hash_page_get_next(
+    void* address, hash_val_t* it) {
+  hash_bucket_t* buckets = address;
+  uint64_t idx = it-&gt;iter_state.pos_in_page / sizeof(hash_bucket_t);
+  if (idx &gt;= BUCKETS_IN_PAGE) {
+    it-&gt;has_val = false;
+    return false;
+  }
+  uint16_t offset =
+      it-&gt;iter_state.pos_in_page % sizeof(hash_bucket_t);
+  while (offset &gt;= buckets[idx].bytes_used) {
+    idx++;
+    offset = 0;
+    if (idx &gt;= BUCKETS_IN_PAGE) {
+      it-&gt;has_val = false;
+      return false;
+    }
+  }
+  uint8_t* start = buckets[idx].data + offset;
+  uint8_t* end =
+      varint_decode(varint_decode(start, &amp;it-&gt;key), &amp;it-&gt;val);
+  it-&gt;flags     = *end++;
+  it-&gt;has_val   = true;
+  uint32_t size = (uint32_t)(end - start);
+  if (size + offset == buckets[idx].bytes_used) {
+    it-&gt;iter_state.pos_in_page =
+        (uint16_t)((idx + 1) * sizeof(hash_bucket_t));
+  } else {
+    it-&gt;iter_state.pos_in_page =
+        (uint16_t)(idx * sizeof(hash_bucket_t) + offset + size);
+  }
+  return true;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The idea in <a href="#hash_page_get_next"><code>hash.c</code> - Iterating over all the entries in the <code>hash</code> page</a> is that this is a function that is going to be called multiple times. We use the <code>iter_state</code> field in the <code>hash_val_t</code> to hold the state
+of the iteration in the page between invocations of <code>hash_page_get_next()</code>. The <code>iter_state</code> holds the index of the page in the directory and well as the position of the <em>next</em>
+byte that we need to read. We continue to do so until we run out of buckets in the page.</p>
+</div>
+<div class="paragraph">
+<p>In <a href="#hash_get_next"><code>hash.c</code> - Checking if we can shrink the directory and shrink it if we can</a>, where we iterate over the whole hash table, you can see that we set the <code>iter_state.pos_in_page</code> to zero when we move between pages. That ensure that
+we scan through each page from the start all the way to the end.</p>
+</div>
+<div class="paragraph">
+<p>Now that we understand how the data is structured on a <code>hash</code> page, let&#8217;s see how we <em>add</em> the entries to the page.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_an_entry_to_a_hash_page">Adding an entry to a <code>hash</code> page</h3>
+<div class="paragraph">
+<p>The API we provide to add an entry to a page is the <code>hash_set_in_page()</code>, shown in <a href="#hash_set_in_page"><code>hash.c</code> - Adding a new entry or updating an existing entry in the <code>hash</code> page</a>. This function has to deal with adding an item to the page or updating
+an existing value.</p>
+</div>
+<div id="hash_set_in_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Adding a new entry or updating an existing entry in the <code>hash</code> page</div>
+<div class="content">
+<pre class="highlight"><code>static bool hash_set_in_page(page_t* p, uint64_t hashed_key,
+    hash_val_t* set, hash_val_t* old) {
+  uint8_t buffer[20];
+  uint8_t* buf_end =
+      varint_encode(set-&gt;val, varint_encode(set-&gt;key, buffer));
+  *buf_end++             = set-&gt;flags;
+  uint8_t size           = (uint8_t)(buf_end - buffer);
+  hash_bucket_t* buckets = p-&gt;address;
+  set-&gt;has_val           = true;
+  if (old) {
+    old-&gt;has_val = false;
+  }
+  uint64_t location =
+      (hashed_key &gt;&gt; p-&gt;metadata-&gt;hash.depth) % BUCKETS_IN_PAGE;
+  for (size_t i = 0; i &lt; HASH_OVERFLOW_CHAIN_SIZE; i++) {
+    uint64_t idx = (location + i) % BUCKETS_IN_PAGE;
+    uint8_t* end = buckets[idx].data + buckets[idx].bytes_used;
+    uint8_t* cur = buckets[idx].data;
+    while (cur &lt; end) {
+      uint64_t k, v;
+      uint8_t* start   = cur;
+      cur              = varint_decode(varint_decode(cur, &amp;k), &amp;v);
+      uint8_t old_flag = *cur++;
+      if (k != set-&gt;key) continue;
+      if (old) {
+        old-&gt;has_val = true;
+        old-&gt;key     = k;
+        old-&gt;val     = v;
+        old-&gt;flags   = old_flag;
+      }
+      if (v == set-&gt;val) return true;
+      if (hash_try_update_in_page(
+              buckets + idx, p-&gt;metadata, start, cur, buffer, size))
+        return true;
+      i = HASH_OVERFLOW_CHAIN_SIZE;  // exit outer loop
+      break;
+    }
+    if (buckets[idx].overflowed == false) break;
+  }
+  // we now call it _knowing_ the value isn't here
+  return hash_append_to_page(
+      buckets, p-&gt;metadata, hashed_key, buffer, size);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We start <code>hash_set_in_page()</code> by encoding the key and the value into a buffer. We use a <code>20</code> character buffer because that is the maximum number of bytes that two <code>uint64_t</code>
+values will take. Most often, the actual used buffer is going to be much smaller. We then scan the page to see if there is already an entry with the provided key. This is
+similar to the code in <code>hash_get_from_page()</code> code. We also check if the existing value and the new value are the same, in which case we have to do nothing and can return
+immediately.</p>
+</div>
+<div class="paragraph">
+<p>If the entry we found has a different value, we call to <code>hash_try_update_in_page()</code> to complete the update. Note that this may <em>fail</em>, if the new entry is larger than the
+previous one and there is no more space in the page.
+If we scanned through the possible buckets in the page and couldn&#8217;t find the entry, we can append it to the page using <code>hash_append_to_page()</code>, certain that it is a new value.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look first in more depth into <code>hash_try_update_in_page()</code>, to see how we are trying to update the value. You can see the code in <a href="#hash_try_update_in_page"><code>hash.c</code> - Updating an existing entry&#8217;s value inside</a>.</p>
+</div>
+<div id="hash_try_update_in_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Updating an existing entry&#8217;s value inside</div>
+<div class="content">
+<pre class="highlight"><code>static void hash_remove_in_bucket(hash_bucket_t* bucket,
+    uint8_t* start, uint8_t* end, uint8_t* cur) {
+  // move other data to cover current one
+  uint8_t size = (uint8_t)(cur - start);
+  memmove(start, cur, (size_t)(end - cur));
+  bucket-&gt;bytes_used -= size;
+  // zero the remaining bytes
+  memset(bucket-&gt;data + bucket-&gt;bytes_used, 0,
+      HASH_BUCKET_DATA_SIZE - bucket-&gt;bytes_used);
+}
+
+static bool hash_try_update_in_page(hash_bucket_t* bucket,
+    page_metadata_t* metadata, uint8_t* start, uint8_t* cur,
+    uint8_t* buffer, uint8_t size) {
+  // same size, can just overwrite
+  if ((cur - start) == size) {
+    memcpy(start, buffer, size);
+    return true;
+  }
+  hash_remove_in_bucket(
+      bucket, start, bucket-&gt;data + bucket-&gt;bytes_used, cur);
+  metadata-&gt;hash.bytes_used -= (uint16_t)(cur - start);
+  if (bucket-&gt;bytes_used + size &lt;= HASH_BUCKET_DATA_SIZE) {
+    memcpy(bucket-&gt;data + bucket-&gt;bytes_used, buffer, size);
+    bucket-&gt;bytes_used += size;
+    metadata-&gt;hash.bytes_used += size;
+    return true;
+  }
+  metadata-&gt;hash.number_of_entries--;
+  return false;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the size of the old entry and the size of the entry match, we can simply overwrite the old entry and be done with it. That is the simplest scenario and the first that we
+handle in <code>hash_try_update_in_page()</code>. If that isn&#8217;t the case, we call to <code>hash_remove_in_bucket()</code> to remove the entry from the bucket. We do that using <code>memmove()</code> by overwriting
+the range of the old entry and updating the <code>bytes_used</code> on the bucket.</p>
+</div>
+<div class="paragraph">
+<p>We then attempt to add the new entry buffer to the same bucket. This may fail, because the bucket it full. If that is the case, we exit the function and the caller will then
+proceed to call to <code>hash_append_to_page()</code>. It is important to understand that the <code>hash_try_update_in_page()</code> will <em>remove</em> the old entry in all cases, so failure to add the new
+entry will have the side affect of removing the old one. Then we handle all the rest of the work needed to handle appending the new entry in <code>hash_append_to_page()</code>. You can see
+the code for appending a new entry to the page in <a href="#hash_append_to_page"><code>hash.c</code> - Append a (known new) entry into the page, marking overflow buckets as needed</a>.</p>
+</div>
+<div id="hash_append_to_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Append a (known new) entry into the page, marking overflow buckets as needed</div>
+<div class="content">
+<pre class="highlight"><code>static bool hash_append_to_page(hash_bucket_t* buckets,
+    page_metadata_t* metadata, uint64_t hashed_key, uint8_t* buffer,
+    size_t size) {
+  uint64_t location =
+      (hashed_key &gt;&gt; metadata-&gt;hash.depth) % BUCKETS_IN_PAGE;
+  for (size_t i = 0; i &lt; HASH_OVERFLOW_CHAIN_SIZE; i++) {
+    uint64_t idx = (location + i) % BUCKETS_IN_PAGE;
+    if (buckets[idx].bytes_used + size &gt; HASH_BUCKET_DATA_SIZE) {
+      buckets[idx].overflowed = true;
+      continue;
+    }
+    memcpy(buckets[idx].data + buckets[idx].bytes_used, buffer, size);
+    buckets[idx].bytes_used += size;
+    metadata-&gt;hash.number_of_entries++;
+    metadata-&gt;hash.bytes_used += size;
+    return true;
+  }
+  return false;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#hash_append_to_page"><code>hash.c</code> - Append a (known new) entry into the page, marking overflow buckets as needed</a> is where the most interesting work of the <code>hash</code> page is happening. There isn&#8217;t a lot of code, but it does have some interesting aspects. Let&#8217;s
+look into that in detail.</p>
+</div>
+<div class="paragraph">
+<p>We start from the ideal bucket location for the value and we check if we can place the value there. If the bucket is too full, we mark it as an overflow bucket and check the next
+bucket in line. The reason we need to mark the bucket as overflow is so operations such as <code>hash_get_from_page()</code> and <code>hash_set_in_page()</code> will know how far to scan. It is important
+to note that the size of the <code>HASH_OVERFLOW_CHAIN_SIZE</code> means that we may place an entry a maximum of 512 bytes from its ideal location. If all the buckets in the allowed range are
+full, we fail the append operation and return <code>false</code>. Remember that if we had an existing value before the call, it has been removed.</p>
+</div>
+<div class="paragraph">
+<p>We saw what happens when the <code>hash_set_in_page()</code> function returns false in <a href="#hash_set"><code>hash.c</code> - Adding (or updating) a value in the hash table</a>. If we fail to place the value in the page, we&#8217;ll split the page and try again to set the
+entry after the split.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Why do we need the <code>HASH_OVERFLOW_CHAIN_SIZE</code> limit?</div>
+<div class="paragraph">
+<p>The <code>HASH_OVERFLOW_CHAIN_SIZE</code> is set to <code>16</code> and it used to limit the number of overflow offset in the <code>hash</code> page. In other words, it it used to control how far from its ideal
+bucket will we allow a value to be placed. The idea with this value is that it controls the space vs. time tradeoff in the <code>hash</code> page. The bigger the value, the more chance
+we have to find a bucket with enough space to place the entry.
+However, the bigger the value, the more memory we have to scan to <em>find</em> the value.</p>
+</div>
+<div class="paragraph">
+<p>I run tests to find the sweet spot for this value. When setting the chain size to 1, the time it took to find a value was 0.54 μs per operation, but the size of the hash table
+with a million entries was 147MB. This is fairly obvious. As soon as a single bucket is full, we&#8217;ll need to split the page.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, when setting the maximum size of the chain to be 128 (the maximum number of buckets in the page) the size of the hash set was 32MB, but the time to search
+soared to 0.77 μs per operation. In this case, we&#8217;ll scan the <em>entire</em> page to find if the value is there or not. It may seem like a silly issue, but scanning 8KB to find a value
+can be quite expensive.</p>
+</div>
+<div class="paragraph">
+<p>When using a chain size of 8, the size of the hash table was 36MB, but the cost in time was 0.32 μs per operation, <em>less</em> than when we had a chain size of 1. Probably because we
+have almost as good locality of reference as we have when we can the whole page.</p>
+</div>
+<div class="paragraph">
+<p>What is probably the <em>ideal</em> value is 16. The size of the data is 32.2MB and the operation speed is 0.33 μs per operation. I&#8217;m mentioning these numbers because this is probably
+something that we may want to pay attention to when we get to writing benchmarks for Gavran.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_a_value_from_a_hash_page">Deleting a value from a <code>hash</code> page</h3>
+<div class="paragraph">
+<p>Deleting a value from a <code>hash</code> page should be easy. We already saw how that works in <a href="#hash_try_update_in_page"><code>hash.c</code> - Updating an existing entry&#8217;s value inside</a>, using the <code>hash_remove_in_bucket()</code> function. The problem with
+relying on <code>hash_remove_in_bucket()</code> alone is that it will not shorten the overflow chains. That means that if we had a nearly full page and we start removing entries, we&#8217;ll not
+move the existing entries to their ideal bucket and have to still scan through more of the page to find the values.</p>
+</div>
+<div class="paragraph">
+<p>The code for handling deletions in a page is shown on <a href="#hash_remove_from_page"><code>hash.c</code> - Deleting an entry from a <code>hash</code> page and compacting the page if needed</a>. It follow the same pattern of <code>hash_set_in_page()</code> and should be quite familiar by now.</p>
+</div>
+<div id="hash_remove_from_page" class="listingblock">
+<div class="title"><code>hash.c</code> - Deleting an entry from a <code>hash</code> page and compacting the page if needed</div>
+<div class="content">
+<pre class="highlight"><code>static bool hash_remove_from_page(
+    page_t* p, uint64_t hashed_key, hash_val_t* del) {
+  assert(p-&gt;metadata-&gt;hash.depth &lt; 64);
+  hash_bucket_t* buckets = p-&gt;address;
+  del-&gt;has_val           = false;
+  uint64_t location =
+      (hashed_key &gt;&gt; p-&gt;metadata-&gt;hash.depth) % BUCKETS_IN_PAGE;
+  for (size_t i = 0; i &lt; HASH_OVERFLOW_CHAIN_SIZE; i++) {
+    uint64_t idx = (location + i) % BUCKETS_IN_PAGE;
+    uint8_t* end = buckets[idx].data + buckets[idx].bytes_used;
+    uint8_t* cur = buckets[idx].data;
+    while (cur &lt; end) {
+      uint64_t k, v;
+      uint8_t* start = cur;
+      cur            = varint_decode(varint_decode(cur, &amp;k), &amp;v);
+      uint8_t flags  = *cur++;
+      if (k == del-&gt;key) {
+        del-&gt;has_val = true;
+        del-&gt;val     = v;
+        del-&gt;flags   = flags;
+        hash_remove_in_bucket(buckets + idx, start, end, cur);
+        p-&gt;metadata-&gt;hash.number_of_entries--;
+        p-&gt;metadata-&gt;hash.bytes_used -= (uint16_t)(cur - start);
+
+        if (buckets[idx].overflowed) {
+          hash_compact_buckets(
+              buckets, idx, p-&gt;metadata-&gt;hash_dir.depth);
+        }
+        return true;
+      }
+    }
+    if (buckets[idx].overflowed == false) break;
+  }
+  return false;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We scan through the buckets where our entry may reside and if we find it, we call to <code>hash_remove_in_bucket()</code> to do the actual removal. The interesting bit about this code is
+that if the bucket that we removed an entry from is an overflow bucket, we need to scan the <em>next</em> buckets to see if we can move entries that are outside their ideal location
+to their proper place. This is done in <code>hash_compact_buckets()</code>, shown in <a href="#hash_compact_buckets"><code>hash.c</code> - Compacting the buckets on a page, placing entries in their ideal location if we can</a>.</p>
+</div>
+<div id="hash_compact_buckets" class="listingblock">
+<div class="title"><code>hash.c</code> - Compacting the buckets on a page, placing entries in their ideal location if we can</div>
+<div class="content">
+<pre class="highlight"><code>static void hash_compact_buckets(
+    hash_bucket_t* buckets, uint64_t start_idx, uint8_t depth) {
+  size_t max_overflow = 0;
+  for (size_t i = 0; i &lt; HASH_OVERFLOW_CHAIN_SIZE; i++) {
+    uint64_t idx = (start_idx + i) % BUCKETS_IN_PAGE;
+    if (!buckets[idx].overflowed) break;
+    max_overflow++;
+  }
+  while (max_overflow--) {
+    uint64_t idx = (start_idx + max_overflow) % BUCKETS_IN_PAGE;
+
+    uint8_t* end = buckets[idx].data + buckets[idx].bytes_used;
+    uint8_t* cur = buckets[idx].data;
+    bool remove_overflow = buckets[idx].overflowed == false;
+    while (cur &lt; end) {
+      uint64_t k, v;
+      uint8_t* start = cur;
+      cur            = varint_decode(varint_decode(cur, &amp;k), &amp;v);
+      cur++;  // flags
+      uint64_t k_idx =
+          (hash_permute_key(k) &gt;&gt; depth) % BUCKETS_IN_PAGE;
+      if (k_idx == idx) continue;
+      uint8_t size = (uint8_t)(cur - start);
+      if (buckets[k_idx].bytes_used + size &gt; HASH_BUCKET_DATA_SIZE) {
+        remove_overflow = false;  // can't move to the right location
+        continue;
+      }
+      memcpy(buckets[k_idx].data + buckets[k_idx].bytes_used, start,
+          size);
+      buckets[k_idx].bytes_used += size;
+      hash_remove_in_bucket(buckets + idx, start, end, cur);
+      end -= size;  // we remove the current value and moved mem
+      cur = start;  // over it, so we need to continue from prev start
+    }
+    // can remove prev overflow? only if current has no overflow or
+    // not part of overflow chain that may go further
+    if (remove_overflow) {
+      uint64_t prev_idx            = idx ? idx - 1 : BUCKETS_IN_PAGE;
+      buckets[prev_idx].overflowed = false;
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We start <code>hash_compact_buckets()</code> by scanning from the current bucket forward, and trying to find how many overflow buckets we have to deal with. Remember that we start from
+a bucket that we just removed an item from, so we need to scan a maximum of 16 buckets forward, since that is the maximum distance that a value from that location can be placed on.</p>
+</div>
+<div class="paragraph">
+<p>We then start from the furthermost bucket from our original page and see if it has any entries that should reside in a previous page. If we were unable to move an entry from the
+bucket to the previous location, we can&#8217;t cut the overflow chain, but we still want to move the entries as far back as we can, to reduce the overhead when we scan for entries.</p>
+</div>
+<div class="paragraph">
+<p>The reason we start with the furthermost overflowed bucket is that we can remove the <code>overflowed</code> marker from a bucket if we removed all the entries that don&#8217;t belong to the
+<em>next</em> bucket <em>and</em> the next bucket isn&#8217;t marked as <code>overflowed</code> as well. If the next bucket is also overflowing, there may be shifted entries that exists in buckets beyond the
+range that we are scanning.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, this is pretty complex, and I was unable to reduce the complexity further than what is shown in <a href="#hash_compact_buckets"><code>hash.c</code> - Compacting the buckets on a page, placing entries in their ideal location if we can</a>. The good news is that this is limited to
+a single page and the complexity doesn&#8217;t leak out to the rest of the code.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dropping_a_hash_table">Dropping a hash table</h3>
+<div class="paragraph">
+<p>The last step that we need to handle before we can call a close to our chapter on hash tables is how we&#8217;ll deal with <em>dropping</em> the hash table. How can we make sure that all
+the data that is held by the hash table is released and all resources are freed. As usual, we have to consider two separate scenarios. The first is when we have just a single
+<code>hash</code> page, in which case we can simply free it directly. But what happens when we want to drop a hash table that has a directory and multiple <code>hash</code> pages? You can see
+the <code>hash_drop()</code> implementation in <a href="#hash_drop"><code>hash.c</code> - Dropping a hash table and releasing all the pages associated with it</a>.</p>
+</div>
+<div id="hash_drop" class="listingblock">
+<div class="title"><code>hash.c</code> - Dropping a hash table and releasing all the pages associated with it</div>
+<div class="content">
+<pre class="highlight"><code>result_t hash_drop(txn_t* tx, uint64_t hash_id) {
+  page_t hash_root = {0};
+  ensure(hash_id_to_dir_root(tx, hash_id, &amp;hash_root));
+  if (hash_root.metadata-&gt;common.page_flags == page_flags_hash) {
+    ensure(txn_free_page(tx, &amp;hash_root));
+    return success();
+  }
+  pages_map_t* pages;
+  ensure(pagesmap_new(8, &amp;pages));
+  defer(free, pages);
+  uint64_t* buckets = hash_root.address;
+  for (size_t i = 0;
+       i &lt; hash_root.metadata-&gt;hash_dir.number_of_buckets; i++) {
+    page_t hash_page = {.page_num = buckets[i]};
+    if (pagesmap_lookup(pages, &amp;hash_page)) {
+      continue;
+    }
+    ensure(pagesmap_put_new(&amp;pages, &amp;hash_page));
+    ensure(txn_free_page(tx, &amp;hash_page));
+  }
+  ensure(txn_free_page(tx, &amp;hash_root));
+  return success();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a directory, we can simply iterate over the pages in the directory and release them one at a time. The only interesting thing we have to deal with in this case it to make sure
+that we aren&#8217;t going to release the same page twice. We handle that by using a <code>pages_map_t</code> to hold the pages we already freed.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">It is probably okay to free twice</div>
+<div class="paragraph">
+<p>I&#8217;m avoiding calling <code>txn_free_page()</code> twice on the same page because it isn&#8217;t the right thing to do, but with our current implementation, freeing a page will have the following
+affects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The page and its metadata will be zeroed.</p>
+</li>
+<li>
+<p>The page will be marked as free in the free space bitmap.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We are fine with both of those things happening multiple times, since the end result is going to be identical. I&#8217;m avoiding doing this because this is our <em>current</em> implementation
+and I don&#8217;t want to create subtle dependencies between pieces of our code.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>With the <code>hash_drop()</code> explored, we are done. We have a persistent hash table that will work with our transactional storage, we can create and drop it, add and remove values and
+everything will just work. Or at least, so I assume. We still need to write some tests to verify this&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_tests">Unit tests</h3>
+<div class="paragraph">
+<p>This has been a <em>long</em> chapter. The extendible hash table is a beautiful data structure, but even with reducing the complexity and only handling <code>map&lt;uint64_t, uint64_t&gt;</code>, we
+have about 700 lines of code added to Gavran, excluding the tests. I&#8217;m pausing to comment on this because we have to do deal with the associated complexity. One of the best
+ways to handle that is to write code specifically to deal with this complexity.</p>
+</div>
+<div class="paragraph">
+<p>I haven&#8217;t shown it in this chapter, but in addition to the extendible hash code, we also have the <code>hash.debug.c</code> file, which accounts for a bit over 10% of the additional code
+we have. In this file, you&#8217;ll find a very important function: <code>print_hash_table()</code>. This function has a single task, given a <code>hash_id</code>, it will print the structure of the
+hash table to a file. To make things easier, the <em>format</em> it does so is <a href="https://graphviz.org/">Graphviz</a>. You can see typical use case for this function in <a href="#print_hash_table">Printing the hash table in Graphviz format to file</a>.</p>
+</div>
+<div id="print_hash_table" class="listingblock">
+<div class="title">Printing the hash table in Graphviz format to file</div>
+<div class="content">
+<pre class="highlight"><code>FILE* f = fopen("/tmp/db/hash.graphwiz", "wt");
+ensure(print_hash_table(f, &amp;w, hash_id));
+fclose(f);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then take the file generated by <a href="#print_hash_table">Printing the hash table in Graphviz format to file</a> and run <code>dot -Tsvg /tmp/db/hash.graphwiz &gt; hash.svg</code>, which will give you an SVG file which you can open. The
+idea is that you&#8217;ll get a visualization of the hash table as it stands. That can be <em>invaluable</em> to understand exactly what is going on in the system. I have used this
+extensively while I made sure that the hash table does the right thing in all scenarios. Instead of trying to track everything in my head, I had a very visual representation
+and very obvious path to understand exactly what is going on here.</p>
+</div>
+<div class="paragraph">
+<p>Note that for a hash tables with 12,000 entries, we got files in the MB range, far too big to be able to present their image in this format, I&#8217;m afraid. This technique is
+something that we&#8217;ll repeat in other cases in Gavran as needed. In some scenarios, the debug / scaffolding code can be longer than the actual code. But it is worth it to
+be able to reduce the troubleshooting time.</p>
+</div>
+<div class="paragraph">
+<p>And now, for the the actual tests, which you can see in <a href="#tests14"><code>test.c</code> - Testing various operations on the extendible hash table</a>. You&#8217;ll note that by now I&#8217;m confident enough in our transaction support that I can do all my tests on
+a single transaction, there is nothing to gain from doing commits / separate transactions to read the data.</p>
+</div>
+<div id="tests14" class="listingblock">
+<div class="title"><code>test.c</code> - Testing various operations on the extendible hash table</div>
+<div class="content">
+<pre class="highlight"><code>describe(hash) {
+  before_each() {
+    errors_clear();
+    system("mkdir -p /tmp/db");
+    system("rm -f /tmp/db/*");
+  }
+
+  it("varint encode") {
+    uint8_t buffer[256];
+    uint64_t l, v;
+
+    v = 3;
+    assert(1 == varint_get_length(v));
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    v = 3546600000;
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    v = 2;
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    v = 100;
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    v = 270;
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    v = 1470;
+    varint_encode(v, buffer);
+    varint_decode(buffer, &amp;l);
+    assert(v == l);
+
+    assert(1 == varint_get_length(2));
+    assert(2 == varint_get_length(255));
+    assert(2 == varint_get_length(100));
+    assert(2 == varint_get_length(270));
+    assert(2 == varint_get_length(1470));
+    assert(3 == varint_get_length(4470));
+  }
+
+  it("can write and read multiple values") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    uint64_t hash_id;
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      assert(hash_create(&amp;w, &amp;hash_id));
+      for (size_t i = 0; i &lt; 16; i++) {
+        hash_val_t hv_write = {
+            .hash_id = hash_id, .key = i, .val = i + 3};
+        assert(hash_set(&amp;w, &amp;hv_write, 0));
+      }
+
+      for (size_t i = 0; i &lt; 16; i++) {
+        hash_val_t hv_read = {.hash_id = hash_id, .key = i};
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val);
+        assert(i + 3 == hv_read.val);
+      }
+    }
+  }
+
+  it("can get and set value from hash") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    uint64_t hash_id;
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      assert(hash_create(&amp;w, &amp;hash_id));
+      hash_val_t hv_write = {.hash_id = hash_id, .key = 2, .val = 3};
+      assert(hash_set(&amp;w, &amp;hv_write, 0));
+      hash_val_t hv_read = {.hash_id = hash_id, .key = 2};
+      assert(hash_get(&amp;w, &amp;hv_read));  // read a written value
+      assert(hv_read.val == 3);
+      hash_val_t hv_old = {.hash_id = hash_id};
+      hv_write.val      = 4;
+      assert(hash_set(&amp;w, &amp;hv_write, &amp;hv_old));
+      assert(hv_old.val == 3);  // get old on update
+      assert(hash_del(&amp;w, &amp;hv_old));
+      assert(hv_old.val == 4);  // get old on delete
+      assert(hash_get(&amp;w, &amp;hv_read));
+      assert(hv_read.has_val == false);
+      assert(txn_commit(&amp;w));
+    }
+  }
+
+  it("can write &amp; read a LOT of values") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      uint64_t hash_id;
+      assert(hash_create(&amp;w, &amp;hash_id));
+      hash_val_t hv_write = {.hash_id = hash_id};
+      for (size_t i = 0; i &lt; 12 * 1024; i++) {
+        hv_write.key = i * 1024;
+        hv_write.val = i;
+        assert(hash_set(&amp;w, &amp;hv_write, 0));
+        hash_val_t hv_read = {.hash_id = hash_id};
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val &amp;&amp;
+               hv_read.val == 0);
+      }
+
+      /* Uncomment to and run:
+        &gt; dot -Tsvg /tmp/db/hash.graphwiz &gt; hash.svg
+
+      FILE* f = fopen("/tmp/db/hash.graphwiz", "wt");
+      assert(print_hash_table(f, &amp;w, hash_id));
+      fclose(f);
+      */
+
+      hash_val_t hv_read = {.hash_id = hash_id};
+      for (size_t i = 0; i &lt; 12 * 1024; i++) {
+        hv_read.key = i * 1024;
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val);
+        assert(hv_read.val == i);
+      }
+      assert(txn_commit(&amp;w));
+    }
+  }
+
+  it("can write and delete LOTS of values") {
+    db_t db;
+    db_options_t options = {.minimum_size = 4 * 1024 * 1024};
+    assert(db_create("/tmp/db/try", &amp;options, &amp;db));
+    defer(db_close, db);
+
+    uint64_t hash_id;
+    {
+      txn_t w;
+      assert(txn_create(&amp;db, TX_WRITE, &amp;w));
+      defer(txn_close, w);
+      assert(hash_create(&amp;w, &amp;hash_id));
+      for (size_t i = 0; i &lt; 12 * 1024; i++) {
+        hash_val_t hv_write = {
+            .hash_id = hash_id, .key = i * 513, .val = i + 3};
+        assert(hash_set(&amp;w, &amp;hv_write, 0));
+      }
+      for (size_t i = 0; i &lt; 12 * 1024; i++) {
+        hash_val_t hv_read = {.hash_id = hash_id, .key = i * 513};
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val);
+        assert(hv_read.val == i + 3);
+      }
+      for (size_t i = 0; i &lt; 12 * 1024; i += 2) {
+        hash_val_t hv_read = {.hash_id = hash_id, .key = i * 513};
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val);
+        assert(hv_read.val == i + 3);
+
+        hash_val_t hv_del = {.hash_id = hash_id, .key = i * 513};
+        assert(hash_del(&amp;w, &amp;hv_del) &amp;&amp; hv_del.has_val);
+        assert(hv_del.val == i + 3);
+        hash_id = hv_del.hash_id;
+      }
+
+      for (size_t i = 1; i &lt; 12 * 1024; i += 2) {
+        hash_val_t hv_read = {.hash_id = hash_id, .key = i * 513};
+        assert(hash_get(&amp;w, &amp;hv_read) &amp;&amp; hv_read.has_val);
+        assert(hv_read.val == i + 3);
+      }
+
+      page_t hash_root = {.page_num = hash_id};
+      assert(txn_get_page(&amp;w, &amp;hash_root));
+      page_t hash_dir = {
+          .page_num = hash_root.metadata-&gt;hash.dir_page_num};
+      assert(txn_get_page(&amp;w, &amp;hash_dir));
+      uint64_t* pages = hash_dir.address;
+      assert(hash_dir.metadata-&gt;hash_dir.number_of_buckets);
+      for (size_t i = 0;
+           i &lt; hash_dir.metadata-&gt;hash_dir.number_of_buckets; i++) {
+        page_t p = {.page_num = pages[i]};
+        assert(txn_get_page(&amp;w, &amp;p));
+        int c         = 0;
+        hash_val_t it = {0};
+        while (true) {
+          if (hash_page_get_next(p.address, &amp;it) == false) break;
+          c++;
+        }
+        assert(c == p.metadata-&gt;hash.number_of_entries);
+      }
+
+      // check iteration
+      pages_map_t* map;
+      assert(pagesmap_new(8, &amp;map));
+      defer(free, map);
+      hash_val_t it = {.hash_id = hash_id};
+      size_t count  = 0;
+      while (true) {
+        assert(hash_get_next(&amp;w, &amp;map, &amp;it));
+        if (it.has_val == false) break;
+        count++;
+        if (it.key / 513 != it.val - 3) {
+          printf("b");
+        }
+        assert(it.key / 513 == it.val - 3);
+      }
+      assert(count == 6 * 1024);
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+  <ul style="list-style-type: none;">
+    <li><a class="footer-text" href="../index.html">Table of contents</a></li>
+    <li><a class="footer-text" href="./ch13.html">Previous chapter</a></li>
+    <li><a class="footer-text" href="./ch15.html">Next chapter</a></li>
+  </ul>
+</div>
+</body>
+</html>
